@@ -1,0 +1,24 @@
+{
+    "plugins": ["plugins/markdown"],
+    "opts": {
+        "template": "./node_modules/tidy-jsdoc",
+        "prism-theme": "prism-default"
+    },
+    "metadata": {
+        "title": "Lurch Web User Interface"
+    },
+    "templates": {
+        "default": {
+            "includeDate": false
+        }
+    },
+    "styles": {
+        "nav-width": "335px"
+    },
+    "source": {
+        "includePattern": ".+\\.js(doc|x)?$|.+\\.mjs$",
+        "exclude": [
+            "./google-api-key-secret.js"
+        ]
+    }
+}

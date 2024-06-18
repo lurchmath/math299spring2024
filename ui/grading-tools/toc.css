@@ -1,0 +1,83 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+body, p, h1, h2, h3, h4, h5, h6, div, ul, ol, li {
+    font-family: 'Roboto', 'Arial', Helvetica, sans-serif;
+}
+
+body {
+  width: 800px;
+  margin: 2rem auto;    
+  background : #EAEAEA;
+}
+
+#container {
+  max-width : 853px;
+  padding: 1rem 2rem 1rem;
+  border-radius: 1rem; 
+  background-color: white;
+  position: relative;
+}
+
+.folder-name {
+  margin: 0.5rem 0;
+} 
+
+.folder-contents {
+    margin: 0.5rem 0.27rem;
+    border-left: 1px solid gray;
+    padding-left: 1.5em;
+}
+
+.file a {
+    text-decoration: none;
+}
+
+.folder-name.active::before {
+  content: '-';
+  font-family:'Courier New', Courier, monospace;
+  padding-right: 0.4rem;
+  font-weight: 800;
+}
+.folder-name:not(.active)::before {
+  content: '+';
+  font-family:'Courier New', Courier, monospace;
+  padding-right: 0.4rem;
+  font-weight: 800;
+}
+
+#expandall {
+  padding: 0px 5px; 
+  background-color: white;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px; 
+  background-color: #f2f2f2; 
+  cursor: pointer; 
+  text-align: center; 
+}
+
+/* The Lurch Logo  */
+#logo { 
+  position: absolute; 
+  top : 0; 
+  right : 0; 
+  width : 120px;
+  z-index: 9999; 
+  margin: 25.5px 40px; 
+  font-size: xx-large; 
+  /* font-family: Lato;  */
+  font-weight: 900; 
+  letter-spacing:-0.01em;
+  color:#000;
+  text-align:center;
+}
+
+#logo #check { 
+  color:#4CAF50;
+}
+
+#logo a { 
+  color:#000;
+  text-decoration: none;
+}

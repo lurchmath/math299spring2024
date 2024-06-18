@@ -1,0 +1,2606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Lurch Web User Interface: LurchDocument</title>
+    
+      <link type="text/css" rel="stylesheet" href="styles/vendor/prism-default.css">
+    
+    <link type="text/css" rel="stylesheet" href="styles/styles.css">
+    
+    
+    <style>
+      :root {
+      
+      
+        --nav-width: 335px;
+      
+      }
+    </style>
+    
+</head>
+<body>
+
+<header class="layout-header">
+  
+  <h1>
+    <a href="./index.html">
+      Lurch Web User Interface
+    </a>
+  </h1>
+  <nav class="layout-nav">
+    <ul><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="AlertItem.html">AlertItem</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="BoolSettingMetadata.html">BoolSettingMetadata</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="BoolSettingMetadata.html#convert">convert</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="ButtonItem.html">ButtonItem</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="CategorySettingMetadata.html">CategorySettingMetadata</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="CategorySettingMetadata.html#convert">convert</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="CheckBoxItem.html">CheckBoxItem</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="ColorSettingMetadata.html">ColorSettingMetadata</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="DeclarationType.html">DeclarationType</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="DeclarationType.html#displayForm">displayForm</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="DeclarationType.html#documentForm">documentForm</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="DeclarationType.html#latexForm">latexForm</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="DeclarationType.html#lurchNotationForm">lurchNotationForm</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="DeclarationType.html#match">match</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="DeclarationType.html#toLC">toLC</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="DeclarationType.html#.allInSettings">allInSettings</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="DeclarationType.html#.defaultTemplate">defaultTemplate</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="DeclarationType.html#.existsTemplateFor">existsTemplateFor</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="DeclarationType.html#.fromTemplate">fromTemplate</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="DeclarationType.html#.templateToBody">templateToBody</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="DeclarationType.html#.templateToType">templateToType</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="Dialog.html">Dialog</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Dialog.html#addItem">addItem</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Dialog.html#close">close</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Dialog.html#currentTabTitle">currentTabTitle</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Dialog.html#get">get</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Dialog.html#querySelector">querySelector</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Dialog.html#querySelectorAll">querySelectorAll</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Dialog.html#reload">reload</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Dialog.html#removeButton">removeButton</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Dialog.html#removeItem">removeItem</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Dialog.html#removeTabs">removeTabs</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Dialog.html#setButtons">setButtons</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Dialog.html#setDefaultFocus">setDefaultFocus</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Dialog.html#setInitialData">setInitialData</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Dialog.html#setOK">setOK</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Dialog.html#setTabs">setTabs</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Dialog.html#show">show</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Dialog.html#showTab">showTab</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Dialog.html#.areYouSure">areYouSure</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Dialog.html#.failure">failure</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Dialog.html#.getTopDialogElement">getTopDialogElement</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Dialog.html#.loadFile">loadFile</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Dialog.html#.meaningOfAtom">meaningOfAtom</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Dialog.html#.notify">notify</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Dialog.html#.saveFile">saveFile</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Dialog.html#.success">success</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="DialogRow.html">DialogRow</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="HTMLItem.html">HTMLItem</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="LongTextInputItem.html">LongTextInputItem</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="LongTextSettingMetadata.html">LongTextSettingMetadata</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="LongTextSettingMetadata.html#validate">validate</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="LurchDocument.html">LurchDocument</a></span></li><li class="nav-item"><span class="nav-item-type type-member" title="member">M</span><span class="nav-item-name is-member"><a href="LurchDocument.html#bodySettings">bodySettings</a></span></li><li class="nav-item"><span class="nav-item-type type-member" title="member">M</span><span class="nav-item-name is-member"><a href="LurchDocument.html#settingsMetadata">settingsMetadata</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="LurchDocument.html#clearFileID">clearFileID</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="LurchDocument.html#deleteMetadata">deleteMetadata</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="LurchDocument.html#getDocument">getDocument</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="LurchDocument.html#getFileID">getFileID</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="LurchDocument.html#getMetadata">getMetadata</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="LurchDocument.html#getMetadataCategories">getMetadataCategories</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="LurchDocument.html#getMetadataKeys">getMetadataKeys</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="LurchDocument.html#newDocument">newDocument</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="LurchDocument.html#setDocument">setDocument</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="LurchDocument.html#setFileID">setFileID</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="LurchDocument.html#setMetadata">setMetadata</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="LurchDocument.html#updateBodyClasses">updateBodyClasses</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="LurchDocument.html#.documentParts">documentParts</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="LurchDocument.html#.isDocumentHTML">isDocumentHTML</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="Message.html">Message</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Message.html#get">get</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Message.html#getAllFeedback">getAllFeedback</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Message.html#is">is</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Message.html#send">send</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Message.html#.document">document</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Message.html#.done">done</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Message.html#.error">error</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Message.html#.feedback">feedback</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Message.html#.makeFeedbackPresentable">makeFeedbackPresentable</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Message.html#.progress">progress</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="NoteMetadata.html">NoteMetadata</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="SelectBoxItem.html">SelectBoxItem</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="SettingMetadata.html">SettingMetadata</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="SettingMetadata.html#control">control</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="SettingMetadata.html#convert">convert</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="SettingMetadata.html#validate">validate</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="Settings.html">Settings</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Settings.html#get">get</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Settings.html#has">has</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Settings.html#keys">keys</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Settings.html#load">load</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Settings.html#reset">reset</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Settings.html#save">save</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Settings.html#showWarning">showWarning</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Settings.html#userEdit">userEdit</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="SettingsCategoryMetadata.html">SettingsCategoryMetadata</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="SettingsCategoryMetadata.html#control">control</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="SettingsCategoryMetadata.html#defaultSettings">defaultSettings</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="SettingsCategoryMetadata.html#keys">keys</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="SettingsCategoryMetadata.html#metadataFor">metadataFor</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="SettingsCategoryMetadata.html#validate">validate</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="SettingsMetadata.html">SettingsMetadata</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="SettingsMetadata.html#control">control</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="SettingsMetadata.html#defaultSettings">defaultSettings</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="SettingsMetadata.html#keys">keys</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="SettingsMetadata.html#metadataFor">metadataFor</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="SettingsMetadata.html#validate">validate</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="ShowWarningSettingMetadata.html">ShowWarningSettingMetadata</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="ShowWarningSettingMetadata.html#convert">convert</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="TextInputItem.html">TextInputItem</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="TextSettingMetadata.html">TextSettingMetadata</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="TextSettingMetadata.html#validate">validate</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="module-Atoms.Atom.html">Atom</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.Atom.html#applyValidationMessage">applyValidationMessage</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.Atom.html#contextMenu">contextMenu</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.Atom.html#dataChanged">dataChanged</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.Atom.html#edit">edit</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.Atom.html#editThenInsert">editThenInsert</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.Atom.html#fillChild">fillChild</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.Atom.html#getChild">getChild</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.Atom.html#getHTML">getHTML</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.Atom.html#getHTMLMetadata">getHTMLMetadata</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.Atom.html#getHTMLMetadataKeys">getHTMLMetadataKeys</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.Atom.html#getMetadata">getMetadata</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.Atom.html#getMetadataKeys">getMetadataKeys</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.Atom.html#isEditable">isEditable</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.Atom.html#parent">parent</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.Atom.html#removeChild">removeChild</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.Atom.html#removeHTMLMetadata">removeHTMLMetadata</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.Atom.html#removeMetadata">removeMetadata</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.Atom.html#setHTMLMetadata">setHTMLMetadata</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.Atom.html#setHoverText">setHoverText</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.Atom.html#setMetadata">setMetadata</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.Atom.html#setValidationResult">setValidationResult</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.Atom.html#toLCs">toLCs</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.Atom.html#toLatex">toLatex</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.Atom.html#update">update</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.Atom.html#wasDeleted">wasDeleted</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.Atom.html#.allElementsIn">allElementsIn</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.Atom.html#.allIn">allIn</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.Atom.html#.create">create</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.Atom.html#.createElement">createElement</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.Atom.html#.findAbove">findAbove</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.Atom.html#.from">from</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.Atom.html#.isAtomElement">isAtomElement</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.Atom.html#.newBlock">newBlock</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.Atom.html#.newInline">newInline</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.Atom.html#.registerSubclass">registerSubclass</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.Atom.html#.simplifiedHTML">simplifiedHTML</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.Atom.html#.unsimplifyDOM">unsimplifyDOM</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="module-DownloadUpload.UploadItem.html">UploadItem</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="module-ExpositoryMathAtoms.ExpositoryMath.html">ExpositoryMath</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-ExpositoryMathAtoms.ExpositoryMath.html#edit">edit</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-ExpositoryMathAtoms.ExpositoryMath.html#toEmbed">toEmbed</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-ExpositoryMathAtoms.ExpositoryMath.html#toLatex">toLatex</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-ExpositoryMathAtoms.ExpositoryMath.html#update">update</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="module-ExpressionAtoms.Expression.html">Expression</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-ExpressionAtoms.Expression.html#contextMenu">contextMenu</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-ExpressionAtoms.Expression.html#edit">edit</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-ExpressionAtoms.Expression.html#toEmbed">toEmbed</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-ExpressionAtoms.Expression.html#toLCs">toLCs</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-ExpressionAtoms.Expression.html#toLatex">toLatex</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-ExpressionAtoms.Expression.html#update">update</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="module-ImportFromURL.ImportFromURLItem.html">ImportFromURLItem</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="module-LocalStorageDrive.ChooseLocalFileItem.html">ChooseLocalFileItem</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="module-MathLive.MathItem.html">MathItem</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-MathLive.MathItem.html#get">get</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-MathLive.MathItem.html#setFocusWhenShown">setFocusWhenShown</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-MathLive.MathItem.html#setValue">setValue</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="module-Shells.Axiom.html">Axiom</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="module-Shells.Corollary.html">Corollary</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="module-Shells.Definition.html">Definition</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="module-Shells.Lemma.html">Lemma</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="module-Shells.Premise.html">Premise</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="module-Shells.Preview.html">Preview</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Shells.Preview.html#imitate">imitate</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="module-Shells.Proof.html">Proof</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="module-Shells.Recall.html">Recall</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="module-Shells.Rule.html">Rule</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="module-Shells.Shell.html">Shell</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Shells.Shell.html#contextMenu">contextMenu</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Shells.Shell.html#edit">edit</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Shells.Shell.html#editShellType">editShellType</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Shells.Shell.html#finalize">finalize</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Shells.Shell.html#getTitle">getTitle</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Shells.Shell.html#setSubclass">setSubclass</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Shells.Shell.html#setValidationResult">setValidationResult</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Shells.Shell.html#toEmbed">toEmbed</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Shells.Shell.html#toLCs">toLCs</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Shells.Shell.html#toLatex">toLatex</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Shells.Shell.html#.accessibles">accessibles</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Shells.Shell.html#.createElement">createElement</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Shells.Shell.html#.isAccessibleTo">isAccessibleTo</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Shells.Shell.html#.subclassNames">subclassNames</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="module-Shells.Subproof.html">Subproof</a></span></li><li class="nav-heading"><span class="nav-item-type type-class" title="class">C</span><span class="nav-item-name is-class"><a href="module-Shells.Theorem.html">Theorem</a></span></li></ul><ul><li class="nav-heading">Modules</li><li class="nav-heading"><span class="nav-item-type type-module" title="module">M</span><span class="nav-item-name is-module"><a href="module-Atoms.html">Atoms</a></span></li><li class="nav-item"><span class="nav-item-type type-member" title="member">M</span><span class="nav-item-name is-member"><a href="module-Atoms.html#.className">className</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Atoms.html#.install">install</a></span></li><li class="nav-heading"><span class="nav-item-type type-module" title="module">M</span><span class="nav-item-name is-module"><a href="module-AutoComplete.html">AutoComplete</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-AutoComplete.html#.addAutocompleteFunction">addAutocompleteFunction</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-AutoComplete.html#.install">install</a></span></li><li class="nav-heading"><span class="nav-item-type type-module" title="module">M</span><span class="nav-item-name is-module"><a href="module-Dependencies.html">Dependencies</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Dependencies.html#.install">install</a></span></li><li class="nav-heading"><span class="nav-item-type type-module" title="module">M</span><span class="nav-item-name is-module"><a href="module-DocumentSettings.html">DocumentSettings</a></span></li><li class="nav-item"><span class="nav-item-type type-member" title="member">M</span><span class="nav-item-name is-member"><a href="module-DocumentSettings.html#.lookup">lookup</a></span></li><li class="nav-item"><span class="nav-item-type type-member" title="member">M</span><span class="nav-item-name is-member"><a href="module-DocumentSettings.html#.store">store</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-DocumentSettings.html#.install">install</a></span></li><li class="nav-heading"><span class="nav-item-type type-module" title="module">M</span><span class="nav-item-name is-module"><a href="module-DownloadUpload.html">DownloadUpload</a></span></li><li class="nav-item"><span class="nav-item-type type-member" title="member">M</span><span class="nav-item-name is-member"><a href="module-DownloadUpload.html#.downloadFile">downloadFile</a></span></li><li class="nav-heading"><span class="nav-item-type type-module" title="module">M</span><span class="nav-item-name is-module"><a href="module-EmbedListener.html">EmbedListener</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-EmbedListener.html#~install">install</a></span></li><li class="nav-heading"><span class="nav-item-type type-module" title="module">M</span><span class="nav-item-name is-module"><a href="module-EmbedScript.html">EmbedScript</a></span></li><li class="nav-heading"><span class="nav-item-type type-module" title="module">M</span><span class="nav-item-name is-module"><a href="module-Export.html">Export</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Export.html#.install">install</a></span></li><li class="nav-heading"><span class="nav-item-type type-module" title="module">M</span><span class="nav-item-name is-module"><a href="module-ExpositoryMathAtoms.html">ExpositoryMathAtoms</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-ExpositoryMathAtoms.html#.install">install</a></span></li><li class="nav-heading"><span class="nav-item-type type-module" title="module">M</span><span class="nav-item-name is-module"><a href="module-ExpressionAtoms.html">ExpressionAtoms</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-ExpressionAtoms.html#.install">install</a></span></li><li class="nav-heading"><span class="nav-item-type type-module" title="module">M</span><span class="nav-item-name is-module"><a href="module-GoogleDriveUI.html">GoogleDriveUI</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-GoogleDriveUI.html#.install">install</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-GoogleDriveUI.html#~showFileOpenDialog">showFileOpenDialog</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-GoogleDriveUI.html#~showSaveAsDialog">showSaveAsDialog</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-GoogleDriveUI.html#~silentFileSave">silentFileSave</a></span></li><li class="nav-heading"><span class="nav-item-type type-module" title="module">M</span><span class="nav-item-name is-module"><a href="module-GoogleDriveUtilities.html">GoogleDriveUtilities</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-GoogleDriveUtilities.html#.listFilesFromFolder">listFilesFromFolder</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-GoogleDriveUtilities.html#.readFileFromDrive">readFileFromDrive</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-GoogleDriveUtilities.html#.showOpenFilePicker">showOpenFilePicker</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-GoogleDriveUtilities.html#.showSaveFolderPicker">showSaveFolderPicker</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-GoogleDriveUtilities.html#.updateFileInDrive">updateFileInDrive</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-GoogleDriveUtilities.html#.writeNewFileToDrive">writeNewFileToDrive</a></span></li><li class="nav-heading"><span class="nav-item-type type-module" title="module">M</span><span class="nav-item-name is-module"><a href="module-HeaderEditor.html">HeaderEditor</a></span></li><li class="nav-item"><span class="nav-item-type type-member" title="member">M</span><span class="nav-item-name is-member"><a href="module-HeaderEditor.html#.hasEditorOpen">hasEditorOpen</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-HeaderEditor.html#.getHeader">getHeader</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-HeaderEditor.html#.install">install</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-HeaderEditor.html#.isEditor">isEditor</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-HeaderEditor.html#.listen">listen</a></span></li><li class="nav-heading"><span class="nav-item-type type-module" title="module">M</span><span class="nav-item-name is-module"><a href="module-ImportFromURL.html">ImportFromURL</a></span></li><li class="nav-item"><span class="nav-item-type type-member" title="member">M</span><span class="nav-item-name is-member"><a href="module-ImportFromURL.html#.loadFromURL">loadFromURL</a></span></li><li class="nav-item"><span class="nav-item-type type-member" title="member">M</span><span class="nav-item-name is-member"><a href="module-ImportFromURL.html#.openFileInNewWindow">openFileInNewWindow</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-ImportFromURL.html#.autoOpenLink">autoOpenLink</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-ImportFromURL.html#.loadFromQueryString">loadFromQueryString</a></span></li><li class="nav-heading"><span class="nav-item-type type-module" title="module">M</span><span class="nav-item-name is-module"><a href="module-LocalStorageDrive.html">LocalStorageDrive</a></span></li><li class="nav-item"><span class="nav-item-type type-member" title="member">M</span><span class="nav-item-name is-member"><a href="module-LocalStorageDrive.html#.deleteFile">deleteFile</a></span></li><li class="nav-item"><span class="nav-item-type type-member" title="member">M</span><span class="nav-item-name is-member"><a href="module-LocalStorageDrive.html#.fileExists">fileExists</a></span></li><li class="nav-item"><span class="nav-item-type type-member" title="member">M</span><span class="nav-item-name is-member"><a href="module-LocalStorageDrive.html#.readFile">readFile</a></span></li><li class="nav-item"><span class="nav-item-type type-member" title="member">M</span><span class="nav-item-name is-member"><a href="module-LocalStorageDrive.html#.saveAs">saveAs</a></span></li><li class="nav-item"><span class="nav-item-type type-member" title="member">M</span><span class="nav-item-name is-member"><a href="module-LocalStorageDrive.html#.writeFile">writeFile</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-LocalStorageDrive.html#.install">install</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-LocalStorageDrive.html#~silentFileSave">silentFileSave</a></span></li><li class="nav-heading"><span class="nav-item-type type-module" title="module">M</span><span class="nav-item-name is-module"><a href="module-MathLive.html">MathLive</a></span></li><li class="nav-item"><span class="nav-item-type type-member" title="member">M</span><span class="nav-item-name is-member"><a href="module-MathLive.html#.inputFormats">inputFormats</a></span></li><li class="nav-item"><span class="nav-item-type type-member" title="member">M</span><span class="nav-item-name is-member"><a href="module-MathLive.html#.outputFormats">outputFormats</a></span></li><li class="nav-item"><span class="nav-item-type type-member" title="member">M</span><span class="nav-item-name is-member"><a href="module-MathLive.html#.stylesheet">stylesheet</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-MathLive.html#.getConverter">getConverter</a></span></li><li class="nav-heading"><span class="nav-item-type type-module" title="module">M</span><span class="nav-item-name is-module"><a href="module-Notation.html">Notation</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Notation.html#.addParser">addParser</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Notation.html#.addRepresentation">addRepresentation</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Notation.html#.markNameAsMath">markNameAsMath</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Notation.html#.names">names</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Notation.html#.parse">parse</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Notation.html#.putdownHTML">putdownHTML</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Notation.html#.represent">represent</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Notation.html#.syntaxTreeHTML">syntaxTreeHTML</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Notation.html#.usesMathEditor">usesMathEditor</a></span></li><li class="nav-heading"><span class="nav-item-type type-module" title="module">M</span><span class="nav-item-name is-module"><a href="module-SettingsInstaller.html">SettingsInstaller</a></span></li><li class="nav-item"><span class="nav-item-type type-member" title="member">M</span><span class="nav-item-name is-member"><a href="module-SettingsInstaller.html#.appSettings">appSettings</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-SettingsInstaller.html#.install">install</a></span></li><li class="nav-heading"><span class="nav-item-type type-module" title="module">M</span><span class="nav-item-name is-module"><a href="module-Shells.html">Shells</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Shells.html#.install">install</a></span></li><li class="nav-heading"><span class="nav-item-type type-module" title="module">M</span><span class="nav-item-name is-module"><a href="module-Utilities.html">Utilities</a></span></li><li class="nav-item"><span class="nav-item-type type-member" title="member">M</span><span class="nav-item-name is-member"><a href="module-Utilities.html#.fullUnindent">fullUnindent</a></span></li><li class="nav-item"><span class="nav-item-type type-member" title="member">M</span><span class="nav-item-name is-member"><a href="module-Utilities.html#.htmlToImage">htmlToImage</a></span></li><li class="nav-item"><span class="nav-item-type type-member" title="member">M</span><span class="nav-item-name is-member"><a href="module-Utilities.html#.isEmbedded">isEmbedded</a></span></li><li class="nav-item"><span class="nav-item-type type-member" title="member">M</span><span class="nav-item-name is-member"><a href="module-Utilities.html#.isOnScreen">isOnScreen</a></span></li><li class="nav-item"><span class="nav-item-type type-member" title="member">M</span><span class="nav-item-name is-member"><a href="module-Utilities.html#.isValidURL">isValidURL</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Utilities.html#.appURL">appURL</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Utilities.html#.copyWithoutPrototype">copyWithoutPrototype</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Utilities.html#.editorForNode">editorForNode</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Utilities.html#.escapeHTML">escapeHTML</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Utilities.html#.escapeLatex">escapeLatex</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Utilities.html#.loadScript">loadScript</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Utilities.html#.loadStylesheet">loadStylesheet</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Utilities.html#.makeAbsoluteURL">makeAbsoluteURL</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Utilities.html#.onlyBefore">onlyBefore</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Utilities.html#.removeScriptTags">removeScriptTags</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Utilities.html#.simpleHTMLTable">simpleHTMLTable</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Utilities.html#.unescapeHTML">unescapeHTML</a></span></li><li class="nav-heading"><span class="nav-item-type type-module" title="module">M</span><span class="nav-item-name is-module"><a href="module-Validation.html">Validation</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="module-Validation.html#.install">install</a></span></li><li class="nav-heading"><span class="nav-item-type type-module" title="module">M</span><span class="nav-item-name is-module"><a href="module-ValidationWorker.html">ValidationWorker</a></span></li></ul><ul><li class="nav-heading">Namespaces</li><li class="nav-heading"><span class="nav-item-type type-namespace" title="namespace">N</span><span class="nav-item-name is-namespace"><a href="Lurch.html">Lurch</a></span></li><li class="nav-item"><span class="nav-item-type type-function" title="function">F</span><span class="nav-item-name is-function"><a href="Lurch.html#.createApp">createApp</a></span></li></ul>
+  </nav>
+</header>
+
+
+<main class="layout-main ">
+  <div class="container">
+    <p class="page-kind">Class</p>
+    <h1 class="page-title">LurchDocument</h1>
+    
+
+
+
+
+<section>
+
+
+<header class="class">
+
+
+    
+        
+        <!-- <h2>LurchDocument</h2> -->
+
+        
+
+        
+
+        
+            
+            <div class="class-description"><p>A Lurch document will have several parts, including at least the following.</p>
+<ul>
+<li>The document content as the user sees it in the editor (HTML)</li>
+<li>Any per-document settings stored in the document as metadata (JSON)</li>
+<li>Information about dependencies on which the document depents (the form of
+which has not yet been decided)</li>
+</ul>
+<p>When stored in a filesystem, the document must contain all three of these
+parts, but when displayed in the editor, it should show only the first of
+them, keeping the rest somewhere outside of the user's view.  And yet those
+other parts will be editable by the user, through a UI not yet developed.
+And so when the document is saved, the latest versions of all three parts of
+the document must be saved, not just the part visible in the editor.</p>
+<p>This class provides a clean API for moving documents between any filesystem
+and the editor.  It is an ephemeral/disposable class, in the sense that you
+will often create an instance just for use in one command, and then let it be
+garbage collected.  Examples:</p>
+<pre class="prettyprint source lang-js"><code>// Clear out the editor, as in response to File > New:
+new LurchDocument( editor ).newDocument()
+// Get the document from the editor, in a form ready to save
+// (that is, including all of its parts, not just what's visible in the UI):
+const doc = new LurchDocument( editor ).getDocument()
+// Load into the editor a document retrieved from a filesystem, which will
+// have all 3 parts described above, only one of which should be shown:
+new LurchDocument( editor ).setDocument( doc )
+</code></pre></div>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+
+
+
+    
+        
+
+
+
+
+
+    
+
+
+    
+    <h3 class="subtitle">Constructor</h3>
+    
+
+    <div class="method-type">
+    
+    </div>
+
+    <h4 class="method-name" id="LurchDocument">new LurchDocument<span class="signature">(editor)</span><span class="return-type-signature"></span>
+    </h4>
+
+
+
+
+
+<div class="method-description">
+    
+    <p>Construct a new instance for reading and/or writing data and metadata
+to and/or from the given editor.  Also, if the editor does not already
+have a LurchDocument instance stored in its <code>lurchDocument</code> property,
+place this new instance there.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h4 class="method-heading">Parameters</h4>
+    
+
+<ul class="method-params">
+    
+
+        <li>
+            
+                <span class="param-name">editor</span>
+            
+
+            
+                
+
+
+    <span class="param-type">
+        <code>tinymce.editor</code>
+    </span>
+    
+
+            
+
+            
+
+            
+
+            <div class="param-description"><p>the editor with which this object will
+interface</p></div>
+            
+        </li>
+
+    
+</ul>
+
+
+
+
+
+<div class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h4 class="method-heading">Source</h4>
+    <ul>
+        <li class="method-source">
+            <a href="lurch-document.js.html">lurch-document.js</a><a href="lurch-document.js.html#source.46">, line 46</a>
+        </li>
+    </ul>
+
+
+
+    
+    </div>
+
+    
+
+    
+        <h3 class="subsection-title">Classes</h3>
+
+        <dl>
+            <dt><a href="LurchDocument.html">LurchDocument</a></dt>
+            <dd></dd>
+        </dl>
+    
+
+     
+
+    
+
+    
+
+
+    
+        <h3 class="subtitle">Members</h3>
+
+        
+            
+
+<article class="member">
+    <div class="method-type">
+        
+    </div>
+<h4 class="member-name" id="bodySettings">bodySettings<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <p>This array lists those settings that should be marked as classes on the
+body element of the editor's document.  This exposes them to CSS rules
+in the editor, so that they can be used to style the document content.</p>
+<p>In general, a setting with key &quot;example one&quot; and value &quot;foo bar&quot; will be
+marked on the body element with a class of &quot;example-one-foo-bar&quot;.</p>
+</div>
+
+
+
+
+
+
+
+<div class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h4 class="method-heading">See</h4>
+        <ul>
+            
+                <li><a href="LurchDocument.html#updateBodyClasses">updateBodyClasses()</a></li>
+            
+        </ul>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    <h4>Source</h4>
+    <ul>
+        <li class="method-source">
+            <a href="lurch-document.js.html">lurch-document.js</a><a href="lurch-document.js.html#source.502">, line 502</a>
+        </li>
+    </ul>
+
+
+</article>
+        
+            
+
+<article class="member">
+    <div class="method-type">
+        
+    </div>
+<h4 class="member-name" id="settingsMetadata">settingsMetadata<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <p>This metadata object can be used to create a <a href="Settings.html">Settings</a> instance
+for any given document, which can then present a UI to the user for
+editing the document's settings (using
+<a href="Settings.html#userEdit">its userEdit() function</a>).  We use it for this
+purpose in the menu item we create in the
+<a href="module-DocumentSettings.html#.install">install()</a> function, among other
+places.  Instances of this class also use it to return the appropriate
+defaults for settings the user may query about a document.</p>
+<p>This metadata can be used to edit document-level settings, which are
+distinct from the application-level settings defined in
+<a href="module-SettingsInstaller.html">the Settings Installer module</a>.</p>
+</div>
+
+
+
+
+
+
+
+<div class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    <h4>Source</h4>
+    <ul>
+        <li class="method-source">
+            <a href="lurch-document.js.html">lurch-document.js</a><a href="lurch-document.js.html#source.467">, line 467</a>
+        </li>
+    </ul>
+
+
+</article>
+        
+    
+
+    
+        <h3 class="subtitle">Methods</h3>
+
+        
+            
+
+
+    <article class="method">
+
+
+
+
+    
+
+
+    
+
+    <div class="method-type">
+    
+    </div>
+
+    <h4 class="method-name" id="clearFileID">clearFileID<span class="signature">()</span><span class="return-type-signature"></span>
+    </h4>
+
+
+
+
+
+<div class="method-description">
+    
+    <p>See the description of <a href="LurchDocument.html#setFileID">setFileID()</a> for an
+explanation of file IDs.  This function removes any file ID from this
+document.  This function is called whenever
+<a href="LurchDocument.html#newDocument">newDocument()</a> is called.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h4 class="method-heading">See</h4>
+        <ul>
+            
+                <li><a href="LurchDocument.html#setFileID">setFileID()</a></li>
+            
+        </ul>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h4 class="method-heading">Source</h4>
+    <ul>
+        <li class="method-source">
+            <a href="lurch-document.js.html">lurch-document.js</a><a href="lurch-document.js.html#source.144">, line 144</a>
+        </li>
+    </ul>
+
+
+
+    </article>
+
+        
+            
+
+
+    <article class="method">
+
+
+
+
+    
+
+
+    
+
+    <div class="method-type">
+    
+    </div>
+
+    <h4 class="method-name" id="deleteMetadata">deleteMetadata<span class="signature">(category, key)</span><span class="return-type-signature"></span>
+    </h4>
+
+
+
+
+
+<div class="method-description">
+    
+    <p>Pieces of metadata are indexed by a category-key pair, facilitating
+&quot;namespaces&quot; within the metadata.  See <a href="LurchDocument.html#setMetadata">setMetadata()</a> for more information on why.  This function deletes the
+unique metadata item stored under the given category-key pair if there is
+one, and does nothing otherwise.</p>
+<p>Also, some pieces of metadata, when deleted, require placing attributes
+or classes in the editor's DOM, and this function will take that action
+as well, if needed.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h4 class="method-heading">Parameters</h4>
+    
+
+<ul class="method-params">
+    
+
+        <li>
+            
+                <span class="param-name">category</span>
+            
+
+            
+                
+
+
+    <span class="param-type">
+        <code>string</code>
+    </span>
+    
+
+            
+
+            
+
+            
+
+            <div class="param-description"><p>the category for the piece of metadata to
+delete</p></div>
+            
+        </li>
+
+    
+
+        <li>
+            
+                <span class="param-name">key</span>
+            
+
+            
+                
+
+
+    <span class="param-type">
+        <code>string</code>
+    </span>
+    
+
+            
+
+            
+
+            
+
+            <div class="param-description"><p>the key for the piece of metadata to delete</p></div>
+            
+        </li>
+
+    
+</ul>
+
+
+
+
+
+<div class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h4 class="method-heading">See</h4>
+        <ul>
+            
+                <li><a href="LurchDocument.html#getMetadata">getMetadata()</a></li>
+            
+                <li><a href="LurchDocument.html#setMetadata">setMetadata()</a></li>
+            
+        </ul>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h4 class="method-heading">Source</h4>
+    <ul>
+        <li class="method-source">
+            <a href="lurch-document.js.html">lurch-document.js</a><a href="lurch-document.js.html#source.445">, line 445</a>
+        </li>
+    </ul>
+
+
+
+    </article>
+
+        
+            
+
+
+    <article class="method">
+
+
+
+
+    
+
+
+    
+
+    <div class="method-type">
+    
+    </div>
+
+    <h4 class="method-name" id="getDocument">getDocument<span class="signature">(openLink)</span><span class="return-type-signature"> &rarr; {string}</span>
+    </h4>
+
+
+
+
+
+<div class="method-description">
+    
+    <p>Return the document being edited by the editor that was given at
+construction time.  This includes its visible content as well as its
+metdata, which includes document settings and dependencies.  It may also
+include a link at the top of the document, which allows the reader to
+open the document in the live app from which it was saved.  That link can
+be customized using the parameter.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h4 class="method-heading">Parameters</h4>
+    
+
+<ul class="method-params">
+    
+
+        <li>
+            
+                <span class="param-name">openLink</span>
+            
+
+            
+                
+
+
+    <span class="param-type">
+        <code>string</code>
+    </span>
+    |
+
+    <span class="param-type">
+        <code>function</code>
+    </span>
+    
+
+            
+
+            
+
+            
+
+            <div class="param-description"><p>the HTML content to use at the top of
+the document, to provide a link for opening the document in the live
+Lurch app.  If not provided, a sensible default is used, which is a DIV
+containing just one link, whose URL is supplied by a small script that
+runs at page load time and reads the document URL.  You can remove this
+link entirely by setting this value to the empty string.  If this is a
+function instead of a string, it will be called on the document content
+<em>without</em> the open link, and should return an open link to be used as a
+prefix.</p></div>
+            
+        </li>
+
+    
+</ul>
+
+
+
+
+
+<div class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h4 class="method-heading">See</h4>
+        <ul>
+            
+                <li><a href="LurchDocument.html#setDocument">setDocument()</a></li>
+            
+        </ul>
+    
+
+    
+</div>
+
+
+
+    <h4 class="method-heading">Returns</h4>
+    <ul>
+    
+        <li class="method-returns">
+            
+                <code>string</code>
+            
+            
+                <p>the document in string form, ready to be stored in a
+filesystem</p>
+            
+        </li>
+    
+    </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h4 class="method-heading">Source</h4>
+    <ul>
+        <li class="method-source">
+            <a href="lurch-document.js.html">lurch-document.js</a><a href="lurch-document.js.html#source.247">, line 247</a>
+        </li>
+    </ul>
+
+
+
+    </article>
+
+        
+            
+
+
+    <article class="method">
+
+
+
+
+    
+
+
+    
+
+    <div class="method-type">
+    
+    </div>
+
+    <h4 class="method-name" id="getFileID">getFileID<span class="signature">()</span><span class="return-type-signature"></span>
+    </h4>
+
+
+
+
+
+<div class="method-description">
+    
+    <p>See the description of <a href="LurchDocument.html#setFileID">setFileID()</a> for an
+explanation of file IDs.  This function returns the current file ID if
+there is one, or undefined otherwise.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h4 class="method-heading">See</h4>
+        <ul>
+            
+                <li><a href="LurchDocument.html#setFileID">setFileID()</a></li>
+            
+                <li><a href="LurchDocument.html#clearFileID">clearFileID()</a></li>
+            
+        </ul>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h4 class="method-heading">Source</h4>
+    <ul>
+        <li class="method-source">
+            <a href="lurch-document.js.html">lurch-document.js</a><a href="lurch-document.js.html#source.134">, line 134</a>
+        </li>
+    </ul>
+
+
+
+    </article>
+
+        
+            
+
+
+    <article class="method">
+
+
+
+
+    
+
+
+    
+
+    <div class="method-type">
+    
+    </div>
+
+    <h4 class="method-name" id="getMetadata">getMetadata<span class="signature">(category, key)</span><span class="return-type-signature"> &rarr; {string|number|bool|Object|HTMLDivElement|undefined}</span>
+    </h4>
+
+
+
+
+
+<div class="method-description">
+    
+    <p>Pieces of metadata are indexed by a category-key pair, facilitating
+&quot;namespaces&quot; within the metadata.  See <a href="LurchDocument.html#setMetadata">setMetadata()</a> for more information on why.  This function looks up the
+value that corresponds to the given category and key.</p>
+<p>If the value is stored in JSON form, then the corresponding object will
+be returned (as produced by <code>JSON.parse()</code>).  If the value is stored in
+HTML form, then an <code>HTMLDivElement</code> instance will be returned, the
+contents of which are the value of the metadata item.  The element
+returned is a copy of the one stored internally, so the caller cannot
+alter the internal value by modifying the returned element.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h4 class="method-heading">Parameters</h4>
+    
+
+<ul class="method-params">
+    
+
+        <li>
+            
+                <span class="param-name">category</span>
+            
+
+            
+                
+
+
+    <span class="param-type">
+        <code>string</code>
+    </span>
+    
+
+            
+
+            
+
+            
+
+            <div class="param-description"><p>the category for the piece of metadata to look
+up</p></div>
+            
+        </li>
+
+    
+
+        <li>
+            
+                <span class="param-name">key</span>
+            
+
+            
+                
+
+
+    <span class="param-type">
+        <code>string</code>
+    </span>
+    
+
+            
+
+            
+
+            
+
+            <div class="param-description"><p>the key for the piece of metadata to look up</p></div>
+            
+        </li>
+
+    
+</ul>
+
+
+
+
+
+<div class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h4 class="method-heading">See</h4>
+        <ul>
+            
+                <li><a href="LurchDocument.html#setMetadata">setMetadata()</a></li>
+            
+                <li><a href="LurchDocument.html#getMetadataCategories">getMetadataCategories()</a></li>
+            
+                <li><a href="LurchDocument.html#getMetadataKeys">getMetadataKeys()</a></li>
+            
+        </ul>
+    
+
+    
+</div>
+
+
+
+    <h4 class="method-heading">Returns</h4>
+    <ul>
+    
+        <li class="method-returns">
+            
+                <code>string</code>
+            
+                <code>number</code>
+            
+                <code>bool</code>
+            
+                <code>Object</code>
+            
+                <code>HTMLDivElement</code>
+            
+                <code>undefined</code>
+            
+            
+                <p>the value
+stored in the metadata, or undefined if there is no such metadata</p>
+            
+        </li>
+    
+    </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h4 class="method-heading">Source</h4>
+    <ul>
+        <li class="method-source">
+            <a href="lurch-document.js.html">lurch-document.js</a><a href="lurch-document.js.html#source.372">, line 372</a>
+        </li>
+    </ul>
+
+
+
+    </article>
+
+        
+            
+
+
+    <article class="method">
+
+
+
+
+    
+
+
+    
+
+    <div class="method-type">
+    
+    </div>
+
+    <h4 class="method-name" id="getMetadataCategories">getMetadataCategories<span class="signature">()</span><span class="return-type-signature"> &rarr; {Array.&lt;string>}</span>
+    </h4>
+
+
+
+
+
+<div class="method-description">
+    
+    <p>Pieces of metadata are indexed by a category-key pair, facilitating
+&quot;namespaces&quot; within the metadata.  See <a href="LurchDocument.html#setMetadata">setMetadata()</a> for more information on why.  This function returns all
+categories that appear in the document's metadata.  There is no defined
+order to the result, but no category is repeated.  The list may be empty
+if this document has no metadata stored in it.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h4 class="method-heading">See</h4>
+        <ul>
+            
+                <li><a href="LurchDocument.html#getMetadata">getMetadata()</a></li>
+            
+                <li><a href="LurchDocument.html#getMetadataKeys">getMetadataKeys()</a></li>
+            
+        </ul>
+    
+
+    
+</div>
+
+
+
+    <h4 class="method-heading">Returns</h4>
+    <ul>
+    
+        <li class="method-returns">
+            
+                <code>Array.&lt;string></code>
+            
+            
+                <p>an array containing all strings that appear as
+categories in this document's metadata</p>
+            
+        </li>
+    
+    </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h4 class="method-heading">Source</h4>
+    <ul>
+        <li class="method-source">
+            <a href="lurch-document.js.html">lurch-document.js</a><a href="lurch-document.js.html#source.395">, line 395</a>
+        </li>
+    </ul>
+
+
+
+    </article>
+
+        
+            
+
+
+    <article class="method">
+
+
+
+
+    
+
+
+    
+
+    <div class="method-type">
+    
+    </div>
+
+    <h4 class="method-name" id="getMetadataKeys">getMetadataKeys<span class="signature">(category)</span><span class="return-type-signature"> &rarr; {Array.&lt;string>}</span>
+    </h4>
+
+
+
+
+
+<div class="method-description">
+    
+    <p>Pieces of metadata are indexed by a category-key pair, facilitating
+&quot;namespaces&quot; within the metadata.  See <a href="LurchDocument.html#setMetadata">setMetadata()</a> for more information on why.  This function returns all
+keys that appear in the document's metadata under a given category.
+There is no defined order to the result, but no key is repeated.  The
+list may be empty if this document has no metadata stored in it under the
+given category.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h4 class="method-heading">Parameters</h4>
+    
+
+<ul class="method-params">
+    
+
+        <li>
+            
+                <span class="param-name">category</span>
+            
+
+            
+                
+
+
+    <span class="param-type">
+        <code>string</code>
+    </span>
+    
+
+            
+
+            
+
+            
+
+            <div class="param-description"><p>the category whose keys should be listed</p></div>
+            
+        </li>
+
+    
+</ul>
+
+
+
+
+
+<div class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h4 class="method-heading">See</h4>
+        <ul>
+            
+                <li><a href="LurchDocument.html#getMetadata">getMetadata()</a></li>
+            
+                <li><a href="LurchDocument.html#getMetadataCategories">getMetadataCategories()</a></li>
+            
+        </ul>
+    
+
+    
+</div>
+
+
+
+    <h4 class="method-heading">Returns</h4>
+    <ul>
+    
+        <li class="method-returns">
+            
+                <code>Array.&lt;string></code>
+            
+            
+                <p>the keys corresponding to the given category</p>
+            
+        </li>
+    
+    </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h4 class="method-heading">Source</h4>
+    <ul>
+        <li class="method-source">
+            <a href="lurch-document.js.html">lurch-document.js</a><a href="lurch-document.js.html#source.418">, line 418</a>
+        </li>
+    </ul>
+
+
+
+    </article>
+
+        
+            
+
+
+    <article class="method">
+
+
+
+
+    
+
+
+    
+
+    <div class="method-type">
+    
+    </div>
+
+    <h4 class="method-name" id="newDocument">newDocument<span class="signature">()</span><span class="return-type-signature"></span>
+    </h4>
+
+
+
+
+
+<div class="method-description">
+    
+    <p>Clear out the contents of the editor given at construction time.  This
+includes clearing out its content as well as any metdata, including
+document settings and dependencies.  It also clears the editor's dirty
+flag.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h4 class="method-heading">Source</h4>
+    <ul>
+        <li class="method-source">
+            <a href="lurch-document.js.html">lurch-document.js</a><a href="lurch-document.js.html#source.97">, line 97</a>
+        </li>
+    </ul>
+
+
+
+    </article>
+
+        
+            
+
+
+    <article class="method">
+
+
+
+
+    
+
+
+    
+
+    <div class="method-type">
+    
+    </div>
+
+    <h4 class="method-name" id="setDocument">setDocument<span class="signature">(document)</span><span class="return-type-signature"></span>
+    </h4>
+
+
+
+
+
+<div class="method-description">
+    
+    <p>Load the given document into the editor given at construction time.  This
+will replace what's visible in the UI with the visible portion of the
+given document, and will also replace the invisible document settings and
+dependencies with those of the given document.  It also clears the
+editor's dirty flag.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h4 class="method-heading">Parameters</h4>
+    
+
+<ul class="method-params">
+    
+
+        <li>
+            
+                <span class="param-name">document</span>
+            
+
+            
+                
+
+
+    <span class="param-type">
+        <code>string</code>
+    </span>
+    
+
+            
+
+            
+
+            
+
+            <div class="param-description"><p>the document as it was retrieved from a
+filesystem (or another source), ready to be loaded into this editor</p></div>
+            
+        </li>
+
+    
+</ul>
+
+
+
+
+
+<div class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h4 class="method-heading">See</h4>
+        <ul>
+            
+                <li><a href="LurchDocument.html#getDocument">getDocument()</a></li>
+            
+        </ul>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h4 class="method-heading">Source</h4>
+    <ul>
+        <li class="method-source">
+            <a href="lurch-document.js.html">lurch-document.js</a><a href="lurch-document.js.html#source.203">, line 203</a>
+        </li>
+    </ul>
+
+
+
+    </article>
+
+        
+            
+
+
+    <article class="method">
+
+
+
+
+    
+
+
+    
+
+    <div class="method-type">
+    
+    </div>
+
+    <h4 class="method-name" id="setFileID">setFileID<span class="signature">(id)</span><span class="return-type-signature"></span>
+    </h4>
+
+
+
+
+
+<div class="method-description">
+    
+    <p>If the application loaded a file from a given filename, or a given online
+storage location, it may want to save a unique ID (such as the filename
+or a pointer to the online storage location) so that the user can later
+just choose &quot;Save&quot; and have the file instantly stored back in the same
+location.  To facilitate this, we allow the storing of an arbitrary ID
+associated with the given file.  This ID is cleared out whenever
+<a href="LurchDocument.html#newDocument">newDocument()</a> is called.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h4 class="method-heading">Parameters</h4>
+    
+
+<ul class="method-params">
+    
+
+        <li>
+            
+                <span class="param-name">id</span>
+            
+
+            
+                
+
+
+    <span class="param-type">
+        <code>any</code>
+    </span>
+    
+
+            
+
+            
+
+            
+
+            <div class="param-description"><p>the ID to store</p></div>
+            
+        </li>
+
+    
+</ul>
+
+
+
+
+
+<div class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h4 class="method-heading">See</h4>
+        <ul>
+            
+                <li><a href="LurchDocument.html#getFileID">getFileID()</a></li>
+            
+                <li><a href="LurchDocument.html#clearFileID">clearFileID()</a></li>
+            
+        </ul>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h4 class="method-heading">Source</h4>
+    <ul>
+        <li class="method-source">
+            <a href="lurch-document.js.html">lurch-document.js</a><a href="lurch-document.js.html#source.118">, line 118</a>
+        </li>
+    </ul>
+
+
+
+    </article>
+
+        
+            
+
+
+    <article class="method">
+
+
+
+
+    
+
+
+    
+
+    <div class="method-type">
+    
+    </div>
+
+    <h4 class="method-name" id="setMetadata">setMetadata<span class="signature">(category, key, valueType, value)</span><span class="return-type-signature"></span>
+    </h4>
+
+
+
+
+
+<div class="method-description">
+    
+    <p>Store a new piece of metadata in this object, or update an old one.
+Pieces of metadata are indexed by a category-key pair, facilitating
+&quot;namespaces&quot; within the metadata.  This is useful so that we can
+partition the metadata into things like document-level settings, the
+document's list of dependencies, data cached by algorithms in the app,
+and any other categories that arise.</p>
+<p>Values can be either JSON data (which includes strings, integers, and
+booleans, in addition to the more complex types of JSON data) or HTML
+in string form (for example, if you wish to store an entire dependency).</p>
+<p>Also, some pieces of metadata, when stored, require placing attributes or
+classes in the editor's DOM, and this function will take that action as
+well, if needed.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h4 class="method-heading">Parameters</h4>
+    
+
+<ul class="method-params">
+    
+
+        <li>
+            
+                <span class="param-name">category</span>
+            
+
+            
+                
+
+
+    <span class="param-type">
+        <code>string</code>
+    </span>
+    
+
+            
+
+            
+
+            
+
+            <div class="param-description"><p>the category for this piece of metadata</p></div>
+            
+        </li>
+
+    
+
+        <li>
+            
+                <span class="param-name">key</span>
+            
+
+            
+                
+
+
+    <span class="param-type">
+        <code>string</code>
+    </span>
+    
+
+            
+
+            
+
+            
+
+            <div class="param-description"><p>the key for this piece of metadata</p></div>
+            
+        </li>
+
+    
+
+        <li>
+            
+                <span class="param-name">valueType</span>
+            
+
+            
+                
+
+
+    <span class="param-type">
+        <code>string</code>
+    </span>
+    
+
+            
+
+            
+
+            
+
+            <div class="param-description"><p>either &quot;json&quot; or &quot;html&quot; to specify the format
+for the value</p></div>
+            
+        </li>
+
+    
+
+        <li>
+            
+                <span class="param-name">value</span>
+            
+
+            
+                
+
+
+    <span class="param-type">
+        <code>string</code>
+    </span>
+    |
+
+    <span class="param-type">
+        <code>Object</code>
+    </span>
+    
+
+            
+
+            
+
+            
+
+            <div class="param-description"><p>a string of HTML if <code>valueType</code> is &quot;html&quot;
+or an object we can pass to <code>JSON.stringify()</code> if <code>valueType</code> is &quot;json&quot;</p></div>
+            
+        </li>
+
+    
+</ul>
+
+
+
+
+
+<div class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h4 class="method-heading">See</h4>
+        <ul>
+            
+                <li><a href="LurchDocument.html#getMetadata">getMetadata()</a></li>
+            
+        </ul>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h4 class="method-heading">Source</h4>
+    <ul>
+        <li class="method-source">
+            <a href="lurch-document.js.html">lurch-document.js</a><a href="lurch-document.js.html#source.329">, line 329</a>
+        </li>
+    </ul>
+
+
+
+    </article>
+
+        
+            
+
+
+    <article class="method">
+
+
+
+
+    
+
+
+    
+
+    <div class="method-type">
+    
+    </div>
+
+    <h4 class="method-name" id="updateBodyClasses">updateBodyClasses<span class="signature">()</span><span class="return-type-signature"></span>
+    </h4>
+
+
+
+
+
+<div class="method-description">
+    
+    <p>For each setting mentioned in <a href="LurchDocument.html#bodySettings">bodySettings</a>, this function ensures that there is precisely one CSS
+class on the body of the document beginning with that setting's key,
+and that is the class that ends with that settings value.</p>
+<p>As documented in <a href="LurchDocument.html#bodySettings">bodySettings</a>, spaces
+are replaced with dashes, so that a setting with key &quot;number of tacos&quot;
+and value &quot;not enough&quot; would become a CSS class
+&quot;number-of-tacos-not-enough&quot;.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h4 class="method-heading">See</h4>
+        <ul>
+            
+                <li><a href="LurchDocument.html#bodySettings">bodySettings</a></li>
+            
+        </ul>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h4 class="method-heading">Source</h4>
+    <ul>
+        <li class="method-source">
+            <a href="lurch-document.js.html">lurch-document.js</a><a href="lurch-document.js.html#source.517">, line 517</a>
+        </li>
+    </ul>
+
+
+
+    </article>
+
+        
+            
+
+
+    <article class="method">
+
+
+
+
+    
+
+
+    
+
+    <div class="method-type">
+    <span class="method-type-signature is-static">static</span>
+    </div>
+
+    <h4 class="method-name" id=".documentParts">documentParts<span class="signature">(document)</span><span class="return-type-signature"> &rarr; {Object}</span>
+    </h4>
+
+
+
+
+
+<div class="method-description">
+    
+    <p>A Lurch document has two main parts, a DIV storing the metadata followed
+by a DIV storing the actual document content.  This function takes a
+string containing the HTML for a Lurch document and extracts those two
+components from it, returning each one as a fully constructed
+<code>HTMLDivElement</code>.</p>
+<p>Note that a Lurch document's HTML text also begins with a brief script to
+create the link to open the document in the Lurch app, but that portion
+of the input string is ignored, because it is not part of the document,
+nor its metadata.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h4 class="method-heading">Parameters</h4>
+    
+
+<ul class="method-params">
+    
+
+        <li>
+            
+                <span class="param-name">document</span>
+            
+
+            
+                
+
+
+    <span class="param-type">
+        <code>string</code>
+    </span>
+    
+
+            
+
+            
+
+            
+
+            <div class="param-description"><p>the document as it was retrieved from a
+filesystem, ready to be loaded into this editor</p></div>
+            
+        </li>
+
+    
+</ul>
+
+
+
+
+
+<div class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h4 class="method-heading">See</h4>
+        <ul>
+            
+                <li>isDocumentHTML()</li>
+            
+        </ul>
+    
+
+    
+</div>
+
+
+
+    <h4 class="method-heading">Returns</h4>
+    <ul>
+    
+        <li class="method-returns">
+            
+                <code>Object</code>
+            
+            
+                <p>an object with <code>&quot;metadata&quot;</code> and <code>&quot;document&quot;</code> fields, as
+documented above</p>
+            
+        </li>
+    
+    </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h4 class="method-heading">Source</h4>
+    <ul>
+        <li class="method-source">
+            <a href="lurch-document.js.html">lurch-document.js</a><a href="lurch-document.js.html#source.167">, line 167</a>
+        </li>
+    </ul>
+
+
+
+    </article>
+
+        
+            
+
+
+    <article class="method">
+
+
+
+
+    
+
+
+    
+
+    <div class="method-type">
+    <span class="method-type-signature is-static">static</span>
+    </div>
+
+    <h4 class="method-name" id=".isDocumentHTML">isDocumentHTML<span class="signature">(document)</span><span class="return-type-signature"> &rarr; {boolean}</span>
+    </h4>
+
+
+
+
+
+<div class="method-description">
+    
+    <p>Is the given text a valid Lurch document?  This is checked by applying
+the documentParts() function to it,
+and ensuring that it has at least a <code>document</code> member, even if it does
+not also have a <code>metadata</code> member.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h4 class="method-heading">Parameters</h4>
+    
+
+<ul class="method-params">
+    
+
+        <li>
+            
+                <span class="param-name">document</span>
+            
+
+            
+                
+
+
+    <span class="param-type">
+        <code>string</code>
+    </span>
+    
+
+            
+
+            
+
+            
+
+            <div class="param-description"><p>the document in HTML form</p></div>
+            
+        </li>
+
+    
+</ul>
+
+
+
+
+
+<div class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h4 class="method-heading">See</h4>
+        <ul>
+            
+                <li>documentParts()</li>
+            
+        </ul>
+    
+
+    
+</div>
+
+
+
+    <h4 class="method-heading">Returns</h4>
+    <ul>
+    
+        <li class="method-returns">
+            
+                <code>boolean</code>
+            
+            
+                <p>true if the document is a valid Lurch document, false
+otherwise</p>
+            
+        </li>
+    
+    </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h4 class="method-heading">Source</h4>
+    <ul>
+        <li class="method-source">
+            <a href="lurch-document.js.html">lurch-document.js</a><a href="lurch-document.js.html#source.188">, line 188</a>
+        </li>
+    </ul>
+
+
+
+    </article>
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+  </div>
+</main>
+
+<footer class="layout-footer">
+  <div class="container">
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a>
+  </div>
+</footer>
+
+
+
+<script src="scripts/prism.dev.js"></script>
+</body>
+</html>
