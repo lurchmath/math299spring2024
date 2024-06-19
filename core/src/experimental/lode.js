@@ -112,9 +112,9 @@ global.textrace = lurchToTexTrace
 // load the Lurch to LaTeX parser precompiled for efficiency
 import { makedoc } from './parsers/makedoc.js'
 // load the utility to create the site lurch file index page
-import { generatePage } from '../../../lurchmath/grading-tools/toc.js'
+import { generatePage } from '../../../ui/grading-tools/toc.js'
 // load the utility to create the site lurch file index page
-import { scrape } from '../../../lurchmath/grading-tools/scraper.js'
+import { scrape } from '../../../ui/grading-tools/scraper.js'
 // load the chalk pens globally
 import Pens from './pens.js'
 global.Pens = Pens
@@ -537,8 +537,8 @@ rpl.defineCommand( "compileparser", {
     const compile = (name) => {
         console.log(defaultPen(`Compiling Lurch parser to lurch-to-${name}.js...`))
         execStr(`cd parsers && peggy --cache --format es -o lurch-to-${name}.js lurch-to-${name}.peggy`)
-        execStr(`cd parsers && cp lurch-to-${name}.js ../../../../lurchmath/parsers/`)
-        execStr(`cd parsers && cp lurch-to-${name}.peggy ../../../../lurchmath/parsers/`)
+        execStr(`cd parsers && cp lurch-to-${name}.js ../../../../ui/parsers/`)
+        execStr(`cd parsers && cp lurch-to-${name}.peggy ../../../../ui/parsers/`)
       }
 
     try {
@@ -619,7 +619,7 @@ rpl.defineCommand( "showdocs", {
 rpl.defineCommand( "fixrepo", {
   help: "Modify the main repo code with local changes.",
   action() { 
-    const lurchmathpath = '../../../lurchmath'
+    const lurchmathpath = '../../../ui'
 
     console.log(defaultPen('Overwriting lde-cdn.js ...'))
     exec('cp "utils/lurchmath config/lde-cdn.js" ' + lurchmathpath)
