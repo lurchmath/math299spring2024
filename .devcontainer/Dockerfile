@@ -1,10 +1,10 @@
 # See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.158.0/containers/javascript-node/.devcontainer/base.Dockerfile
 
-# [Choice] Node.js version: 14, 12, 10
-ARG VARIANT="16-buster"
+# Node.js version (bullseye = Apple ARM architecture)
+ARG VARIANT="20-bullseye"
 FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:0-${VARIANT}
 
-# [Optional] Uncomment this section to install additional OS packages.
+# Install OS packages needed for Chromium, below.
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install --no-install-recommends libnss3-dev libxrandr-dev \
         libatk-bridge2.0-0 libx11-xcb-dev libxcb-dri3-dev libxcomposite-dev \
@@ -15,9 +15,9 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 RUN apt-get -y install chromium
 ENV PUPPETEER_EXECUTABLE_PATH="/usr/bin/chromium"
 
-# [Optional] Uncomment if you want to install an additional version of node using nvm
+# Install an additional version of node using nvm.
 ARG EXTRA_NODE_VERSION=16
 RUN su node -c "source /usr/local/share/nvm/nvm.sh && nvm install ${EXTRA_NODE_VERSION} && nvm use ${EXTRA_NODE_VERSION}"
 
-# [Optional] Uncomment if you want to install more global node modules
-# RUN su node -c "npm install -g <your-package-list-here>"
+# Install jsdoc globally for use in building source code documentation.
+RUN su node -c "npm install -g jsdoc"
