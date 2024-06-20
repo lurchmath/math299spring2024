@@ -13,6 +13,7 @@ node_modules/
 # ... except for the readme file
 !README.md
 # ignore the following folders from math299
-/math299
+/*299*
+/*pima*
 /math
 /help
