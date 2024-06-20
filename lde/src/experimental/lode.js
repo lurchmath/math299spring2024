@@ -112,9 +112,9 @@ global.textrace = lurchToTexTrace
 // load the Lurch to LaTeX parser precompiled for efficiency
 import { makedoc } from './parsers/makedoc.js'
 // load the utility to create the site lurch file index page
-import { generatePage } from '../../../ui/grading-tools/toc.js'
+import { generatePage } from '../../../lurchmath/grading-tools/toc.js'
 // load the utility to create the site lurch file index page
-import { scrape } from '../../../ui/grading-tools/scraper.js'
+import { scrape } from '../../../lurchmath/grading-tools/scraper.js'
 // load the chalk pens globally
 import Pens from './pens.js'
 global.Pens = Pens

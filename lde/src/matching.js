@@ -172,7 +172,7 @@ import {
     newEF, isAnEF, arityOfEF, applyEF, constantEF, projectionEF, applicationEF,
     newEFA, isAnEFA, canBetaReduce, betaReduce, fullBetaReduce, alphaEquivalent,
     bodyOfEF, parametersOfEF, expressionFunction, expressionFunctionApplication
-} from '../src/matching/expression-functions.js'
+} from './matching/expression-functions.js'
 import { Problem } from "./matching/problem.js"
 import { Solution } from "./matching/solution.js"
 import {

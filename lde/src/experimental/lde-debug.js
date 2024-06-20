@@ -51,10 +51,10 @@ Object.assign( self, Compact )
 import Utils from './utils.js'
 Object.assign( self, Utils )
 
-import { Message } from '../../../ui/validation-messages.js'
+import { Message } from '../../../lurchmath/validation-messages.js'
 self.Message = Message
 
-import { downloadFile } from '../../../ui/upload-download.js'
+import { downloadFile } from '../../../lurchmath/upload-download.js'
 self.downloadFile = downloadFile
 
 import * as TEST from './utils/acidtestsweb.js'
