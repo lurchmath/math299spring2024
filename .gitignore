@@ -2,3 +2,4 @@
 *.code-workspace
 help/
 node_modules/
+/index.html
