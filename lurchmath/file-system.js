@@ -6,6 +6,7 @@ import {
 import { LurchDocument } from './lurch-document.js'
 import { appURL } from './utilities.js'
 import { appSettings } from './settings-install.js'
+import { downloadFile } from './upload-download.js'
 
 // Internal use only
 // Tools for auto-saving the user's work as they edit, and for loading that work
@@ -935,6 +936,13 @@ export const install = editor => {
             // Get all the document's information
             const doc = new LurchDocument( editor )
             const fileID = doc.getFileID()
+            // Special case: If the app settings enable only the download
+            // option, don't bother to show a dialog:
+            if ( editor.appOptions.fileSaveTabs.length == 1
+              && editor.appOptions.fileSaveTabs[0] == 'your computer' ) {
+                downloadFile( editor, fileID?.filename )
+                return
+            }
             // If we have no record of where it was last saved, we have to give
             // up on a silent save and revert to a "save as" operation (which
             // prompts the user)
