@@ -148,6 +148,28 @@ export class FileSystem {
     }
 
     /**
+     * Get a list of just those subclasses whose names are given, in the order
+     * specified.  This is useful when the app's settings request only a certain
+     * set of file systems to be available.
+     * 
+     * If any of the names is not the name of a valid subclass, an error will be
+     * thrown.
+     * 
+     * @param {Array} names - the names of the subclasses to get
+     * @returns {Array} the list of subclasses with the given names
+     * @see {@link FileSystem.getSubclasses getSubclasses()}
+     */
+    static getNamedSubclasses ( names ) {
+        const result = [ ]
+        for ( const name of names ) {
+            const subclass = FileSystem.getSubclass( name )
+            if ( !subclass ) throw new Error( `Unknown file system: ${name}` )
+            result.push( subclass )
+        }
+        return result
+    }
+
+    /**
      * Get the name of a given {@link FileSystem} subclass, by looking it up in
      * the list of registered subclasses.  For more information about
      * registering subclasses, see the {@link module:FileSystem.registerSubclass
@@ -639,7 +661,9 @@ export class FileSystem {
         dialog.selectFile = fileObject => 
             dialog.dialog.setEnabled( 'OK', !!( currentFile = fileObject ) )
         const tabs = (
-            editor.appOptions.fileOpenTabs || FileSystem.getSubclasses()
+            editor.appOptions.fileOpenTabs ?
+            FileSystem.getNamedSubclasses( editor.appOptions.fileOpenTabs ) :
+            FileSystem.getSubclasses()
         ).map( subclass => {
             return {
                 name : `From ${FileSystem.getSubclassName( subclass )}`,
@@ -691,7 +715,7 @@ export class FileSystem {
         } )
         setTimeout( () => {
             const defaultTab = appSettings.get( 'default open dialog tab' )
-            if ( tabNamesFromSettings.includes( defaultTab ) )
+            if ( tabs.map( tab => tab.name ).includes( defaultTab ) )
                 dialog.showTab( defaultTab )
         } )
     }
@@ -719,7 +743,9 @@ export class FileSystem {
             dialog.dialog.setEnabled( 'OK', !!saveLocation?.filename )
         }
         const tabs = (
-            editor.appOptions.fileSaveTabs || FileSystem.getSubclasses()
+            editor.appOptions.fileSaveTabs ?
+            FileSystem.getNamedSubclasses( editor.appOptions.fileSaveTabs ) :
+            FileSystem.getSubclasses()
         ).map( subclass => {
             return {
                 name : `To ${FileSystem.getSubclassName( subclass )}`,
@@ -764,7 +790,7 @@ export class FileSystem {
         } )
         setTimeout( () => {
             const defaultTab = appSettings.get( 'default save dialog tab' )
-            if ( tabNamesFromSettings.includes( defaultTab ) )
+            if ( tabs.map( tab => tab.name ).includes( defaultTab ) )
                 dialog.showTab( defaultTab )
         } )
     }
@@ -789,7 +815,9 @@ export class FileSystem {
         dialog.selectFile = fileObject => 
             dialog.dialog.setEnabled( 'OK', !!( currentFile = fileObject ) )
         const tabs = (
-            editor.appOptions.fileDeleteTabs || FileSystem.getSubclasses()
+            editor.appOptions.fileDeleteTabs ?
+            FileSystem.getNamedSubclasses( editor.appOptions.fileDeleteTabs ) :
+            FileSystem.getSubclasses()
         ).map( subclass => {
             const fileSystem = new subclass( editor )
             return {
@@ -839,7 +867,7 @@ export class FileSystem {
         } )
         setTimeout( () => {
             const defaultTab = appSettings.get( 'default open dialog tab' )
-            if ( tabNamesFromSettings.includes( defaultTab ) )
+            if ( tabs.map( tab => tab.name ).includes( defaultTab ) )
                 dialog.showTab( defaultTab )
         } )
     }
@@ -907,14 +935,14 @@ export const install = editor => {
             // Get all the document's information
             const doc = new LurchDocument( editor )
             const fileID = doc.getFileID()
-            fileID.contents = doc.getDocument()
             // If we have no record of where it was last saved, we have to give
-            // up on a silent save and rever to a "save as" operation (which
+            // up on a silent save and revert to a "save as" operation (which
             // prompts the user)
             const subclass = FileSystem.getSubclass( fileID?.fileSystemName )
             if ( !subclass )
                 return FileSystem.saveFileAs( editor )
             // We have enough information to do a silent save, so try that.
+            fileID.contents = doc.getDocument()
             const fileSystem = new subclass( editor )
             fileSystem.write( fileID ).then( result => {
                 if ( !result ) return
