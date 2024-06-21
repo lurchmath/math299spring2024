@@ -571,15 +571,15 @@ export class Atom {
         } else {
             // if it already has a result, just add the relevant class to the 
             // existing classlist so we can give more nuanced feedback
-            const suffix = this.getChild('suffix')
-                               .querySelector('[class^=feedback-marker]')
-            if (suffix) {
-                suffix.classList.add(`feedback-marker-${result}`)
+            const suffix = this.getChild( 'suffix' )
+                               .querySelector( '[class^=feedback-marker]' )
+            if ( suffix ) {
+                suffix.classList.add( `feedback-marker-${result}` )
                 // TODO: a quick fix for now, but we should make this better
                 // when we upgrade the entire transitive chains feature. For
                 // now, just remove the hover text in this situation since it
                 // can be misleading.
-                this.setHoverText('')
+                this.setHoverText( '' )
             } else {                  
                 this.fillChild( 'suffix',
                     `<span class="feedback-marker-${result}">&nbsp;</span>` )
