@@ -10,10 +10,14 @@
  *      validate the target.
  *   * `checkPreemies` - Check for preemies iff this is true
  *   * `processBIHs` - process BIHs iff this is true         
+ *   * `instantiateEverything` - don't avoid anything below (equivalent to
+ *      setting the next three settings to false)
  *   * `avoidLoneMetavars` - if true don't try to instantiate lone
  *      metavariables, otherwise try to instantiate them with every user
  *      proposition.
  *   * `avoidLoneEFAs` - the same thing for lone EFAs        
+ *   * `avoidLoneElementOfs` - the same thing for lone x∈A's where A is a
+ *      metavariable        
  *   * `processEquations` - process equations iff this is true  
  *   * `processCases`- process the cases tool iff this is true 
  *   * `autoCases` - similar to avoidLoneMetavars=false. If true, then identify
@@ -24,8 +28,8 @@
  *      algebra' iff this is true
  *   * `swapTheoremProofPairs` - move theorems after their next sibling if its a
  *      proof
- *   *  `updateProgress` - the function that gives progress updates while
- *       instantiating
+ *   * `updateProgress` - the function that gives progress updates while
+ *      instantiating
  *   * `updateFreq` - how often to give a progress update during a pass
  *   * `badResultMsg` - what the feedback message should be internally to
  *     expressions which are not found to be propositionally valid 
@@ -35,8 +39,10 @@ export const LurchOptions = {
   validateall: true ,    
   checkPreemies: true ,  
   processBIHs: true ,
+  instantiateEverything: false,
   avoidLoneMetavars: true ,
   avoidLoneEFAs: true ,    
+  avoidLoneElementOfs: true ,    
   processEquations: true ,    
   processCases: true ,    
   autoCases: false ,

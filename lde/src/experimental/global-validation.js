@@ -360,32 +360,41 @@ const cacheFormulaDomainInfo = f => {
  * They are both true by default.
  */
 const forbiddenWeeny = L => 
-  // it's an Environment
-  ( L instanceof Environment ) || 
-  // or we are avoiding lone metavars and it is one
-  ( LurchOptions.avoidLoneMetavars && 
-    (L instanceof LurchSymbol)
-  ) || 
-  // or we are avoiding LoneEFAs except for the subsitutition rule when the
-  // conclusion is partially instantiated, and in that case only the conclusion
-  // is checked against a user proposition that is flagged 'by substitution' for
-  // efficiency, since that will determine P for the premise.
-  ( LurchOptions.avoidLoneEFAs && 
-    isAnEFA(L) && 
-    ( !L.isA('Subs') || 
-      !L.children().slice(1).some(kid =>
-        kid.hasDescendantSatisfying( x => 
-          (x instanceof LurchSymbol) && !x.isA(metavariable)
-        )
-      ) 
+  // if we are told to not forbid anything either as an attribute or option
+  // then return false
+  !(L.root().getAttribute('instantiateEverything') ||
+    LurchOptions.instantiateEverything
+   ) &&
+  // otherwise check each case 
+  (
+    // it's an Environment
+    ( L instanceof Environment ) || 
+    // or we are avoiding lone metavars and it is one
+    ( LurchOptions.avoidLoneMetavars && 
+      (L instanceof LurchSymbol)
+    ) || 
+    // or we are avoiding LoneEFAs except for the subsitutition rule when the
+    // conclusion is partially instantiated, and in that case only the conclusion
+    // is checked against a user proposition that is flagged 'by substitution' for
+    // efficiency, since that will determine P for the premise.
+    ( LurchOptions.avoidLoneEFAs && 
+      isAnEFA(L) && 
+      ( !L.isA('Subs') || 
+        !L.children().slice(1).some(kid =>
+          kid.hasDescendantSatisfying( x => 
+            (x instanceof LurchSymbol) && !x.isA(metavariable)
+          )
+        ) 
+      )
+    ) ||
+    // don't match x∈A when A is a metavariable because almost every
+    // statment in a typical Set Theory proof has this form and will match
+    ( LurchOptions.avoidLoneElementOfs && 
+      L instanceof Application && L.child(0) instanceof LurchSymbol &&
+      L.child(0).text()==='∈'  && L.child(2) instanceof LurchSymbol && 
+      L.child(2).isA(metavariable)
     )
-  ) ||
-  // don't match x∈A when A is a metavariable because almost every
-  // statment in a typical Set Theory proof has this form and will match
-  ( L instanceof Application && L.child(0) instanceof LurchSymbol &&
-    L.child(0).text()==='∈'  && L.child(2) instanceof LurchSymbol && 
-    L.child(2).isA(metavariable))
-
+  )
 /** 
  * Process BIHs
  * 
