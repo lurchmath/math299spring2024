@@ -38,7 +38,7 @@ LDE.LurchOptions.updateProgress = ( passIndex, _, percentComplete ) => {
                           + Math.pow( 2, -passIndex ) * proportion
     Message.progress( ( transformed * 100 ) | 0 )
 }
-LDE.LurchOptions.updateFreq = 1
+LDE.LurchOptions.updateFreq = 100
 
 // Listen for messages from the main thread, which should send putdown notation
 // for a document to validate.  When it does, we run our one (temporary
