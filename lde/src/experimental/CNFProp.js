@@ -146,35 +146,35 @@ export class CNFProp {
         // say it should be reflexive.
         env.negated = L.isA(`given`) || L.isAccessibleTo(target)
         while ( kids.length > 0 ) {
-           let A = kids.pop()
-           // skip it if it's a Declare
-           if (A.isA('Declare')) continue
-           // skip it if it's a Comment or anything with .ignore.  This eliminates
-           // entire subenvironments and everything inside them because of this
-           // recursion is top-down.
-           if (A.ignore) continue
-           // otherwise get it's prop form  
-           let Aprop = CNFProp.fromLC(A,catalog,target)
-           if ( Aprop === null ) continue 
-           // check if we have to change the op based on this latest child
-           let newop = (A.isA(`given`) || A.isAccessibleTo(target)) ? `or` : `and`
-           // if we do, and there's more than one kid, wrap the kids w/ previous
-           // op
-           if ( newop!==env.op && env.kids.length>1 ) {
-              env.kids = [ new CNFProp( env.op , ...env.kids ) ]
-           }
-           env.op = newop
-           // if the new guy has the same op and is not negated, unshift its
-           // children, otherwise just unshift the whole thing
-           if ( Aprop.op===env.op && 
-                !(A.isA(`given`) || 
-                  A.isAccessibleTo(target)
-                 )
-               ) {
-             env.kids.unshift(...Aprop.kids)
-           } else {
-             env.kids.unshift(Aprop)
-           }
+          let A = kids.pop()
+          // skip it if it's a Declare
+          if (A.isA('Declare')) continue
+          // skip it if it's a Comment or anything with .ignore.  This eliminates
+          // entire subenvironments and everything inside them because of this
+          // recursion is top-down.
+          if (A.ignore) continue
+          // otherwise get it's prop form  
+          let Aprop = CNFProp.fromLC(A,catalog,target)
+          if ( Aprop === null ) continue 
+          // check if we have to change the op based on this latest child
+          let newop = (A.isA(`given`) || A.isAccessibleTo(target)) ? `or` : `and`
+          // if we do, and there's more than one kid, wrap the kids w/ previous
+          // op
+          if ( newop!==env.op && env.kids.length>1 ) {
+             env.kids = [ new CNFProp( env.op , ...env.kids ) ]
+          }
+          env.op = newop
+          // if the new guy has the same op and is not negated, unshift its
+          // children, otherwise just unshift the whole thing
+          if ( Aprop.op===env.op && 
+               !(A.isA(`given`) || 
+                 A.isAccessibleTo(target)
+                )
+              ) {
+            env.kids.unshift(...Aprop.kids)
+          } else {
+            env.kids.unshift(Aprop)
+          }
         }
         // console.log(`returning ${env.toAlgebraic()}`)
         return env
