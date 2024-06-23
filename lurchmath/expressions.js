@@ -579,6 +579,14 @@ export class Expression extends Atom {
                 const converted = convertToLatex()
                 if ( converted )
                     mathLivePreview.setValue( converted )
+                const lurchInputElement = dialog.querySelector( 'textarea' )
+                if (lurchInputElement) {
+                    if (typeof converted === 'string') {
+                        lurchInputElement.style['background-color']='#f7fff7' 
+                    } else {
+                        lurchInputElement.style['background-color']='#fff7f7'
+                    }
+                }   
                 dialog.dialog.setEnabled( 'OK', !!converted )
             }
         }
@@ -601,6 +609,8 @@ export class Expression extends Atom {
                   { return total+Math.max(1,Math.ceil(line.length/45)) },0)) 
           
             lurchInputElement.style.height = computeHeight(lurchNotation)+'px'
+            // it should be valid to start since it was saved in the first place
+            lurchInputElement.style['background-color']='#f7fff7'
 
             // give it focus, but if it ever loses focus, close the dialog
             lurchInputElement.focus()
