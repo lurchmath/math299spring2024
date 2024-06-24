@@ -181,6 +181,18 @@ const timeEnd = (description) => { if (Debug) console.timeEnd(description) }
  */
 const validate = ( doc, target = doc , scopingMethod = Scoping.declareWhenSeen ) => {
   
+  // if the target is the full document, check if the document contains anything
+  // marked with attribute 'target:true', and if so make the first occurrence of
+  // that thing the target
+  if (target===doc) {
+    const proof = doc.descendantsSatisfyingIterator(x=>x.getAttribute('target'))
+                         .next().value
+    if (proof) {
+      target=proof
+      doc.targetproof=proof
+    }                
+  } 
+
   // interpret it if it hasn't been already (the interpret routine checks)
   interpret( doc )
 
@@ -1561,11 +1573,16 @@ Environment.prototype._validateall = function ( target = this,
   if (checkPreemies) {
 
     // get the set of all Lets in inference let environments of this environment
-    // unless their parent has no conclusions
-    let lets = this.lets().filter(x =>
-      !x.parent().ancestors().some(y => y.isA('given'))
-      // && x.parent().conclusions().length>0   // inefficient but ok for now
-    )
+    // unless their parent has no conclusions or if the let is inside a proof
+    // marked with attribute 'target:true'. 
+    let lets = this.lets().filter( x => {
+      const doc=target.root()
+      if ( doc.targetproof ) {
+         return x.ancestors().includes(doc.targetproof)
+      } else {
+        return !x.parent().ancestors().some( y => y.isA('given') ) 
+      }
+    } )
 
     // sort them by the number of lets in their scope so we can check them from
     // the inside out (this modifies the lets array)
