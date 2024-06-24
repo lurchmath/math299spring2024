@@ -845,6 +845,9 @@ export class Atom {
      * parent atom, if any, or the empty array otherwise.  This makes it easy to
      * include the context menu for all ancestor atoms in any atom, by just
      * starting with the context menu of the superclass and then adding items.
+     * 
+     * @param {Atom} forThis - the atom that received the right-click action that
+     *   led to the creation of the context menu
      */
     contextMenu ( forThis ) {
         return this.parent()?.contextMenu( forThis ) || [ ]

@@ -844,6 +844,8 @@ export class Expression extends Atom {
      * in a pop-up dialog, either as a hierarchy of bullet points and sections,
      * or as a block of putdown code.
      * 
+     * @param {Atom} forThis - the atom that received the right-click action that
+     *   led to the creation of the context menu
      * @returns {Object[]} data representing the contents of a TinyMCE context
      *   menu
      */
