@@ -580,13 +580,13 @@ export class Expression extends Atom {
                 if ( converted )
                     mathLivePreview.setValue( converted )
                 const lurchInputElement = dialog.querySelector( 'textarea' )
-                if (lurchInputElement) {
-                    if (typeof converted === 'string') {
-                        lurchInputElement.style['background-color']='#f7fff7' 
+                if ( lurchInputElement ) {
+                    if ( typeof converted === 'string' ) {
+                        lurchInputElement.style['background-color'] = '#f7fff7'
                     } else {
-                        lurchInputElement.style['background-color']='#fff7f7'
+                        lurchInputElement.style['background-color'] = '#fff7f7'
                     }
-                }   
+                }
                 dialog.dialog.setEnabled( 'OK', !!converted )
             }
         }
