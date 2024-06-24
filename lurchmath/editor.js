@@ -334,7 +334,7 @@ window.Lurch = {
                         // icon : 'help',
                         tooltip : 'About Lurch',
                         onAction : () => window.open(
-                            'https://monks.scranton.edu/lurch', '_blank' )
+                            'https://lurchmath.github.io/site/about/', '_blank' )
                     } )
 
                     // Add red pen menu item
