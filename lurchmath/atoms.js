@@ -665,7 +665,7 @@ export class Atom {
      */
     parent () {
         if ( !this.element.parentNode ) return null
-        return Atom.findAbove( this.element.parentNode )
+        return Atom.findAbove( this.element.parentNode, this.editor )
     }
 
     /**
