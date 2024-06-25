@@ -577,7 +577,7 @@ export class Expression extends Atom {
         dialog.onChange = ( _, component ) => {
             if ( component.name == 'lurchNotation' ) {
                 const converted = convertToLatex()
-                if ( converted )
+                if ( converted || converted === '' )
                     mathLivePreview.setValue( converted )
                 const lurchInputElement = dialog.querySelector( 'textarea' )
                 if ( lurchInputElement ) {
@@ -604,23 +604,21 @@ export class Expression extends Atom {
             lurchInputElement.classList.add( 'advancedTextArea' )
             // set the initial height based on the number of current lines
             // of text in the initial value, plus wordwrap at 45 chars
-            const computeHeight = (s) => 10+24*Math.max(1,
-              s.split( '\n' ).reduce( (total,line) => 
-                  { return total+Math.max(1,Math.ceil(line.length/45)) },0)) 
-          
-            lurchInputElement.style.height = computeHeight(lurchNotation)+'px'
+            const computeHeight = s => 10 + 24 * Math.max( 1,
+                s.split( '\n' ).reduce( ( total, line ) => 
+                    total + Math.max( 1, Math.ceil( line.length / 45 ) ), 0 ) )
+            lurchInputElement.style.height = computeHeight( lurchNotation ) + 'px'
             // it should be valid to start since it was saved in the first place
-            lurchInputElement.style['background-color']='#f7fff7'
+            lurchInputElement.style['background-color'] = '#f7fff7'
 
             // give it focus, but if it ever loses focus, close the dialog
             lurchInputElement.focus()
             lurchInputElement.addEventListener( 'blur', () =>
                 setTimeout( () => dialog.close() ) )
 
-            lurchInputElement.addEventListener('input', () => {
-              lurchInputElement.style.height = 
-                  computeHeight(lurchInputElement.value)+'px'
-            })
+            lurchInputElement.addEventListener('input', () =>
+                lurchInputElement.style.height = 
+                    computeHeight (lurchInputElement.value ) + 'px' )
 
             // listen for the Enter and Shift+Enter keys        
             lurchInputElement.addEventListener( 'keydown', event => {
