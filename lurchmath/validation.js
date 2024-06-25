@@ -27,6 +27,7 @@ import { Message } from './validation-messages.js'
 import { Atom } from './atoms.js'
 import { Dialog } from './dialog.js'
 import { isOnScreen } from './utilities.js'
+import { LurchDocument } from './lurch-document.js'
 
 /**
  * This function should be called in the editor's setup routine.  It installs
@@ -173,6 +174,25 @@ export const install = editor => {
         onAction : () => clearAll()
     } )
     
+    // Add developer menu item for debugging document meaning
+    editor.ui.registry.addMenuItem( 'downloaddocumentcode', {
+        text : 'Download document code',
+        icon : 'sourcecode',
+        tooltip : 'Download the putdown code for the document',
+        shortcut : 'Meta+Shift+D',
+        onAction : () => {
+            const code = Message.document( editor, 'putdown' ).content.code
+            const link = document.createElement( 'a' )
+            link.setAttribute( 'target', '_blank' )
+            const blob = new Blob( [ code ], { type: "text/plain" } )
+            link.href = URL.createObjectURL( blob )
+            const fileID = new LurchDocument( editor ).getFileID() ||
+                'lurch-document'
+            link.download = fileID
+            link.click()
+        }
+    } )
+
     // Add developer menu item for debugging document meaning
     editor.ui.registry.addMenuItem( 'viewdocumentcode', {
         text : 'View document code',
