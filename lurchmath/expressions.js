@@ -577,7 +577,7 @@ export class Expression extends Atom {
         dialog.onChange = ( _, component ) => {
             if ( component.name == 'lurchNotation' ) {
                 const converted = convertToLatex()
-                if ( converted )
+                if ( converted || converted === '' )
                     mathLivePreview.setValue( converted )
                 const lurchInputElement = dialog.querySelector( 'textarea' )
                 if ( lurchInputElement ) {
