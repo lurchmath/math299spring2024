@@ -4,6 +4,7 @@ import { Shell } from './shells.js'
 import { getHeader } from './header-editor.js'
 import { Environment } from './lde-cdn.js'
 import { isOnScreen } from './utilities.js'
+import { lookup } from './document-settings.js'
 
 /**
  * This class simplifies communication between the main thread and worker
@@ -328,7 +329,7 @@ export class Message {
         // this will capture their contents just the same as it does any other
         // document content.
         const selector = `.${atomClassName}`
-        const LC = documentLC(
+        let LC = documentLC(
             [
                 ...( getHeader( editor )?.querySelectorAll( selector ) || [ ] ),
                 ...editor.dom.doc.querySelectorAll( selector )
@@ -336,6 +337,11 @@ export class Message {
                 element => Atom.from( element, editor )
             )
         )
+        
+        // add LDE attributes obtained from document settings to the document LC
+        // that is passed to the LDE.
+        LC.setAttribute( 'instantiateEverything', lookup( editor, 'instantiateEverything' ) )
+
         // Create a message that could be sent to the validation worker, including
         // the encoding produced above of the document's atoms and shells.
         return new Message( {

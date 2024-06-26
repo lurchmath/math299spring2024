@@ -16,6 +16,9 @@ import url from 'url'
 import fs from 'fs'
 import path from 'path'
 
+// count the number of files
+let count=0
+
 // Load stylesheet so we don't have to serve it dynamically, which would require
 // us to figure out how to handle paths correctly from any possible root folder:
 const CSS = fs.readFileSync( path.join(
@@ -42,9 +45,10 @@ const folderToHTML = ( name, relPath ) => {
         const inner = path.join( relPath, name )
         if ( fs.statSync( fullinner ).isDirectory() )
             return folderToHTML( name, inner )
-        else if ( name.endsWith( '.lurch' ) ) 
-            return fileToHTML( name, relPath )
-        else
+        else if ( name.endsWith( '.lurch' ) ) { 
+            count++
+            return fileToHTML( name, relPath ) 
+        } else
             return ''
     } ).filter(s => (typeof s === 'string' && s!=='') ).join( '\n' )
     return `<div class='folder'>
@@ -58,6 +62,7 @@ const foldersToHTML = relPaths =>
   
 export const generatePage = (...folders) => {
     if (folders.length == 0) folders = ['.']
+    const folderHTML = foldersToHTML( folders )
     const page =
 `
 <html>
@@ -68,8 +73,8 @@ export const generatePage = (...folders) => {
       <div id='container'>
         <div id="logo">Lurch<span id="check">&#x2713</span></div>
         <h1>Table of Contents</h1>
-        <p><button id='expandall'>⇅ - all</button></p>
-        ${foldersToHTML( folders )}
+        <p><button id='expandall'>⇅ - all</button> <span id='count'>(${count} files)</span></p>
+        ${folderHTML}
       <div>
     </body>
     <script>

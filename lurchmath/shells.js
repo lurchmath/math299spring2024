@@ -221,6 +221,8 @@ export class Shell extends Atom {
      * Note: If the application has no proper subclasses of {@link Shell}
      * installed, this function will not add the item to the context menu.
      * 
+     * @param {Atom} forThis - the atom that received the right-click action that
+     *   led to the creation of the context menu
      * @returns {Object[]} data representing the contents of a TinyMCE context
      *   menu
      */

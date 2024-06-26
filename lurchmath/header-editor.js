@@ -311,7 +311,7 @@ export const install = editor => {
         }
     } )
     editor.ui.registry.addMenuItem( 'viewdependencyurls', {
-        text : 'Show/hide rules',
+        text : 'Show/Hide rules',
         icon : 'character-count',
         shortcut : 'meta+alt+0',
         tooltip : 'View the mathematical content on which this document depends',

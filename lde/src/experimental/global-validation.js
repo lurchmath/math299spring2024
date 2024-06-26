@@ -181,6 +181,18 @@ const timeEnd = (description) => { if (Debug) console.timeEnd(description) }
  */
 const validate = ( doc, target = doc , scopingMethod = Scoping.declareWhenSeen ) => {
   
+  // if the target is the full document, check if the document contains anything
+  // marked with attribute 'target:true', and if so make the first occurrence of
+  // that thing the target
+  if (target===doc) {
+    const proof = doc.descendantsSatisfyingIterator(x=>x.getAttribute('target'))
+                         .next().value
+    if (proof) {
+      target=proof
+      doc.targetproof=proof
+    }                
+  } 
+
   // interpret it if it hasn't been already (the interpret routine checks)
   interpret( doc )
 
@@ -360,32 +372,41 @@ const cacheFormulaDomainInfo = f => {
  * They are both true by default.
  */
 const forbiddenWeeny = L => 
-  // it's an Environment
-  ( L instanceof Environment ) || 
-  // or we are avoiding lone metavars and it is one
-  ( LurchOptions.avoidLoneMetavars && 
-    (L instanceof LurchSymbol)
-  ) || 
-  // or we are avoiding LoneEFAs except for the subsitutition rule when the
-  // conclusion is partially instantiated, and in that case only the conclusion
-  // is checked against a user proposition that is flagged 'by substitution' for
-  // efficiency, since that will determine P for the premise.
-  ( LurchOptions.avoidLoneEFAs && 
-    isAnEFA(L) && 
-    ( !L.isA('Subs') || 
-      !L.children().slice(1).some(kid =>
-        kid.hasDescendantSatisfying( x => 
-          (x instanceof LurchSymbol) && !x.isA(metavariable)
-        )
-      ) 
+  // if we are told to not forbid anything either as an attribute or option
+  // then return false
+  !(L.root().getAttribute('instantiateEverything') ||
+    LurchOptions.instantiateEverything
+   ) &&
+  // otherwise check each case 
+  (
+    // it's an Environment
+    ( L instanceof Environment ) || 
+    // or we are avoiding lone metavars and it is one
+    ( LurchOptions.avoidLoneMetavars && 
+      (L instanceof LurchSymbol)
+    ) || 
+    // or we are avoiding LoneEFAs except for the subsitutition rule when the
+    // conclusion is partially instantiated, and in that case only the conclusion
+    // is checked against a user proposition that is flagged 'by substitution' for
+    // efficiency, since that will determine P for the premise.
+    ( LurchOptions.avoidLoneEFAs && 
+      isAnEFA(L) && 
+      ( !L.isA('Subs') || 
+        !L.children().slice(1).some(kid =>
+          kid.hasDescendantSatisfying( x => 
+            (x instanceof LurchSymbol) && !x.isA(metavariable)
+          )
+        ) 
+      )
+    ) ||
+    // don't match x∈A when A is a metavariable because almost every
+    // statment in a typical Set Theory proof has this form and will match
+    ( LurchOptions.avoidLoneElementOfs && 
+      L instanceof Application && L.child(0) instanceof LurchSymbol &&
+      L.child(0).text()==='∈'  && L.child(2) instanceof LurchSymbol && 
+      L.child(2).isA(metavariable)
     )
-  ) ||
-  // don't match x∈A when A is a metavariable because almost every
-  // statment in a typical Set Theory proof has this form and will match
-  ( L instanceof Application && L.child(0) instanceof LurchSymbol &&
-    L.child(0).text()==='∈'  && L.child(2) instanceof LurchSymbol && 
-    L.child(2).isA(metavariable))
-
+  )
 /** 
  * Process BIHs
  * 
@@ -1552,11 +1573,16 @@ Environment.prototype._validateall = function ( target = this,
   if (checkPreemies) {
 
     // get the set of all Lets in inference let environments of this environment
-    // unless their parent has no conclusions
-    let lets = this.lets().filter(x =>
-      !x.parent().ancestors().some(y => y.isA('given'))
-      // && x.parent().conclusions().length>0   // inefficient but ok for now
-    )
+    // unless their parent has no conclusions or if the let is inside a proof
+    // marked with attribute 'target:true'. 
+    let lets = this.lets().filter( x => {
+      const doc=target.root()
+      if ( doc.targetproof ) {
+         return x.ancestors().includes(doc.targetproof)
+      } else {
+        return !x.parent().ancestors().some( y => y.isA('given') ) 
+      }
+    } )
 
     // sort them by the number of lets in their scope so we can check them from
     // the inside out (this modifies the lets array)

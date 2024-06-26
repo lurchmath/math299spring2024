@@ -619,7 +619,7 @@ rpl.defineCommand( "showdocs", {
 rpl.defineCommand( "fixrepo", {
   help: "Modify the main repo code with local changes.",
   action() { 
-    const lurchmathpath = '../../../ui'
+    const lurchmathpath = '../../../lurchmath'
 
     console.log(defaultPen('Overwriting lde-cdn.js ...'))
     exec('cp "utils/lurchmath config/lde-cdn.js" ' + lurchmathpath)

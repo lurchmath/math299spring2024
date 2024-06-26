@@ -3,7 +3,7 @@ import { appURL, isValidURL } from './utilities.js'
 import { appSettings } from './settings-install.js'
 import {
     SettingsMetadata, SettingsCategoryMetadata, CategorySettingMetadata,
-    TextSettingMetadata, LongTextSettingMetadata
+    TextSettingMetadata, LongTextSettingMetadata, BoolSettingMetadata
 } from './settings-metadata.js'
 import { Dependency } from './dependencies.js'
 import { Dialog } from './dialog.js'
@@ -495,7 +495,11 @@ export class LurchDocument {
                 [ 'boxed', 'minimal' ],
                 appSettings.get( 'default shell style' )
             )
-        )
+        ),
+        new SettingsCategoryMetadata(
+          'Validation options',
+          new BoolSettingMetadata( 'instantiateEverything', 'Try harder to validate (can be much slower)', false )
+       )
     )
 
     /**
