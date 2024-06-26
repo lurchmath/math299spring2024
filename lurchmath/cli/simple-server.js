@@ -14,13 +14,17 @@ const startServer = ( options = { } ) => {
     // Use these default values for the options:
     options = Object.assign( {
         port : port,
-        verbose : true
-    }, options ) // But update them with the actual options given.
+        verbose : true,
+        root : path.resolve(
+            path.dirname( url.fileURLToPath( import.meta.url ) ), // this folder
+            '..' // up one level to parent, which is repo root
+        )
+    }, options ) // Now update the defaults with the actual options given.
 
     // Create the server:
     const server = http.createServer( ( req, res ) => {
         const parsedUrl = url.parse( req.url )
-        let pathname = `.${parsedUrl.pathname}`
+        let pathname = `${options.root}${parsedUrl.pathname}`
         const extensionToMime = {
             '.ico'  : 'image/x-icon',
             '.html' : 'text/html',
