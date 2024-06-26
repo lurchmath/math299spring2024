@@ -254,7 +254,7 @@ export const openDocument = async ( filename ) => {
         await page.evaluate( `
             window.postMessage( { 'lurch-embed' : ${stringified} }, '*' )
         ` )
-    } else if ( filename.endsWith( '.html' ) ) {
+    } else if ( filename.endsWith( '.html' ) || filename.endsWith( '.lurch' ) ) {
         if ( await isLongForm( contents ) ) {
             // long form means that the HTML content is already in the form used
             // natively by Lurch, so no conversion needs to happen; we can just

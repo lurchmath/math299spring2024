@@ -26,18 +26,19 @@ const startServer = ( options = { } ) => {
         const parsedUrl = url.parse( req.url )
         let pathname = `${options.root}${parsedUrl.pathname}`
         const extensionToMime = {
-            '.ico'  : 'image/x-icon',
-            '.html' : 'text/html',
-            '.js'   : 'text/javascript',
-            '.json' : 'application/json',
-            '.css'  : 'text/css',
-            '.png'  : 'image/png',
-            '.jpg'  : 'image/jpeg',
-            '.wav'  : 'audio/wav',
-            '.mp3'  : 'audio/mpeg',
-            '.svg'  : 'image/svg+xml',
-            '.pdf'  : 'application/pdf',
-            '.doc'  : 'application/msword'
+            '.ico'   : 'image/x-icon',
+            '.html'  : 'text/html',
+            '.lurch' : 'text/html',
+            '.js'    : 'text/javascript',
+            '.json'  : 'application/json',
+            '.css'   : 'text/css',
+            '.png'   : 'image/png',
+            '.jpg'   : 'image/jpeg',
+            '.wav'   : 'audio/wav',
+            '.mp3'   : 'audio/mpeg',
+            '.svg'   : 'image/svg+xml',
+            '.pdf'   : 'application/pdf',
+            '.doc'   : 'application/msword'
         }
 
         fs.stat( pathname, error => {
