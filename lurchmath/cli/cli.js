@@ -10,7 +10,7 @@
  * **NOTE:** If you do not have Chromium installed so that the puppeteer module
  * can find it, this CLI will not work.  If you are using the development
  * container for this repository as defined in
- * {@link https://github.com/lurchmath/lurchmath/blob/master/.devcontainer/Dockerfile
+ * {@link https://github.com/lurchmath/lurch/blob/master/.devcontainer/Dockerfile
  * its Dockerfile}, Chromium is already installed for you.
  * 
  * ## Use case 1: Writing Lurch documents in Markdown
