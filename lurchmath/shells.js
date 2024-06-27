@@ -743,7 +743,11 @@ export class Preview extends Shell {
         // The container must contain a document if we are to proceed
         const document = Array.from( container.childNodes ).find(
             child => child.id == 'document' )
-        if ( !document ) return
+        // If it does not, remove all of its contents and return it empty
+        if ( !document ) {
+            container.innerHTML = ''
+            return container
+        }
         document.id = undefined // no duplicate IDs, please
         // If there's a header, move it into the document before proceeding
         const metadata = Array.from( container.childNodes ).find(
