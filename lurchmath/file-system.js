@@ -662,7 +662,7 @@ export class FileSystem {
         dialog.selectFile = fileObject => 
             dialog.dialog.setEnabled( 'OK', !!( currentFile = fileObject ) )
         const tabs = (
-            editor.appOptions.fileOpenTabs ?
+            editor.appOptions?.fileOpenTabs ?
             FileSystem.getNamedSubclasses( editor.appOptions.fileOpenTabs ) :
             FileSystem.getSubclasses()
         ).map( subclass => {
@@ -744,7 +744,7 @@ export class FileSystem {
             dialog.dialog.setEnabled( 'OK', !!saveLocation?.filename )
         }
         const tabs = (
-            editor.appOptions.fileSaveTabs ?
+            editor.appOptions?.fileSaveTabs ?
             FileSystem.getNamedSubclasses( editor.appOptions.fileSaveTabs ) :
             FileSystem.getSubclasses()
         ).map( subclass => {
@@ -816,7 +816,7 @@ export class FileSystem {
         dialog.selectFile = fileObject => 
             dialog.dialog.setEnabled( 'OK', !!( currentFile = fileObject ) )
         const tabs = (
-            editor.appOptions.fileDeleteTabs ?
+            editor.appOptions?.fileDeleteTabs ?
             FileSystem.getNamedSubclasses( editor.appOptions.fileDeleteTabs ) :
             FileSystem.getSubclasses()
         ).map( subclass => {
@@ -938,7 +938,7 @@ export const install = editor => {
             const fileID = doc.getFileID()
             // Special case: If the app settings enable only the download
             // option, don't bother to show a dialog:
-            if ( editor.appOptions.fileSaveTabs.length == 1
+            if ( editor.appOptions?.fileSaveTabs?.length == 1
               && editor.appOptions.fileSaveTabs[0] == 'your computer' ) {
                 downloadFile( editor, fileID?.filename )
                 return
@@ -1009,7 +1009,7 @@ export const install = editor => {
     // loading, and then check to see if there is any autosaved data that was
     // never saved by the user.  If so, offer to recover it.  Also, set up the
     // auto-save recurring timer (again iff that feature is enabled).
-    if ( editor.appOptions.autoSaveEnabled ) {
+    if ( editor.appOptions?.autoSaveEnabled ) {
         editor.on( 'init', () => {
             // First, if there's an auto-save, offer to load it:
             if ( autoSaveExists() ) {
