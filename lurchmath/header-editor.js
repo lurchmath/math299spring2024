@@ -321,7 +321,15 @@ export const install = editor => {
                 atom => atom.getMetadata( 'type' ) == 'preview' )
             if ( existingPreviews.length > 0 ) {
                 existingPreviews.forEach( preview => preview.element.remove() )
-                editor.selection.setCursorLocation(editor.getBody(),0)
+                editor.selection.setCursorLocation( editor.getBody(), 0 )
+                // Also, if we have a cursor location stored from before we
+                // showed this preview, put the user's cursor location back
+                // there for convenience.  (See more comments on this below.)
+                if ( editor.selectionBeforePreview ) {
+                    editor.selection.setRng( editor.selectionBeforePreview )
+                    editor.selectionBeforePreview = null
+                    editor.selection.getStart()?.scrollIntoView()
+                }
                 return
             }
             // If not, we have to create them from the content in the header.
@@ -341,6 +349,10 @@ export const install = editor => {
                 preview.imitate( dependency )
                 allPreviewHTML += preview.element.outerHTML
             } )
+            // Remember where the user's cursor was before we insert the preview,
+            // because it may be large and require them to scroll to see it.
+            // If they then hide it, it's nice to jump back to where they were.
+            editor.selectionBeforePreview = editor.selection.getRng()
             // Insert it into the document.
             editor.selection.setCursorLocation() // == start
             editor.insertContent( allPreviewHTML )
