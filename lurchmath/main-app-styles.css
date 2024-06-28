@@ -103,3 +103,14 @@ div:has(> #lurch-filename-display) {
 }
  *
  */
+
+/* Search box for filtering the rules list */
+.tox .search-label {
+    margin : 6px 0;
+}
+.tox .search-input {
+    margin: 0 12px;
+    padding : 3px;
+    border : 1px solid #90979E;
+    border-radius : 4px;
+}

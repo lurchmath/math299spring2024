@@ -99,6 +99,75 @@ export const hasEditorOpen = () =>
  * @function
  */
 export const install = editor => {
+    // Utility functions and global-ish variables for dependency preview searching
+    const getPreviews = () => Atom.allIn( editor ).filter(
+        atom => atom.getMetadata( 'type' ) == 'preview' )
+    const previewExists = () => Atom.allIn( editor ).some(
+        atom => atom.getMetadata( 'type' ) == 'preview' )
+    let searchToolbar = null
+    let searchBox = null
+    let searchCounter = null
+    let doSearch = null
+    // Dependency preview search toolbar
+    editor.once( 'PostRender', () => {
+        // Install the toolbar and all of its elements
+        searchBox = document.createElement( 'input' )
+        searchBox.setAttribute( 'type', 'text' )
+        searchBox.classList.add( 'search-input' )
+        const searchLabel = document.createElement( 'p' )
+        searchLabel.classList.add( 'search-label' )
+        searchLabel.textContent = 'Search rules: '
+        searchLabel.appendChild( searchBox )
+        searchCounter = new Text( '' )
+        searchLabel.appendChild( searchCounter )
+        const searchGroup = document.createElement( 'div' )
+        searchGroup.classList.add( 'tox-toolbar__group' )
+        searchGroup.setAttribute( 'role', 'toolbar' )
+        searchGroup.appendChild( searchLabel )
+        searchToolbar = document.createElement( 'div' )
+        searchToolbar.classList.add( 'tox-toolbar__overflow' )
+        searchToolbar.classList.add( 'rule-search-toolbar' )
+        searchToolbar.setAttribute( 'role', 'group' )
+        searchToolbar.style.display = 'none'
+        searchToolbar.appendChild( searchGroup )
+        const toolbarParent = document.querySelector( '.tox-toolbar-overlord' )
+        toolbarParent.appendChild( searchToolbar )
+        // Define the search function
+        doSearch = () => {
+            const searchText = searchBox.value.toLowerCase()
+            let shown = 0
+            getPreviews().forEach( preview => {
+                Array.from( preview.element.childNodes ).forEach( node => {
+                    const showThis = Atom.isAtomElement( node )
+                       && Atom.from( node, editor ).getMetadata( 'type' ) == 'rule'
+                       && node.outerHTML.toLowerCase().includes( searchText )
+                    node.style.display = showThis ? '' : 'none'
+                    shown += showThis ? 1 : 0
+                } )
+            } )
+            searchCounter.textContent = searchText == '' ? '' :
+                                        shown == 1 ? '1 match' :
+                                        `${shown} matches`
+        }
+        // Install the search function
+        searchBox.addEventListener( 'input', doSearch )
+    } )
+    // Whenever anything in the document changes (even the cursor position),
+    // decide whether to show the search toolbar
+    editor.on( 'input NodeChange Paste Change Undo Redo', () => {
+        if ( searchToolbar ) {
+            const show = previewExists()
+            const wasShown = searchToolbar.style.display == ''
+            searchToolbar.style.display = show ? '' : 'none'
+            // If the toolbar just appeared, clear its search box
+            if ( show && !wasShown ) {
+                searchBox.value = ''
+                doSearch()
+            }
+        }
+    } )
+
+    // Install all menu items related to headers and editing them
     editor.ui.registry.addMenuItem( 'editheader', {
         text : 'Edit document header in new window',
         icon : 'new-tab',
@@ -317,8 +386,7 @@ export const install = editor => {
         tooltip : 'View the mathematical content on which this document depends',
         onAction : () => {
             // If there are preview atoms in the document, remove them and be done
-            const existingPreviews = Atom.allIn( editor ).filter(
-                atom => atom.getMetadata( 'type' ) == 'preview' )
+            const existingPreviews = getPreviews()
             if ( existingPreviews.length > 0 ) {
                 existingPreviews.forEach( preview => preview.element.remove() )
                 editor.selection.setCursorLocation( editor.getBody(), 0 )
