@@ -135,19 +135,37 @@ export const install = editor => {
         // Define the search function
         doSearch = () => {
             const searchText = searchBox.value.toLowerCase()
-            let shown = 0
-            getPreviews().forEach( preview => {
-                Array.from( preview.element.childNodes ).forEach( node => {
-                    const showThis = Atom.isAtomElement( node )
-                       && Atom.from( node, editor ).getMetadata( 'type' ) == 'rule'
-                       && node.outerHTML.toLowerCase().includes( searchText )
-                    node.style.display = showThis ? '' : 'none'
-                    shown += showThis ? 1 : 0
-                } )
-            } )
+            let numShown = 0
+            const showRecursive = node => {
+                if ( Atom.isAtomElement( node ) ) {
+                    const atom = Atom.from( node, editor )
+                    const type = atom.getMetadata( 'type' )
+                    // If it's a Preview atom, just recur inside
+                    if ( type == 'preview' ) {
+                        Array.from( node.childNodes ).forEach( showRecursive )
+                    // If it's a Rule atom, apply the search criteria
+                    } else if ( type == 'rule' ) {
+                        node.style.display = (
+                            searchText == ''
+                         || node.outerHTML.toLowerCase().includes( searchText )
+                        ) ? '' : 'none'
+                        numShown += node.style.display == '' ? 1 : 0
+                    // If it's any other atom, show it iff there's no filter
+                    } else {
+                        node.style.display = searchText == '' ? '' : 'none'
+                    }
+                } else if ( node.tagName == 'DIV' ) {
+                    // Recur inside DIVs
+                    Array.from( node.childNodes ).forEach( showRecursive )
+                } else {
+                    // Otherwise, show it iff there's no filter
+                    node.style.display = searchText == '' ? '' : 'none'
+                }
+            }
+            getPreviews().forEach( preview => showRecursive( preview.element ) )
             searchCounter.textContent = searchText == '' ? '' :
-                                        shown == 1 ? '1 match' :
-                                        `${shown} matches`
+                                        numShown == 1 ? '1 rule found' :
+                                        `${numShown} rules found`
         }
         // Install the search function
         searchBox.addEventListener( 'input', doSearch )
