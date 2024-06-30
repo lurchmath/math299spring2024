@@ -147,12 +147,14 @@ export const appURL = () => {
  * the current page.  If the path begins with a slash, it will just have the
  * protocol and host prepended to it.  If it does not begin with a slash, it
  * will also have the full path to the current page (minus the page name)
- * prepended as well.
- * 
+ * prepended as well. If the path is already absolute, it is just returned
+ * unmodified.
+ *
  * @function
  * @see {@link module:Utilities.appURL appURL()}
  */
 export const makeAbsoluteURL = path => {
+    if ( /^https?:\/\//i.test(path) ) return path
     if ( path.startsWith( '/' ) ) {
         return window.location.protocol + '//' + window.location.host + path
     } else {
