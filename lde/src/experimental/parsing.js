@@ -8,6 +8,7 @@
 //
 //                       Parsers and Parsing Utilties 
 //                       for converting strings to LCs
+//                       and vice versa
 //
 
 //////////////////////////////////////////////////////////////////////////////
@@ -16,6 +17,9 @@
 //
 import { Environment } from '../environment.js'
 import { Symbol as LurchSymbol } from '../symbol.js'
+import { Application } from '../application.js'
+import Algebrite from '../../dependencies/algebrite.js'
+const compute = Algebrite.run
 import './extensions.js'
 
 /**
@@ -75,6 +79,8 @@ export const makeParser = parserstr => {
   return { parse: parser, trace: traceparser, raw:  rawparser.parse }
 }
 
+// This was a prototype made quickly at the AIM workshop We keep it for now but
+// improve on it below.
 export const lc2algebrite = e => {
   if (e instanceof Application && 
       e.numChildren()==3 &&
@@ -89,6 +95,193 @@ export const lc2algebrite = e => {
     return `isprime(${n})`
   } else {  
     return '0'
+  }
+}
+
+///////////////////////////////////////////////////////////////////
+//  Arithmetic
+//
+
+// For now, the only three relations we allow
+const NumericRelns = ['=','<','≤']
+
+// utilities
+// check if this LC is non-negative
+const isNonnegative = e => {
+  return isNumeric(e) && (compute(`0<=${numericToCAS(e)}`)==='1')
+}
+// check if this LC is non-zero
+const isNonzero = e => {
+  return isNumeric(e) && (compute(`0==${numericToCAS(e)}`)==='0')
+}
+// check if this LC isRational, but mathematically reduces to an integer
+const isReducedInteger = e => {
+  return isNumeric(e) && (compute(`denominator(${numericToCAS(e)})`)==='1')
+}
+
+// Natural Numbers
+//
+// Check if this LC represents a natural constant
+const isNaturalNumber = n => n.matches('[1-9][0-9]*$|^0')
+// Check if this expression is a natural number expression
+const isNatural = e => {
+  // base case - natural numbers are always natural expressions
+  if (isNaturalNumber(e)) return true
+  // recursion - if it is not an application, we're done
+  if  ( ! (e instanceof Application) ) return false
+  // it is an Application so get the op
+  const op = e.child(0)
+  const nargs = e.numChildren()
+  // check the binary ops
+  if (['\\+','⋅','\\^'].some(x=>op.matches(x)) && nargs == 3) 
+    return e.children().slice(1).every(isNatural)
+  // check unary ops
+  if (op.matches('!') && nargs == 2) 
+    return isNatural(e.child(1))
+  // otherwise it's not a supported operator
+  return false
+}
+// Check if this expression can be evaluated by natural number arithmetic
+const isNaturalArithmetic = e => {
+  // it must be an application with three children...
+  return e instanceof Application && e.numChildren() === 3 &&
+    // and it's operator must be one of the three...
+    NumericRelns.some( reln => e.child(0).matches(reln)) &&
+    // .. and the rest of the arguments are natural expressions
+    e.children().slice(1).every(c=>isNatural(c))
+}
+
+// Integers
+//
+// Since negation is an operator, the constants are the same as for
+// Natural Numbers
+
+// Check if this expression is an integer expression
+const isInteger = e => {
+  // base case - natural numbers are always integer expressions
+  if (isNaturalNumber(e)) return true
+  // recursion - if it is not an application, we're done
+  if  ( ! (e instanceof Application) ) return false
+  // it is an Application so get the op
+  const op = e.child(0)
+  // and the arity
+  const nargs = e.numChildren()
+  // check the easy binary ops
+  if (['\\+','⋅'].some(x=>op.matches(x)) && nargs == 3 &&
+      e.children().slice(1).every(isInteger)) return true
+  // for ^ check that the second arg is non-negative
+  if (op.matches('\\^') && nargs == 3 &&
+      e.children().slice(1).every(isInteger)) {
+    return isNonnegative(e.child(2))
+  }
+  // check unary ops
+  // negation can have any argument
+  if (op.matches('-') && nargs == 2 ) return isInteger(e.child(1)) 
+  // factorial has to have nonnegative argument
+  if (op.matches('!') && nargs == 2 ) 
+    return isInteger(e.child(1)) && isNonnegative(e.child(1))  
+  // otherwise it's not a supported operator
+  return false
+}
+// Check if this expression can be evaluated by natural number arithmetic
+const isIntegerArithmetic = e => {
+  // it must be an application with three children...
+  return e instanceof Application && e.numChildren() === 3 &&
+    // and it's operator must be one of the three...
+    NumericRelns.some( reln => e.child(0).matches(reln)) &&
+    // .. and the rest of the arguments are natural expressions
+    e.children().slice(1).every(c=>isInteger(c))
+}
+
+// Rational
+//
+// Since negation and division are operators, the constants are the same as for
+// Natural Numbers
+
+// Check if this expression is an integer expression
+const isRational = e => {
+  // base case - natural numbers are always integer expressions
+  if (isNaturalNumber(e)) return true
+  // recursion - if it is not an application, we're done
+  if  ( ! (e instanceof Application) ) return false
+  // it is an Application so get the op
+  const op = e.child(0)
+  // and the arity
+  const nargs = e.numChildren()
+  // check the easy binary ops
+  if (['\\+','⋅'].some(x=>op.matches(x)) && nargs == 3 &&
+      e.children().slice(1).every(isRational)) return true
+  // for ^ check that the second arg is an integer expression (no roots)
+  // Note: we don't allow rational expressions that simplify to an integer
+  if (op.matches('\\^') && nargs == 3 &&
+      e.children().slice(1).every(isRational)) {
+    return isReducedInteger(e.child(2)) // this should allow rational that is integer... TODO
+  }
+  // check unary ops
+  // for / check that the second arg is nonzero
+  if (op.matches('/') && nargs == 2 &&
+      isRational(e.child(1))) {
+    return isNonzero(e.child(1))
+  }
+  // negation can have any argument
+  if (op.matches('-') && nargs == 2 ) return isRational(e.child(1)) 
+  // factorial has to have nonnegative integer argument
+  if (op.matches('!') && nargs == 2 ) 
+    return isInteger(e.child(1)) && isNonnegative(e.child(1))  
+  // otherwise it's not a supported operator
+  return false
+}
+// Check if this expression can be evaluated by natural number arithmetic
+const isRationalArithmetic = e => {
+  // it must be an application with three children...
+  return e instanceof Application && e.numChildren() === 3 &&
+    // and it's operator must be one of the three...
+    NumericRelns.some( reln => e.child(0).matches(reln)) &&
+    // .. and the rest of the arguments are natural expressions
+    e.children().slice(1).every(c=>isRational(c))
+}
+
+// Since naturals and integers are special cases of rationals, they are all numerics
+const isNumeric = isRational
+
+// Check if this LC represents an equality (=) or inequality (< , ≤) of numeric
+// expressions in the given ring. This allows us to specify the ring independently.
+export const isArithmetic = {
+  ℕ: isNaturalArithmetic,
+  ℤ: isIntegerArithmetic,
+  ℚ: isRationalArithmetic
+}
+// convert an Arithmetic statement in a ring to a CAS input string
+// this assumes you have already checked that the Arithmetic is in the appropriate ring
+export const arithmeticToCAS = e => {
+  const ans = numericToCAS(e.child(1))+e.child(0).text()+numericToCAS(e.child(2))
+  return ans.replace(/=/g,'==')
+            .replace(/≤/g,'<=')
+}
+
+// convert an LC that isNumeric into a CAS input string
+const numericToCAS = e => {
+  // just return if it isn't a Numeric Expression
+  if (!isNumeric(e)) return
+  // syntactic sugar
+  const convert = numericToCAS
+  // if it's a number, return its text
+  if (isNaturalNumber(e)) return e.text()
+  // It isn't a number so it must be compound
+  const kids = e.children()
+  // binary infix ops (all for now)
+  if (kids.length===3) {
+    return `(${convert(kids[1])}${kids[0].text()}${convert(kids[2])})`.replace(/⋅/g,'*')
+  // unary on the right
+  } else if (kids[0].matches('!')) {
+    return `(${convert(kids[1])}!)`
+  // unary on the left
+  // division is unary reciprocal
+  } else if (kids[0].matches('/')) {
+    return `(1/${convert(kids[1])})`
+  // negation is what's left  
+  } else {
+    return `(${kids[0].text()}${convert(kids[1])})`
   }
 }
 
@@ -233,9 +426,12 @@ export const processShorthands = L => {
   })  
   
   // attribute the previous sibling with .by attribute whose value is the text
-  // of the next sibling if it is a symbol (and does nothing if it isn't)
+  // of the next sibling if it is a symbol, and the next sibling LC itself if it isn't.
   processSymbol( 'by' ,  m => { 
-    const LHS = m.previousSibling()
+    let LHS = m.previousSibling()
+    // for testing purposes if the previous sibling is an 'expected result' marker
+    // attribute its previous sibling instead
+    if (['✔︎','✗','⁉︎','⊘'].some(x=>LHS.matches(x))) LHS = LHS.previousSibling()
     const RHS = m.nextSibling()
     // it should be a LurchSymbol or an Application
     if (RHS instanceof LurchSymbol) {
@@ -364,7 +560,12 @@ export const processShorthands = L => {
     m.previousSibling().setAttribute('ExpectedResult','invalid') 
     m.remove()
   } )
-  
+
+  processSymbol( '⊘' , m => { 
+    m.previousSibling().setAttribute('ExpectedResult','inapplicable') 
+    m.remove()
+  } )
+
   // TODO: make this more consistent with the other shorthands
   processSymbol( '➤' , m => { 
     if (m.parent().isAComment()) m.parent().ignore=true 
@@ -396,4 +597,9 @@ export const processShorthands = L => {
   return L
 }
 
+export default {
+  isNonnegative, isNonzero, isNaturalNumber, isNatural, isInteger, isRational,
+  isNumeric, isNaturalArithmetic,  isIntegerArithmetic, isRationalArithmetic, 
+  numericToCAS
+}
 ///////////////////////////////////////////////////////////////////////////////

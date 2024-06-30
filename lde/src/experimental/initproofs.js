@@ -351,13 +351,50 @@ let start = Date.now()
 
 // fname='lurch-parser-docs-template'
 
-parsers = loadParser('lurch-to-putdown')
-p = (s,o) => parsers.parse(s,o)
-t = parsers.trace
-r = parsers.raw
+// parsers = loadParser('lurch-to-putdown')
+// p = (s,o) => parsers.parse(s,o)
+// t = parsers.trace
+// r = parsers.raw
 
-doc=loadDocStr('libs/Sets')
+// doc=loadDocStr('libs/Sets')
 
+// doc=$(
+// `{
+// Declare Arithmetic, ZZ, =, leq, <, +, !, *, -, ^ 
+// Rule: :{ Arithmetic(ZZ) }
+
+// (-1=-1) ✔︎ by arithmetic
+// (-1≤1) ✔︎ by arithmetic
+// (-1<2) ✔︎ by arithmetic
+// (1-1=0) ✔︎ by arithmetic
+// (-1+1=0) ✔︎ by arithmetic
+// (-2*3=-6) ✔︎ by arithmetic
+// (2*(-3)=-6) ✔︎ by arithmetic
+// (-2^3=-8) ✔︎ by arithmetic
+// (-3!=-2*3) ✔︎ by arithmetic
+// (x=y) by arithmetic
+// (3!=2*3) by arithmetic
+// (1<1) by arithmetic
+// (1 leq 1) by arithmetic
+// (1≤1) by arithmetic
+// (1+1=2) by arithmetic
+// (2-1=2) by arithmetic
+// (2-2=0) by arithmetic
+// }`
+// )
+// validate(doc)
+e=$('1/2')
+doc=$(
+  `{
+  Declare Arithmetic, ZZ, =, leq, <, +, !, *, -, ^, divides 
+  Rule: :{ Arithmetic(ZZ) }
+  1-1=1 by arithmetic
+  1/2=1/2 by arithmetic
+  1/0=1/2 by arithmetic
+  1/(4/2-2)<1 by arithmetic
+  }`
+  )
+validate(doc)
 //////////////////////////////////////////////////////////
 // closing
 console.log(defaultPen(`done! (${(Date.now()-start)} ms)`))

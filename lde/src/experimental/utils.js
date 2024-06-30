@@ -26,8 +26,20 @@ const commonInitialSlice = (...arg) => {
  * @param {string} [ext='js'] - The extension to add if missing.
  * @returns {string} - The filename with the correct extension.
  */
-const checkExtension = ( name , ext = 'js' ) => 
-  ( name.endsWith(`.${ext}$`)) ? name : name + '.' + ext 
+const checkExtension = ( name , ext = 'js' ) => {
+  ext = (ext.startsWith('.')) ? ext : '.'+ext
+  return ( name.endsWith(`${ext}$`)) ? name : name + ext 
+}
+/**
+ * Checks a foldername to see if it has a trailing '/' and adds it if
+ * if it doesn't.
+ * 
+ * @function
+ * @param {string} folder - The folder name to check.
+ * @returns {string} - The foldername with the correct extension.
+ */
+const checkFolder = ( folder ) => 
+  ( folder.endsWith('/')) ? folder : folder+'/'
 
 /**
  * Return a string of $n$ spaces (or other character). 
@@ -103,6 +115,6 @@ const timer = (f,msg='') => {
 }
 
 export default {
-  commonInitialSlice, checkExtension, tab, indent, lineNum, subscript, 
-  rgb2hex, timer
+  commonInitialSlice, checkExtension, checkFolder, tab, indent, 
+  lineNum, subscript, rgb2hex, timer
 }

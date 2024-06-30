@@ -70,12 +70,13 @@ const greyPen = chalk.rgb(130,130,130)      // the grey node uses for 'undefined
 // const smallPen (maybe TODO some day) \u{1D5BA} is the code for small a
 
 // compute once for efficiency
-const goldstar   = starPen('★')
-const redstar    = xPen('☆')
-const greencheck = checkPen('✔︎')
-const redx       = xPen('✗')
-const idunno     = '❓'  // the emoji itself is red
-const preemiex   = xPen('⁉︎') 
+const goldstar     = starPen('★')
+const redstar      = xPen('☆')
+const greencheck   = checkPen('✔︎')
+const redx         = xPen('✗')
+const inapplicable = '⊘'     
+const idunno       = '❓'  // the emoji itself is red
+const preemiex     = xPen('⁉︎') 
 
 /////////////////////////////////////////////////////////////////////////
 // Utilities
@@ -302,6 +303,10 @@ const formatter = ( options=defaultOptions ) => {
       // CAS validation marker
       if (L.results("CAS")) 
         ans += (L.results("CAS").result==="valid")?checkPen('#'):xPen('#')
+      // Arithmetic validation marker
+      if (L.results("arithmetic")) 
+        ans += (L.results("arithmetic").result==="valid")?checkPen('#'):
+          (L.results("arithmetic").result==="invalid")?xPen('#'):xPen(inapplicable)
       // TODO: remove old style validation
       if (Validation.result(L) && Validation.result(L).result==='valid') {
         // a valid BIH has to be propositionally valid, so a green check

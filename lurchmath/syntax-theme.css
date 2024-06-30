@@ -292,6 +292,7 @@ body.shell-style-boxed {
 span.feedback-marker-valid::after,
 span.feedback-marker-indeterminate::after,
 span.feedback-marker-invalid::after,
+span.feedback-marker-inapplicable::after,
 span.feedback-marker-error::after {
   font-family: "Lucida Grande";
   font-weight: bold;
@@ -309,6 +310,12 @@ span.feedback-marker-indeterminate::after {
 }
 span.feedback-marker-invalid::after {
   content: "✗";
+  color: var(--x-color);
+}
+span.feedback-marker-inapplicable::after {
+  content: "⊘";
+  font-size: 110%;
+  font-weight: bold;
   color: var(--x-color);
 }
 span.feedback-marker-error::after {

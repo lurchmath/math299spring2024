@@ -27,6 +27,9 @@ loadtest('Transitive Chains')
 loadtest('Cases')
 loadtest('BIH Cases')
 loadtest('user-thms')
+loadtest('ArithmeticNatural')
+loadtest('ArithmeticInteger')
+loadtest('ArithmeticRational')
 // Load Math 299 tests
 loadtest('prop','math299')
 loadtest('pred','math299')
@@ -62,9 +65,14 @@ acid.forEach( (T,k) => {
   const desc = T.find(x=>x.isAComment())?.child(1)
   console.log((itemPen(`Test ${k}: ${stringPen(desc)}`)))
 
-  T.descendantsSatisfying( x => x.hasAttribute('ExpectedResult') ).forEach( (s,i) => {
+  T.descendantsSatisfying( x => 
+    x.hasAttribute('ExpectedResult') && !x.parent().isA('Inst')).forEach( (s,i) => {
     if (Validation.result(s) && 
-        Validation.result(s).result==s.getAttribute('ExpectedResult')) {
+         (Validation.result(s).result==s.getAttribute('ExpectedResult') ||
+          // handle the inapplicable arithmetic case
+          s.results('arithmetic')?.result==s.getAttribute('ExpectedResult')
+         )
+       ) { 
       console.log(`  Test ${k}.${i} → ok`)
       passed++
     } else {

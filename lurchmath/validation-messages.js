@@ -448,6 +448,15 @@ export class Message {
                     'As far as I can tell, this is not algebraically correct.',
                 code : `algebraically ${data.result}`
             }
+        } else if ( data.type == 'arithmetic' ) {
+            return {
+                type : 'arithmetic',
+                result : data.result,
+                reason : data.result == 'valid' ? 'Nice arithmetic!' :
+                    data.result == 'inapplicable' ? 'Arithmetic in the number system specified by the rule does not apply here.' :
+                    'As far as I can tell, this is not correct by arithmetic.',
+                code : `arithmetically ${data.result}`
+            }
         } else if ( data.type == 'error' ) {
             return {
                 type : 'error',

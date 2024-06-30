@@ -121,6 +121,7 @@ import {
   LogicConcept, Expression, Declaration, Environment, LurchSymbol,
   Matching, Formula, Scoping, Validation, Application
 } from '../index.js'
+import { isArithmetic, arithmeticToCAS } from './parsing.js'
 
 const Problem = Matching.Problem
 const isAnEFA = Matching.isAnEFA
@@ -206,11 +207,7 @@ const validate = ( doc, target = doc , scopingMethod = Scoping.declareWhenSeen )
   ///////////////////////////////////
   // BIHs
   processBIHs(doc)
-  
-  ///////////////////////////////////
-  // Equations 
-  processEquations(doc)
-  
+    
   ///////////////////////////////////
   // Proof by Cases
   processCases(doc)
@@ -220,17 +217,56 @@ const validate = ( doc, target = doc , scopingMethod = Scoping.declareWhenSeen )
   // to 𝜆P(y) than to a single metavar U processCases(doc,'Substitution').  But
   // it can work for single metavariable weeny, since that only creates one
   // instantiation.
-
+  
   ///////////////////////////////////
   // CAS
   //
   // we currently are using Algebrite for the CAS but this tool will work with
-  // any CAS.
-  processCAS(doc)
+  // any CAS.  This is not used by default, but we keep it for future reference.
+  // See Algebra and Arithmetic tools below.
+  // processCAS(doc)
   
-  // a special case of the CAS tool is the 'by algebra' tool which only determines
-  // if an equation of the form LHS=RHS is valid by asking Algebrite if 
-  // (LHS)-(RHS) evaluates to zero.
+  ///////////////////////////////////////////////////////////////////////////
+  //                               'Rule' Tools
+  //
+  // The following tools all become available iff the appropriate specialized
+  // Rule is in the document context.
+  ///////////////////////////////////////////////////////////////////////////
+
+  ///////////////////////////////////
+  // Equations
+  //
+  // Rule: { EquationsRule }
+  processEquations(doc)
+
+  ///////////////////////////////////
+  // Arithmetic
+  //
+  // Rule: { ArithmeticRule(x) }       where x ∈ { ℕ, ℤ, ℚ, ℝ, ℂ }. 
+  //
+  // Reason: 'by arithmetic in x' 
+  //   If the reson is truncated to just 'by arithmetic' it uses the first 
+  //   arithmetic rule in the document. 
+  //
+  // Determines if Algebrite thinks a statement of arithmetic is valid in the
+  // given number system. 
+  //
+  // Arithmetic in ℕ: +,⋅,^,!,=,<,≤.
+  // Arithmetic in ℤ: +,⋅,^,=,<,≤,- and second arg of ^ nonnegative.
+  // Arithmetic in ℚ: +,⋅,^,=,<,≤.-,/ and denominators nonzero.
+  // Arithmetic in ℝ (or ℂ): for now just uses the Algebra rule. 
+  //
+  processArithmetic(doc)
+
+  ///////////////////////////////////
+  // Algebra
+  //
+  // Rule: { AlgebraRule }      
+  // 
+  // Reason: 'by algebra' 
+  // 
+  // Currently only evaluates algebraic identities. An equation of the form
+  // LHS=RHS is valid by asking Algebrite if (LHS)-(RHS) evaluates to zero.
   processAlgebra(doc)
 
   //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
@@ -239,7 +275,6 @@ const validate = ( doc, target = doc , scopingMethod = Scoping.declareWhenSeen )
   // the list of user propositions and the document catalog.  This must be done
   // after the tools above in case they instantiate a 'Part' that then is used
   // for further instantiation (e.g. as with the Cases tool)
-  
   instantiate(doc)
   
   ///////////////
@@ -484,7 +519,7 @@ const matchGivens = (a, b) => {
 }
 
 /**
- * Check if the doc contains the Rule `:{ :EquationsRule }`.  If not, just split
+ * Check if the doc contains the Rule `:{ EquationsRule }`.  If not, just split
  * the equation chains.  
  * 
  * Otherwise after splitting get the diffs of all equations, and add the
@@ -522,7 +557,7 @@ const processEquations = doc => {
   
   // check if the EquationsRule is around, if not, we're done
   const rule=doc.find(
-    x=>x.isA('Rule') && x.numChildren()==1 && 
+    x=>(x.isA('Rule') || x.isA('Inst')) && x.numChildren()==1 && 
        x.child(0) instanceof LurchSymbol && x.child(0).text()==='EquationsRule',
     x=>!(x.isA('Rule') || x===doc))
   // if there is no Equations Rule loaded we are done
@@ -966,18 +1001,69 @@ const processCAS = doc => {
   })
 }
 
+// This is a prototype of the Arithmetic Tool for naturals, integers, and rationals
+const processArithmetic = doc => {
+  // check options
+  if (!LurchOptions.processArithmetic) return
+  
+  // check if the ArithmeticRule(x) is around and use the first one found
+  // even if there are multiple such rules
+  // TODO: eventually upgrade to allow more than one per document
+  const rule=doc.find(
+    x=>(x.isA('Rule') || x.isA('Inst')) && x.numChildren()==1 && 
+       x.child(0) instanceof Application &&
+       x.child(0).numChildren()==2 &&
+       x.child(0,0).matches('Arithmetic') &&
+       x.child(0,1).matches('ℕ|ℤ|ℚ'),
+    x=>!(x.isA('Rule') || x.isA('Inst') || x===doc))
+  // if there is no Arithmetic Rule loaded we are done
+  if (!rule) return
+
+  // get all the things the user wants to checked as a conclusion by CAS
+  const userArithmetics = [...doc.descendantsSatisfyingIterator( x => 
+    typeof x.by === 'string' && x.by ==='arithmetic')]
+
+  // we found one so get the ring
+  const ring = rule.child(0,1).text()
+  
+  // check each expression that is by arithmetic
+  userArithmetics.forEach( c => { 
+    // if it's not allowed arithmetic it's not 'invalid', it's 'not applicable'
+    // (but you can't have a space in a class name)
+    if (!isArithmetic[ring](c)) {
+      c.setResult('arithmetic', 'inapplicable', 'CAS')
+      return
+    }
+    // if the CAS evaluates to '1', mark the proposition as valid
+    const ans = (compute(arithmeticToCAS(c))==='1') ? 'valid' : 'invalid'
+    c.setResult('arithmetic', ans , 'CAS')
+    if (ans === 'valid')
+      insertInstantiation( new Environment(c.copy()) , rule, c)
+
+  })
+}
+
 // This is a prototype of the Algebra Tool based on the CAS tool
 const processAlgebra = doc => {
   // check options
   if (!LurchOptions.processAlgebra) return
-  
+
+  // check if the AlgebraRule is around, if not, we're done
+  const rule=doc.find(
+    x=>(x.isA('Rule') || x.isA('Inst')) && x.numChildren()==1 && 
+       x.child(0).matches('AlgebraRule'),
+    x=>!(x.isA('Rule') || x.isA('Inst') || x===doc))
+  // if there is no Algebra Rule loaded we are done
+  if (!rule) return
+  console.log(`found`)
+  console.log(rule)
   // get all the things the user wants to checked as a conclusion by CAS
-  const userAlgebras = [...doc.descendantsSatisfyingIterator( x => typeof x.by === 'string' && x.by ==='algebra')]
-  
+  const userAlgebras = [...doc.descendantsSatisfyingIterator( x => 
+    typeof x.by === 'string' && x.by ==='algebra' )]
+
   userAlgebras.forEach( c => { 
     // get the lurch notation for the expression
     const lurchmath = c.getAttribute('lurchNotation')
-    console.log(lurchmath)
     // a regex for an equation
     const eqn = /^([^=]+)=([^=]+)$/
     // if it's not a simple equation we're done
@@ -985,12 +1071,11 @@ const processAlgebra = doc => {
     // otherwise get the LHS and RHS
     const [LHS,RHS]=lurchmath.match(eqn).slice(-2)
     const command = `simplify((${LHS})-(${RHS}))`
-    console.log(command)
-    console.log(compute(command))
     // if the CAS evaluates to 0, mark the proposition as valid
     const ans = (compute(command)==='0') ? 'valid' : 'invalid'
     c.setResult('algebra', ans , 'CAS')
-    console.log(c)
+    if (ans === 'valid')
+      insertInstantiation( new Environment(c.copy()) , rule, c)
   })
 }
 

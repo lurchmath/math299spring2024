@@ -172,7 +172,7 @@
     'in'        : '∈' , 'Sum'      : 'sum', '\\'     : ' '  , 'fear'         : 'fears' ,
     'complement': '°' , 'intersect': '∩'  , 'union'  : '∪'  , 'cap'          : '∩'     ,
     'cup'       : '∪' , 'comp'     : '∘'  , 'circ'   : '∘'  , 'cross'        : '×'     ,
-    'star'      : '★'
+    'star'      : '★' , 'division' : '/'
   }
 
   // for use in Declare's, look up the internal name of a reserved word or
@@ -760,7 +760,7 @@ Natural = $( [1-9][0-9]* / '0' )
 // For clarity in reading the putdown output we rename some special frequently used
 // symbols.
 Symbol "Symbol" = 
-  '✔︎' / '✗' / '⁉︎' / // useful unicode
+  '✔︎' / '✗' / '⁉︎' / '⊘'/ // useful unicode
   'contradiction' { return '→←' }  /  'sigma'         { return 'σ'  }   /
   'NN'            { return 'ℕ'  }  /  'ZZ'            { return 'ℤ'  }   /
   'QQ'            { return 'ℚ'  }  /  'RR'            { return 'ℝ'  }   /
@@ -779,7 +779,7 @@ ReservedWord  = $(
     'cross' / 'subset' / 'setminus'i / 'circ' / 'comp' / 'wedge' / 'vee' / 
     'equiv' / 'mapsto' / 'approx' / 'langle' / 'rangle' / 'complement' / 
     'in' / 'and' / 'or' / '=' / '<' / '+' / '*' / '|' / '-' / 
-    'sum'i / 'to' / 'of' / 'from' / 'as' / 'for' / '^' )
+    'sum'i / 'to' / 'of' / 'from' / 'as' / 'for' / '^' / 'division')
 
 ///////////////////////////////////////////////////////////////////////////////
 // punctuation and character classes

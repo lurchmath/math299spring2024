@@ -66,7 +66,8 @@ import Compact from './global-validation.js'
 // load the custom formatters and reporting tools
 import Reporting from './reporting.js' 
 // import the parsing utiltiies (processShorthands comes from Interpret)
-import { makeParser, parseLines } from './parsing.js'
+import { parseLines, isArithmetic, arithmeticToCAS } from './parsing.js'
+import ParsingTools from './parsing.js'
 // load the CNFProp tools for testing
 import { CNFProp } from './CNFProp.js'
 // load the Lurch to putdown parser precompiled for efficiency
@@ -142,6 +143,7 @@ Object.assign( global, Utilities )
 Object.assign( global, Interpret)
 Object.assign( global, Compact )
 Object.assign( global, Reporting )
+Object.assign( global, ParsingTools )
 global.CNF = CNF
 global.Problem = Problem
 global.CNFProp = CNFProp
@@ -312,11 +314,12 @@ global.loadDocStr = ( name, folder='./', extension=LurchFileExtension ) => {
 }
 
 // Load just the string for a file and return that. You can omit the .lurch
-// extension. The second argument is the folder which default to the current folder. 
+// extension. The second argument is the folder, which defaults to the current
+// folder. 
 global.loadStr = ( name, folder='./', extension=LurchFileExtension) => {
-  const filename = folder + checkExtension(name,extension)
+  const filename = checkFolder(folder) + checkExtension(name,extension)
   if (!fs.existsSync(filename)) {
-    console.log(`No such file or folder: ${name}`)
+    console.log(`No such file or folder: ${filename}`)
     return
   }
   return fs.readFileSync( filename , { encoding:'utf8'} )
@@ -351,6 +354,8 @@ global.scrapeToGomez = () =>
 // function to parse a test file one line at a time with the parser given as the
 // first argument and file to parse as the second (optional)
 global.parseLines = parseLines
+global.isArithmetic = isArithmetic
+global.arithmeticToCAS = arithmeticToCAS
 
 // global.mathlive = MathLive.convertLatexToMarkup
 // global.html = katex.renderToString
@@ -537,8 +542,8 @@ rpl.defineCommand( "compileparser", {
     const compile = (name) => {
         console.log(defaultPen(`Compiling Lurch parser to lurch-to-${name}.js...`))
         execStr(`cd parsers && peggy --cache --format es -o lurch-to-${name}.js lurch-to-${name}.peggy`)
-        execStr(`cd parsers && cp lurch-to-${name}.js ../../../../ui/parsers/`)
-        execStr(`cd parsers && cp lurch-to-${name}.peggy ../../../../ui/parsers/`)
+        execStr(`cd parsers && cp lurch-to-${name}.js ../../../../lurchmath/parsers/`)
+        execStr(`cd parsers && cp lurch-to-${name}.peggy ../../../../lurchmath/parsers/`)
       }
 
     try {
@@ -633,6 +638,11 @@ rpl.defineCommand( "fixrepo", {
     let lsdjs = fs.readFileSync( lurchmathpath+'/local-storage-drive.js' , { encoding:'utf8'} )
     lsdjs = lsdjs.replace("/// icon : 'upload'","icon : 'upload'")
     fs.writeFileSync( lurchmathpath+'/local-storage-drive.js' , lsdjs )
+
+    console.log(defaultPen('Changing "Expression" menu to "Math" ...\n'))
+    let expjs = fs.readFileSync( lurchmathpath+'/expressions.js' , { encoding:'utf8'} )
+    expjs = expjs.replace("text : 'Expression','","text : 'Math',")
+    fs.writeFileSync( lurchmathpath+'/expressions.js' , expjs )
 
     console.log(defaultPen('...done'))
     this.displayPrompt()
