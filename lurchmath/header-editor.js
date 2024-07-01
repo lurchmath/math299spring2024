@@ -33,7 +33,7 @@ import { Atom } from './atoms.js'
  * The metadata element for a document is stored in the editor rather than the
  * DOM, because we do not want TinyMCE to be able to edit it.  It is sometimes
  * useful to be able to extract the header element from that metadata, so that
- * it can be treated like an entire document (fragment), since it effectively is\
+ * it can be treated like an entire document (fragment), since it effectively is
  * one.
  * 
  * @param {tinymce.Editor} editor - the editor from which to extract the
