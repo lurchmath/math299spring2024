@@ -33,7 +33,7 @@
  */
 
 import { getHeader } from './header-editor.js'
-import { onlyBefore, isOnScreen } from './utilities.js'
+import { onlyBefore, isOnScreen, copyHTMLToClipboard } from './utilities.js'
 import { Atom, className as atomClassName } from './atoms.js'
 import { addAutocompleteFunction } from './auto-completer.js'
 import { Dialog, SelectBoxItem } from './dialog.js'
@@ -579,6 +579,29 @@ export class Rule extends Shell {
         shellLC.makeIntoA( 'given' )
         shellLC.makeIntoA( 'Rule' )
     }
+    contextMenu ( forThis ) {
+        const result = super.contextMenu( forThis )
+        result.unshift( {
+            text : 'Copy rule as a template',
+            onAction : () => {
+                const copy = this.element.cloneNode( true )
+                const makeTemplate = node => {
+                    if ( Atom.isAtomElement( node ) ) {
+                        const atom = Atom.from( node, this.editor )
+                        if ( atom.getMetadata( 'type' ) == 'premise' )
+                            atom.setMetadata( 'type', 'subproof' )
+                        if ( node.tagName == 'DIV' )
+                            Array.from( node.childNodes ).forEach( makeTemplate )
+                    } else {
+                        Array.from( node.childNodes ).forEach( makeTemplate )
+                    }
+                }
+                makeTemplate( copy )
+                copyHTMLToClipboard( copy.innerHTML )
+            }
+        } )
+        return result
+    }
 }
 
 /**
@@ -809,6 +832,8 @@ export class Preview extends Shell {
         return result
     }
 
+    // Internal use only
+    // Overrides the default to add a title stating that this is a preview only
     toLatex ( innerLatex ) {
         return 'Preview of dependency contents:\n' + super.toLatex( innerLatex )
     }
