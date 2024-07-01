@@ -444,3 +444,23 @@ export const fullUnindent = text => {
  */
 export const isEmbedded = () =>
     window.top !== window || window.location.search.includes( 'actAsEmbed=true' )
+
+/**
+ * This makes a call to
+ * {@link https://developer.mozilla.org/en-US/docs/Web/API/Clipboard/write
+ * the `Clipboard` API's `write()` function}, constructing the necessary
+ * parameters and MIME types for HTML, to write the given HTML to the clipboard.
+ * It happens asynchronously, so this function returns a promise that resolves
+ * when the operation is complete, or rejects if the operation is not allowed at
+ * the time the function is called.  See the documentation linked to above for
+ * more details on how the API works.
+ * 
+ * @param {string} html - the HTML code to copy to the clipboard
+ * @returns {Promise} a promise that resolves when the operation completes
+ */
+export const copyHTMLToClipboard = html =>
+    navigator.clipboard.write( [
+        new ClipboardItem( {
+            [ 'text/html' ] : new Blob( [ html ], { type : 'text/html' } )
+        } )
+    ] )
