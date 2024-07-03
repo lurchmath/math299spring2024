@@ -67,6 +67,13 @@ body:not(.fullscreen) #editor-container {
     font-family: "Roboto Mono"
 }
 
+/* The text area for the advanced mode expression editor  */
+.tox .tox-textarea-wrap .tox-textarea.advancedTextArea.badsyntax:focus,
+.tox .tox-textarea-wrap .tox-textarea.advancedTextArea.badsyntax {
+    background-color: #fff7f7
+}
+
+
 /* Document File Name */
 /* Commenting this out for now until we design something better */
 
