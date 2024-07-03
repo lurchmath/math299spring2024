@@ -25,6 +25,7 @@ import {
     Expression as LCExpression, Declaration as LCDeclaration
 } from './lde-cdn.js'
 import { DeclarationType } from './declarations.js'
+import { copyHTMLToClipboard } from './utilities.js'
 
 let converter = null
 
@@ -849,11 +850,16 @@ export class Expression extends Atom {
      */
     contextMenu ( forThis ) {
         const result = super.contextMenu( forThis )
-        if ( forThis == this )
+        if ( forThis == this ) {
             result.unshift( {
                 text : 'View meaning',
                 onAction : () => Dialog.meaningOfAtom( this )
             } )
+            result.unshift( {
+                text : 'Copy expression',
+                onAction : () => copyHTMLToClipboard( this.element.outerHTML )
+            } )
+        }
         return result
     }
 
