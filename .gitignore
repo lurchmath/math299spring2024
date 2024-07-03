@@ -10,6 +10,8 @@ node_modules/
 # ignore all html and markdown files in the root folder ...
 /*.html
 /*.md
+# ignore the initproofs.js file for Lode
+initproofs.js
 # ... except for the readme file
 !README.md
 # ignore the following folders from math299
