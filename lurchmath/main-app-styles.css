@@ -68,6 +68,8 @@ body:not(.fullscreen) #editor-container {
 }
 
 /* The text area for the advanced mode expression editor  */
+/* Note: if you want to style the border instead, target 
+   .tox.tox-textarea-wrap:focus-within, */
 .tox .tox-textarea-wrap .tox-textarea.advancedTextArea.badsyntax:focus,
 .tox .tox-textarea-wrap .tox-textarea.advancedTextArea.badsyntax {
     background-color: #fff7f7
