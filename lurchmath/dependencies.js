@@ -273,7 +273,7 @@ export class Dependency extends Atom {
                 this.setHTMLMetadata( 'content', content )
                 Dependency.refreshAllIn(
                     this.getHTMLMetadata( 'content' ), autoRefreshOnly
-                ).then( resolve )
+                ).then( resolve ).catch( reject )
             } ).catch( reject )
         } )
     }
