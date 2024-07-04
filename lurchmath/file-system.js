@@ -659,8 +659,10 @@ export class FileSystem {
         const dialog = new Dialog( 'Open file', editor )
         dialog.json.size = 'medium'
         let currentFile = null
-        dialog.selectFile = fileObject => 
-            dialog.dialog.setEnabled( 'OK', !!( currentFile = fileObject ) )
+        dialog.selectFile = fileObject => {
+            currentFile = fileObject
+            dialog.dialog.setEnabled( 'OK', !!currentFile?.filename )
+        }
         const tabs = (
             editor.appOptions?.fileOpenTabs ?
             FileSystem.getNamedSubclasses( editor.appOptions.fileOpenTabs ) :
