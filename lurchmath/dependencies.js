@@ -26,7 +26,9 @@
 
 import { Atom, className } from './atoms.js'
 import { openFileInNewWindow } from './load-from-url.js'
-import { simpleHTMLTable, escapeHTML, escapeLatex } from './utilities.js'
+import {
+    simpleHTMLTable, escapeHTML, escapeLatex, editorForNode
+} from './utilities.js'
 import { Dialog, ButtonItem, TextInputItem, CheckBoxItem } from './dialog.js'
 import { loadFromURL } from './load-from-url.js'
 
@@ -208,17 +210,21 @@ export class Dependency extends Atom {
      * 
      * @param {Node} node - the DOM node in which to find Dependency atoms to
      *   refresh
+     * @param {tinymce.Editor?} editor - the TinyMCE editor in which the node
+     *   sits (or it will be computed automatically if omitted)
      */
-    static topLevelDependenciesIn ( node ) {
+    static topLevelDependenciesIn ( node, editor ) {
         // Find all elements inside the node representing dependency atoms
         const type = JSON.stringify( Dependency.subclassName )
         const allDepElts = Array.from( node.querySelectorAll(
             `.${className}[data-metadata_type='${type}']` ) )
+        // Figure out which TinyMCE instance these belong to
+        if ( !editor ) editor = editorForNode( node )
         // Filter for just those that are top-level (not inside others)
         return allDepElts.filter( depElt =>
             !allDepElts.some( other =>
                 other !== depElt && other.contains( depElt ) )
-        ).map( depElt => Atom.from( depElt ) )
+        ).map( depElt => Atom.from( depElt, editor ) )
     }
 
     /**
@@ -269,6 +275,20 @@ export class Dependency extends Atom {
      */
     refresh ( autoRefreshOnly = false ) {
         return new Promise( ( resolve, reject ) => {
+            // If we are not supposed to refresh this one, do nothing.
+            if ( autoRefreshOnly && !this.getMetadata( 'autoRefresh' ) ) {
+                resolve()
+                return
+            }
+            // If it is not possible to refresh this one, do nothing.
+            // (We do two checks here because we've used different phrases in
+            // different versions of the app, and need to support legacy docs.)
+            if ( this.getMetadata( 'source' ) != 'the web'
+              && this.getMetadata( 'source' ) != 'web' ) {
+                resolve()
+                return
+            }
+            // We are supposed to refresh, so do so (and recur as well).
             loadFromURL( this.getMetadata( 'filename' ) ).then( content => {
                 this.setHTMLMetadata( 'content', content )
                 Dependency.refreshAllIn(

@@ -22,12 +22,11 @@
 import { appURL } from './utilities.js'
 import { LurchDocument } from './lurch-document.js'
 import { appSettings } from './settings-install.js'
-import {
-    Dialog, DialogRow, HTMLItem, ButtonItem, TextInputItem
-} from './dialog.js'
+import { Dialog, ButtonItem, ListItem, DialogRow, TextInputItem } from './dialog.js'
 import { Dependency } from './dependencies.js'
-import { autoOpenLink } from './load-from-url.js'
 import { Atom } from './atoms.js'
+import { autoOpenLink, openFileInNewWindow } from './load-from-url.js'
+import { FileSystem } from './file-system.js'
 
 /**
  * The metadata element for a document is stored in the editor rather than the
@@ -270,128 +269,136 @@ export const install = editor => {
         tooltip : 'Edit the list of documents on which this one depends',
         icon : 'edit-block',
         onAction : () => {
-            // Get all dependency information from the document
-            let header = getHeader( editor ) // important! this is a clone!
-            const relevantDependencies = !header ? [ ] :
-                Dependency.topLevelDependenciesIn( header ).filter(
-                    dependency => dependency.getMetadata( 'source' ) == 'web' )
-            const chosenDependencyURLs = relevantDependencies.map(
-                dependency => dependency.getMetadata( 'filename' ) )
-            // Create the dialog, but it is a dynamic dialog, so we do not
-            // populate it directly, but instead create functions that will do
-            // so as needed.
+            // Get all dependencies from the document
+            let header = getHeader( editor ) // NOTE! this is a clone!
+            const dependencies = !header ? [ ] :
+                Dependency.topLevelDependenciesIn( header, editor ).map( atom => {
+                    return {
+                        filename : atom.getMetadata( 'filename' ),
+                        dynamic : atom.getMetadata( 'autoRefresh' )
+                    }
+                } )
+            // Create the dialog, but do not populate it with dependencies yet.
             const dialog = new Dialog( 'Edit background material', editor )
-            // This first function handles the width of column 1 in the dialog's
-            // rows, to improve aesthetics.  It must be called after each
-            // dynamic update to the dialog.  (See calls below.)
-            const touchUpDialogDOM = () => {
-                dialog.querySelector( 'input[type="text"]' )
-                    .classList.add( 'expand-this' )
-                ;[ ...dialog.querySelectorAll( '.expand-this' ) ].forEach(
-                    node => node.parentNode.style.width = '100%' )
+            dialog.json.size = 'medium'
+            const listItem = new ListItem( 'dependencies' )
+            listItem.setSelectable()
+            listItem.onSelectionChanged = () => {
+                dialog.dialog.setEnabled( 'View', !!listItem.selectedItem )
+                dialog.dialog.setEnabled( 'Remove', !!listItem.selectedItem )
             }
-            // This function clears out all dialog content and repopulates the
-            // dialog based on which dependency URLs are currently chosen.
-            // The list of dependency URLs starts out as whatever the document
-            // currently contains, as computed above, but will be edited over
-            // time by the user, using this dialog, before hitting OK or Cancel.
-            const fillDialog = () => {
-                while ( dialog.items.length > 0 ) dialog.removeItem( 0 )
-                dialog.addItem( new HTMLItem( 'Existing background material:' ) )
-                // Add 0 or more rows, one for each URL:
-                if ( chosenDependencyURLs.length == 0 ) {
-                    dialog.addItem( new HTMLItem( '(none)' ) )
-                } else {
-                    chosenDependencyURLs.forEach( ( url, index ) => {
-                        dialog.addItem( new DialogRow(
-                            new HTMLItem( `<code class="expand-this">${url}</code>` ),
-                            new ButtonItem(
-                                'View',
-                                () => window.open( autoOpenLink( url ), '_blank' ),
-                                `view${index}`
-                            ),
-                            new ButtonItem(
-                                'Remove',
-                                () => {
-                                    chosenDependencyURLs.splice( index, 1 )
-                                    fillDialog()
-                                    dialog.reload()
-                                    touchUpDialogDOM()
-                                },
-                                `remove${index}`
-                            )
-                        ) )
-                    } )
-                }
-                // Add controls for adding another URL:
-                dialog.addItem( new HTMLItem( '&nbsp;' ) )
-                dialog.addItem( new HTMLItem( 'To add new background material:' ) )
-                dialog.addItem( new DialogRow(
-                    new TextInputItem(
-                        'new_url', '', 'Enter URL here' ),
-                    new ButtonItem( 'Add', () => {
-                        const newURL = dialog.get( 'new_url' )
-                        if ( newURL.trim() == '' ) return
-                        chosenDependencyURLs.push( newURL )
-                        fillDialog()
-                        dialog.reload()
-                        touchUpDialogDOM()
-                    } )
-                ) )
-                dialog.setDefaultFocus( 'new_url' )
-            }
-            // Call the above function to populate the dialog for the first time.
-            fillDialog()
-            // Show the dialog then handle what happens when the user does Cancel/OK.
+            dialog.addItem( listItem )
+            const staticButton = new ButtonItem( 'Add static' )
+            const dynamicButton = new ButtonItem( 'Add dynamic' )
+            const viewButton = new ButtonItem( 'View' )
+            const removeButton = new ButtonItem( 'Remove' )
+            dialog.addItem( new DialogRow(
+                staticButton, dynamicButton, viewButton, removeButton ) )
+            // Define what happens when the dialog is closed, then show it
             dialog.show().then( userHitOK => {
                 if ( !userHitOK ) return
-                // The user hit OK, so we make changes to the document.
-                // If it doesn't have a header, create a new, empty one.
-                // Note that `header` is a DOM clone of the actual header!
+                // Ensure the document has a header, even if it's empty.
                 if ( !header ) {
                     setHeader( editor, '' )
                     header = getHeader( editor )
                 }
-                // Delete any old dependency atoms from the (copy of the) header:
-                relevantDependencies.forEach(
-                    dependency => dependency.element.remove() )
-                // Add the new list of dependency atoms to the end of the
-                // (copy of the) header:
-                chosenDependencyURLs.forEach( url => {
+                // (NOTE: At this point, "header" is a CLONE of the actual
+                // document header, so changes made to it do NOT update the doc.)
+                // Remove all dependencies from the header (clone):
+                Dependency.topLevelDependenciesIn( header, editor ).forEach(
+                    atom => atom.element.remove() )
+                // Add new dependencies to the end of the header (clone),
+                // representing the current contents of this dialog:
+                dependencies.forEach( dependency => {
                     const newDependency = Atom.newBlock( editor, '', {
                         type : 'dependency',
                         description : 'none',
-                        filename : url,
-                        source : 'web',
-                        content : '', // will be populated later; see below
-                        autoRefresh : true
+                        filename : dependency.filename,
+                        source : dependency.fileSystem || 'the web',
+                        autoRefresh : dependency.dynamic
                     } )
+                    if ( dependency.contents )
+                        newDependency.setHTMLMetadata( 'content', dependency.contents )
                     newDependency.update()
                     header.appendChild( newDependency.element )
                 } )
-                // Because "header" is a clone of the actual header, the
-                // in-place edits above did not touch the actual document,
-                // so we must do the following to "save" our changes:
+                // Now use that header clone we've been editing to change the
+                // actual document header for real:
                 setHeader( editor, header.innerHTML )
-                // This is the code that recursively populates header dependencies:
-                // (It is a bit of a hack because we are using the "private"
-                // method findMetadataElement(), but it's what we need.)
+                // Now use a bit of a hack (the private method findMetadataElement())
+                // to find the dependency atoms inside the header, to refresh them.
                 const savedHeader = new LurchDocument( editor )
                     .findMetadataElement( 'main', 'header' )
-                Dependency.refreshAllIn( savedHeader ).then( () => {
+                // Refresh any dependency that is marked as web-based and auto-refresh:
+                Dependency.refreshAllIn( savedHeader, true ).then( () => {
                     Dialog.notify( editor, 'success',
-                        'Refreshed all background material from the web.',
+                        'Reloaded any web-based background material.',
                         5000 )
                 } ).catch( error => {
                     Dialog.notify( editor, 'error',
-                        'Could not refresh all background material from the web.' )
+                        'Failed to reload some web-based background material.' )
                     console.log( 'Error when refreshing background material',
                         error )
                 } )
             } )
-            // Now that we've shown the dialog for the first time,
-            // do the necessary tweaks to make its aesthetics right:
-            touchUpDialogDOM()
+            // Now define a function that will populate it with dependencies.
+            const updateList = () => {
+                // If there are no dependencies, print a special "empty" message.
+                if ( dependencies.length == 0 ) {
+                    const message = 'No background material defined yet.'
+                    listItem.showText(
+                        `<span style="color:gray;">${message}</span>` )
+                    return
+                }
+                // If there are dependencies, show each with all its info.
+                listItem.showList( dependencies.map( dependency => {
+                    return `${dependency.filename} (${dependency.dynamic ? 'dynamic' : 'static'})`
+                } ), dependencies )
+            }
+            updateList()
+            // Add actions to all buttons in dialog
+            dynamicButton.action = () => {
+                const urlDialog = new Dialog( 'Add dynamic background document',
+                    editor )
+                urlDialog.addItem( new TextInputItem(
+                    'url',
+                    'URL for background document',
+                    'http://www.example.com/mydoc.lurch'
+                ) )
+                urlDialog.show().then( userHitOK => {
+                    if ( !userHitOK ) return
+                    const url = urlDialog.get( 'url' )
+                    if ( url == '' ) return
+                    dependencies.push( { filename : url, dynamic : true } )
+                    updateList()
+                } )
+            }
+            staticButton.action = () => {
+                FileSystem.openFile( editor, document => {
+                    if ( !document ) return
+                    dependencies.push( {
+                        filename : document.filename,
+                        source : document.fileSystem,
+                        contents : document.contents,
+                        dynamic : false
+                    } )
+                    updateList()
+                } )
+            }
+            viewButton.action = () => {
+                const dependency = listItem.selectedItem
+                if ( dependency.dynamic )
+                    window.open( autoOpenLink( dependency.filename ), '_blank' )
+                else if ( dependency.contents )
+                    openFileInNewWindow( dependency.contents )
+                else
+                    console.error( 'No contents in dependency: ' + dependency )
+            }
+            removeButton.action = () => {
+                const dependency = listItem.selectedItem
+                dependencies.splice( dependencies.indexOf( dependency ), 1 )
+                updateList()
+            }
         }
     } )
     editor.ui.registry.addMenuItem( 'viewdependencyurls', {
