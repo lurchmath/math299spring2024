@@ -932,6 +932,7 @@ export const install = editor => {
     editor.ui.registry.addMenuItem( 'savedocument', {
         text : 'Save',
         tooltip : 'Save document',
+        shortcut: 'alt+S',
         onAction : () => {
             // Get all the document's information
             const doc = new LurchDocument( editor )
