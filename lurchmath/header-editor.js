@@ -135,6 +135,22 @@ export const install = editor => {
         doSearch = () => {
             const searchText = searchBox.value.toLowerCase()
             let numShown = 0
+            const relevantText = rulenode => {
+                // start with the text content of the rule
+                let ans = rulenode.textContent
+                // get the elements with data-metadata_latex or
+                // data-metadata_lurchnotation attributes
+                const lurchnodes = rulenode.querySelectorAll(
+                    '[data-metadata_lurch-notation]')
+                const texnodes = rulenode.querySelectorAll(
+                    '[data-metadata_latex]')
+                // concatenate all of their values 
+                lurchnodes.forEach( x => ans += 
+                    x.getAttribute('data-metadata_lurch-notation') )
+                texnodes.forEach( x => ans += 
+                    x.getAttribute('data-metadata_latex') )
+                return ans.toLowerCase()
+            }
             const showRecursive = node => {
                 // Base case 1: The node is not an HTMLElement; ignore.
                 if ( node.nodeType != Node.ELEMENT_NODE ) return
@@ -143,7 +159,8 @@ export const install = editor => {
                   && Atom.from( node, editor ).getMetadata( 'type' ) == 'rule' ) {
                     node.style.display = (
                         searchText == ''
-                        || node.outerHTML.toLowerCase().includes( searchText )
+                        // || node.outerHTML.toLowerCase().includes( searchText )
+                        || relevantText(node).includes( searchText )
                     ) ? '' : 'none'
                     numShown += node.style.display == '' ? 1 : 0
                     return
