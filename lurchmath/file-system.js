@@ -651,11 +651,20 @@ export class FileSystem {
      * user stating what went wrong.  If it succeeds, show a brief success
      * notification after the file loads.
      * 
+     * An alternate use of this function is to open a file for some other
+     * purpose, and just pass the contents of the file to a callback, without
+     * actually changing teh contents of the given editor.  To use this function
+     * in that way, pass a callback as the second argument.  It will be called
+     * when the dialog closes, either with a file object or `null` if the user
+     * did not choose a file (e.g., canceled the dialog).
+     * 
      * @param {tinymce.Editor} editor - the editor in which to open the file
+     * @param {Function} [callback] - the callback to call when the dialog
+     *   closes, which can be omitted for the standard file-loading behavior
      * @see {@link FileSystem.saveFileAs saveFileAs()}
      * @see {@link FileSystem.deleteFile deleteFile()}
      */
-    static openFile ( editor ) {
+    static openFile ( editor, callback ) {
         const dialog = new Dialog( 'Open file', editor )
         dialog.json.size = 'medium'
         let currentFile = null
@@ -689,6 +698,7 @@ export class FileSystem {
             // should have !!currentFile.  Do a sanity check:
             if ( !currentFile ) {
                 Dialog.notify( editor, 'error', `No file selected.` )
+                callback?.()
                 return
             }
             // Utility function for populating the editor, used below:
@@ -702,18 +712,19 @@ export class FileSystem {
             }
             // If the UI gave us the full file contents, use them:
             if ( currentFile.hasOwnProperty( 'contents' ) ) {
-                openInEditor( currentFile )
+                ( callback || openInEditor )( currentFile )
                 return
             }
             // Otherwise, ask the FileSystem for them first:
             const subclass = FileSystem.getSubclass(
                 currentFile.fileSystemName )
             new subclass( editor ).read( currentFile ).then( result => {
-                openInEditor( result )
+                ( callback || openInEditor )( result )
             } ).catch( error => {
                 console.error( error )
                 Dialog.notify( editor, 'error',
                     `Could not load ${currentFile.filename}.` )
+                callback?.()
             } )
         } )
         setTimeout( () => {
