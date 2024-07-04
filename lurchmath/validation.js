@@ -165,7 +165,9 @@ export const install = editor => {
             }
             // If there are validation results in the document, then clear them
             // out and be done.
-            if ( editor.getBody().querySelector( '[class^=feedback-marker]' ) ) {
+            if ( Array.from(
+                editor.getBody().querySelectorAll( '[class^=feedback-marker]' )
+            ).some( feedback => isOnScreen( feedback ) ) ) {
                 clearAll()
                 return
             }
