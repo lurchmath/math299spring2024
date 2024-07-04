@@ -1055,7 +1055,15 @@ export const install = editor => {
     editor.ui.registry.addContextMenu( 'atoms', {
         update : element => {
             const atom = Atom.findAbove( element, editor )
-            return atom ? atom?.contextMenu( atom ) : [ ]
+            const items = atom ? atom.contextMenu( atom ) : [ ]
+            items.forEach( item => {
+                const original = item.onAction
+                item.onAction = () => {
+                    original()
+                    editor.focus()
+                }
+            } )
+            return items
         }
     } )
     // TinyMCE does not show cursor selection well on atoms.

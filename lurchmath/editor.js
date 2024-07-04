@@ -391,6 +391,9 @@ window.Lurch = {
                     // resolve the outer promise, to say that we finished
                     // TinyMCE setup
                     resolve( editor )
+
+                    // Put the cursor in the editor at startup
+                    editor.once( 'PostRender', () => editor.focus() )
                 }
             }, options.editor )
             tinymce.init( tinymceSetupOptions )
@@ -398,4 +401,3 @@ window.Lurch = {
     }
 
 }    
-

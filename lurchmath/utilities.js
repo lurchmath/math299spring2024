@@ -381,14 +381,21 @@ Array.prototype.forEachWithTimeout = function( func, timeout = 0 ) {
  * TinyMCE sometimes stores elements off screen, but still part of the document,
  * so if we search for elements by selector, we will find them, even though they
  * are invisible and should not be taken into account as part of the user's
- * document content.  This function checks to see if a given DOM nodes is really
- * a visible, relevant part of the document or not.
+ * document content.  This function checks to see if a given DOM node is really
+ * a visible, relevant part of the document or not.  It does so by ensuring that
+ * no ancestor of the given node has the special TinyMCE class for off-screen
+ * copies of the user's selection, `mce-offscreen-selection`.
  * 
  * @param {Node} node - the node to test
- * @returns {boolean} true if the node is on screen (and "real")
+ * @returns {boolean} true if the node is on screen
  */
-export const isOnScreen = node => node.parentNode &&
-    !node.parentNode.classList.contains( 'mce-offscreen-selection' )
+export const isOnScreen = node => (
+    !node.classList ||
+    !node.classList.contains( 'mce-offscreen-selection' )
+) && (
+    !node.parentNode ||
+    isOnScreen( node.parentNode )
+)
 
 /**
  * This function tries to run the built-in browser `URL` constructor on the

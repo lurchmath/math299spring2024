@@ -54,11 +54,6 @@ import { LurchDocument } from './lurch-document.js'
  */
 export const install = editor => {
 
-    // Load the ValidationWorker module code so it can talk to us.
-    const worker = new Worker(
-        `${editor.appOptions.appRoot}/validation-worker.js`,
-        { type : 'module' } )
-
     // Object for storing the progress notification we show during validation
     let progressNotification = null
 
@@ -98,11 +93,12 @@ export const install = editor => {
         if ( this.editor == editor ) queueClearAll()
     }
 
-    // Install event handler so that we can decorate the document correctly upon
-    // receiving validation feedback.  We install it on both the worker and this
-    // window, because when parsing errors happen, we send feedback about them
-    // from this window itself before even sending anything to the worker.
-    ;[ worker, window ].forEach( context =>
+    // How to install event handlers so that we can decorate the document
+    // correctly upon receiving validation feedback.  We will install these on
+    // both the worker and this window, because when parsing errors happen, we
+    // send feedback about them from this window itself before even sending
+    // anything to the worker.
+    const installEventHandlers = context =>
         context.addEventListener( 'message', event => {
             const message = new Message( event )
             // console.log( JSON.stringify( message.content, null, 4 ) )
@@ -138,7 +134,17 @@ export const install = editor => {
                 // console.log( JSON.stringify( message.content, null, 4 ) )
             }
         } )
-    )
+    installEventHandlers( window )
+
+    // Load the ValidationWorker module code so it can talk to us.
+    const newValidationWorker = () => {
+        const result = new Worker(
+            `${editor.appOptions.appRoot}/validation-worker.js`,
+            { type : 'module' } )
+        installEventHandlers( result )
+        return result
+    }
+    let worker = newValidationWorker()
 
     // Add menu item for toggling validation
     editor.ui.registry.addMenuItem( 'validate', {
@@ -147,22 +153,35 @@ export const install = editor => {
         tooltip : 'Run Lurch\'s checking algorithm on the document',
         shortcut : 'meta+0',
         onAction : () => {
-            // check if there is any validation showing already, and if so, clear it
-            if ( editor.getBody().querySelector( '[class^=feedback-marker]' ) ) { 
-                clearAll() 
-            // otherwise validate it
-            } else {
-                // Clear old results
-                clearAll()
-                // Start progress bar in UI
-                progressNotification = editor.notificationManager.open( {
-                    text : 'Validating...',
-                    type : 'info',
-                    progressBar : true
-                } )
-                // Send the document to the worker to initiate background validation
-                Message.document( editor, 'putdown' ).send( worker )
+            // If there is validation in progress, terminate it and say so.
+            if ( progressNotification ) {
+                progressNotification.close()
+                progressNotification = null
+                worker.terminate()
+                worker = newValidationWorker()
+                Dialog.notify( editor, 'warning', 'Validation stopped', 2000 )
+                editor.dispatch( 'validationFinished' )
+                return
             }
+            // If there are validation results in the document, then clear them
+            // out and be done.
+            if ( Array.from(
+                editor.getBody().querySelectorAll( '[class^=feedback-marker]' )
+            ).some( feedback => isOnScreen( feedback ) ) ) {
+                clearAll()
+                return
+            }
+            // Otherwise the user wants us to start validation now; do so.
+            // Clear old results just to be safe.
+            clearAll()
+            // Start progress bar in UI
+            progressNotification = editor.notificationManager.open( {
+                text : 'Validating...',
+                type : 'info',
+                progressBar : true
+            } )
+            // Send the document to the worker to initiate background validation
+            Message.document( editor, 'putdown' ).send( worker )
         }
     } )
 
