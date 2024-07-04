@@ -297,10 +297,8 @@ const assignProperNames = doc => {
   const metavariable = "LDE MV"
   
   // get the declarations with a body (hence the 'true') which is an expression
-  //
-  // TODO: we don't support environments as bodies yet.  Decide or upgrade.
-  let declarations = doc.declarations(true).filter( x => 
-    x.body() instanceof Expression)
+  let declarations = doc.declarations(true)//.filter( x => 
+    // x.body() instanceof Expression)
   
   // rename all of the declared symbols with body that aren't metavars
   declarations.forEach( decl => {
