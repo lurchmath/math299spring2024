@@ -327,6 +327,7 @@ export class WebFileSystem extends FileSystem {
                 const urlBlank = urlInput.dialog.querySelector( 'input[type="text"]' )
                 urlBlank.value = chooserTarget()
             }
+            showCorrectButtons()
         }
         // And ensure the buttons sit in the footer of the dialog
         bookmarkButton.onShow = () => {
