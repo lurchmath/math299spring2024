@@ -771,7 +771,7 @@ export class Preview extends Shell {
             container.innerHTML = ''
             return container
         }
-        document.id = undefined // no duplicate IDs, please
+        document.removeAttribute( 'id' ) // no duplicate IDs, please
         // If there's a header, move it into the document before proceeding
         const metadata = Array.from( container.childNodes ).find(
             child => child.id == 'metadata' )
