@@ -137,30 +137,27 @@ export const install = editor => {
             const searchText = searchBox.value.toLowerCase()
             let numShown = 0
             const showRecursive = node => {
-                if ( Atom.isAtomElement( node ) ) {
-                    const atom = Atom.from( node, editor )
-                    const type = atom.getMetadata( 'type' )
-                    // If it's a Preview atom, just recur inside
-                    if ( type == 'preview' ) {
-                        Array.from( node.childNodes ).forEach( showRecursive )
-                    // If it's a Rule atom, apply the search criteria
-                    } else if ( type == 'rule' ) {
-                        node.style.display = (
-                            searchText == ''
-                         || node.outerHTML.toLowerCase().includes( searchText )
-                        ) ? '' : 'none'
-                        numShown += node.style.display == '' ? 1 : 0
-                    // If it's any other atom, show it iff there's no filter
-                    } else {
-                        node.style.display = searchText == '' ? '' : 'none'
-                    }
-                } else if ( node.tagName == 'DIV' ) {
-                    // Recur inside DIVs
-                    Array.from( node.childNodes ).forEach( showRecursive )
-                } else {
-                    // Otherwise, show it iff there's no filter
-                    node.style.display = searchText == '' ? '' : 'none'
+                // Base case 1: The node is not an HTMLElement; ignore.
+                if ( node.nodeType != Node.ELEMENT_NODE ) return
+                // Base case 2: The node is a Rule atom; show iff filter applies.
+                if ( Atom.isAtomElement( node )
+                  && Atom.from( node, editor ).getMetadata( 'type' ) == 'rule' ) {
+                    node.style.display = (
+                        searchText == ''
+                        || node.outerHTML.toLowerCase().includes( searchText )
+                    ) ? '' : 'none'
+                    numShown += node.style.display == '' ? 1 : 0
+                    return
                 }
+                // Recursive case: Apply filter to all children, then show this
+                // node iff the filter is empty or it contains a descendant that
+                // was displayed as a rule that passed the filter.
+                const numShownBefore = numShown
+                Array.from( node.childNodes ).forEach( showRecursive )
+                node.style.display = (
+                    searchText == ''
+                 || numShown > numShownBefore
+                ) ? '' : 'none'
             }
             getPreviews().forEach( preview => showRecursive( preview.element ) )
             searchCounter.textContent = searchText == '' ? '' :
