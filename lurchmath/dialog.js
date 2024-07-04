@@ -1071,6 +1071,7 @@ export class ListItem {
         this.selectedItem = null
         this.getMainDiv().innerHTML = text
         this.onTextShown?.()
+        if ( this.itemsAreSelectable ) this.selectItem( null, null )
     }
 
     // internal use only; change contents of this DIV to a list of items
@@ -1124,6 +1125,7 @@ export class ListItem {
             } )
         } )
         this.onListShown?.()
+        if ( this.itemsAreSelectable ) this.selectItem( null, null )
     }
 
     // internal use only; returns a file object if requested by the dialog's
