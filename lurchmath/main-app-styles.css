@@ -75,6 +75,20 @@ body:not(.fullscreen) #editor-container {
     background-color: #fff7f7
 }
 
+/* Search box for filtering the rules list */
+.tox .search-label {
+  margin : 12px 0 6px;
+}
+.tox .search-input {
+  margin: 0 12px;
+  padding : 3px;
+  border : 1px solid #90979E;
+  border-radius : 4px;
+}
+/* override the repeating gradient to avoid extraneous hrule in the search area */
+div.tox .tox-toolbar__overflow{
+  background-image: linear-gradient(#e3e3e3 0 1px, transparent 1px 39px);
+}
 
 /* Document File Name */
 /* Commenting this out for now until we design something better */
@@ -113,13 +127,3 @@ div:has(> #lurch-filename-display) {
  *
  */
 
-/* Search box for filtering the rules list */
-.tox .search-label {
-    margin : 6px 0;
-}
-.tox .search-input {
-    margin: 0 12px;
-    padding : 3px;
-    border : 1px solid #90979E;
-    border-radius : 4px;
-}
