@@ -168,21 +168,33 @@ export const install = editor => {
         icon : 'chevron-down',
         tooltip : 'Extract header to top of document',
         onAction : () => {
-            if ( hasEditorOpen() )
-                return Dialog.notify( editor, 'error',
-                    'You cannot extract the header while editing it in another window.' )
-            const header = getHeaderHTML( editor )
-            if ( header == '' )
+            // Get the header, then move all of its dependencies into a holding
+            // location.  Note that none of this modifies the document; this is
+            // all operating on a COPY of the actual document header.
+            const headerCopy = getHeader( editor ) // a copy
+            const justDependencies = headerCopy.ownerDocument.createElement( 'div' )
+            Dependency.topLevelDependenciesIn( headerCopy, editor ).forEach( dependency => {
+                dependency.element.remove()
+                justDependencies.appendChild( dependency.element )
+            } )
+            // Now see if there's anything left to extract
+            const headerHTML = headerCopy.innerHTML
+            if ( headerHTML == '' )
                 return Dialog.notify( editor, 'warning',
                     'This document\'s header is currently empty.' )
+            // There is, so ask the user if we can proceed, and if so, put the
+            // header (without dependencies) into the document and then put the
+            // extracted dependencies, alone, back into the header.
+            // The reason we show a warning is because this action cannot be
+            // undone (since it edits the header, which is not in the document).
             appSettings.load()
             appSettings.showWarning( 'warn before extract header', editor )
             .then( userSaidToProceed => {
                 if ( !userSaidToProceed ) return
-                editor.selection.setCursorLocation() // == start
-                editor.insertContent( header )
-                setHeader( editor, '' )
-                editor.undoManager.clear()
+                editor.selection.setCursorLocation() // == start of document
+                editor.insertContent( headerHTML )
+                setHeader( editor, justDependencies.innerHTML )
+                editor.undoManager.clear() // cannot be undone
             } )
         }
     } )
@@ -191,20 +203,22 @@ export const install = editor => {
         icon : 'chevron-up',
         tooltip : 'Embed selection from document to end of header',
         onAction : () => {
-            if ( hasEditorOpen() )
-                return Dialog.notify( editor, 'error',
-                    'You cannot extract the header while editing it in another window.' )
+            // Get the current selection, or give an error if there isn't one
             const toEmbed = editor.selection.getContent()
-            if ( hasEditorOpen() )
+            if ( toEmbed == '' )
                 return Dialog.notify( editor, 'error',
                     'You do not currently have any content selected.' )
+            // Ask the user if we can proceed, and if so, append the selection
+            // onto the end of the curent document header.
+            // The reason we show a warning is because this action cannot be
+            // undone (since it edits the header, which is not in the document).
             appSettings.load()
             appSettings.showWarning( 'warn before embed header', editor )
             .then( userSaidToProceed => {
                 if ( !userSaidToProceed ) return
                 setHeader( editor, getHeaderHTML( editor ) + toEmbed )
                 editor.execCommand( 'delete' )
-                editor.undoManager.clear()
+                editor.undoManager.clear() // cannot be undone
             } )
         }
     } )
