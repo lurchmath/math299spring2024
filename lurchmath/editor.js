@@ -12,7 +12,6 @@ import { BrowserFileSystem } from './browser-file-system.js'
 import { OfflineFileSystem } from './offline-file-system.js'
 import { WebFileSystem } from './web-file-system.js'
 import { DropboxFileSystem } from './dropbox-file-system.js'
-// import GoogleDrive from './google-drive-ui.js'
 
 import { loadScript, makeAbsoluteURL, isEmbedded } from './utilities.js'
 import { loadFromQueryString } from './load-from-url.js'
@@ -246,19 +245,6 @@ window.Lurch = {
                 menuData.help.items += ' ' + `helpfile${index+1}`
         } )
 
-        // If this instance of the app is just a popup for editing the header in the
-        // document of a different instance of the app, we will need to delete
-        // irrelevant menu items before they get installed/displayed:
-        if ( Headers.isEditor() ) {
-            ;[
-                'newlurchdocument', 'opendocument', 'savedocumentas', 'editheader'
-            ].forEach( toRemove => {
-                Object.keys( menuData ).forEach( menu =>
-                    menuData[menu].items = menuData[menu].items
-                        .replace( toRemove+' ', '' ).replace( ' '+toRemove, '' ) )
-            } )
-        }
-
         // Load TinyMCE from its CDN...
         return new Promise( ( resolve, _ ) => loadScript( TinyMCEURL ).then( () => {
             // ...then set up the editor in the textarea from above,
@@ -303,21 +289,11 @@ window.Lurch = {
                     Validation.install( editor )
                     AutoCompleter.install( editor )
                     Export.install( editor )
-                    if ( !Headers.isEditor() ) {
-                        // Install tools we need only if we are the primary app window:
-                        // GoogleDrive.install( editor )
-                        FileSystem.install( editor )
-                        Headers.install( editor )
-                        DocSettings.install( editor )
-                        Embedding.install( editor )
-                        editor.on( 'init', () => loadFromQueryString( editor ) )
-                    } else {
-                        // Install tools we need only if we are the secondary app window:
-                        editor.on( 'init', () => {
-                            Headers.listen( editor )
-                            editor.dom.doc.body.classList.add( 'header-editor' )
-                        } )
-                    }
+                    FileSystem.install( editor )
+                    Headers.install( editor )
+                    DocSettings.install( editor )
+                    Embedding.install( editor )
+                    editor.on( 'init', () => loadFromQueryString( editor ) )
 
                     // Install any help pages specified in the options object
                     options.helpPages.forEach( ( page, index ) => {

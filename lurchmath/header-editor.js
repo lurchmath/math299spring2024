@@ -1,25 +1,21 @@
 
 /**
  * Users who want to edit the invisible header inside of a Lurch document (which
- * is stored in its metadata) can do so in a second browser window (or tab)
- * containing a full Lurch document editor just for the header of the original
- * document.  In such a scheme, we call the first window (containing the whole
- * document) the *primary window* or *primary copy of the app* and the second
- * window (containing just the header from the primary window) *secondary
- * window* or *secondary copy of the app.*
+ * is stored in its metadata) can do so in one of two ways.
  * 
- * This module adds features for both the primary and secondary copies of the
- * app.  For the primary window, it implements the tools for launching the
- * secondary window and sending it the header data.  For the secondary window,
- * it it implements the tools for limiting the UI elements to only what are
- * needed for the secondary copy of the app, and a function for passing the
- * edited header information back to the primary window upon request from the
- * user.
+ * First, they can extract the document header into the document, which brings
+ * all content *except for* dependencies into the document.  They can edit this
+ * content and then push it back up into the document header.  This module
+ * provides actions (menu items) for doing so.
+ * 
+ * Second, they can edit the list of dependencies in the document header, which
+ * we refer to by the more mathematical term "background material."  This module
+ * also provides an action (menu item) for editing that list of dependencies
+ * (background material).
  * 
  * @module HeaderEditor
  */
 
-import { appURL } from './utilities.js'
 import { LurchDocument } from './lurch-document.js'
 import { appSettings } from './settings-install.js'
 import { Dialog, ButtonItem, ListItem, DialogRow, TextInputItem } from './dialog.js'
@@ -54,38 +50,6 @@ const getHeaderHTML = editor => {
 // as the document's header
 export const setHeader = ( editor, header ) =>
     new LurchDocument( editor ).setMetadata( 'main', 'header', 'html', header )
-
-// Internal constant used in URL query strings to tell a copy of the app that it
-// has been opened for the sole purpose of being a header editor for a different
-// copy of the app.  If this shows up in the query string, then the Lurch app
-// being launched knows to configure itself differently to support header
-// editing rather than full document editing.  In particular, "Save" should send
-// the header back to the original document, not save it as a new document.
-const headerFlag = 'editHeader'
-
-/**
- * Detect whether the current copy of the app running in this window is the
- * secondary one, created in service to another (primary) window elsewhere.
- * In other words, return true if this is the secondary window and false if it
- * is the primary one.
- * 
- * @returns {boolean} whether this app window is for editing the document
- *   header from a separate (primary) Lurch app window
- * @function
- */
-export const isEditor = () =>
-    new URL( window.location ).searchParams.get( headerFlag ) == 'true'
-
-/**
- * Detect whether the current copy of the app running in this window is the
- * primary window *and also* currently has a secondary window open for editing
- * this window's header.
- * 
- * @returns {boolean} whether this app window has a secondary window open for
- *   editing the header in this window's document
- */
-export const hasEditorOpen = () =>
-    window.headerEditorWindow && !window.headerEditorWindow.closed
 
 /**
  * Install into a TinyMCE editor instance the menu items that can be used in
@@ -198,44 +162,8 @@ export const install = editor => {
         }
     } )
 
-    // Install all menu items related to headers and editing them
-    editor.ui.registry.addMenuItem( 'editheader', {
-        text : 'Edit document header in new window',
-        icon : 'new-tab',
-        tooltip : 'Edit document header',
-        onAction : () => {
-            if ( hasEditorOpen() )
-                return Dialog.notify( editor, 'warning',
-                    'You are already editing this document\'s header in another window.' )
-            window.headerEditorWindow = window.open(
-                `${appURL()}?${headerFlag}=true`, '_blank' )
-            // We cannot tell when the header editor window is ready to receive
-            // messages, so we have to retry sending our content until either it
-            // lets us know that it received it, or the tab closes.
-            const interval = setInterval( () => {
-                if ( window.closed ) {
-                    clearInterval( interval )
-                    return
-                }
-                window.headerEditorWindow.postMessage(
-                    getHeaderHTML( editor ), appURL() )
-            }, 1000 )
-            window.addEventListener( 'message', event => {
-                if ( event.source != window.headerEditorWindow ) return
-                // if it's a message saying they received our content, stop
-                // trying to send it
-                if ( event.data == 'content received' ) {
-                    clearInterval( interval )
-                    return
-                }
-                // otherwise, assume it's a "save" message with new content,
-                // because the user edited the header in the other window and
-                // then saved, which sends it back to us
-                setHeader( editor, event.data )
-                Dialog.notify( editor, 'success', 'Header updated from other window.', 5000 )
-            }, false )
-        }
-    } )
+    // Add menu items for moving the (non-dependency portions of the) header
+    // into the document and back into the header
     editor.ui.registry.addMenuItem( 'extractheader', {
         text : 'Move header into document',
         icon : 'chevron-down',
@@ -281,6 +209,10 @@ export const install = editor => {
             } )
         }
     } )
+
+    // Add a menu item for editing the "background material" (list of
+    // dependencies) in the header.  This list of dependencies never leaves the
+    // header, so this is the only way to edit it.
     editor.ui.registry.addMenuItem( 'editdependencyurls', {
         text : 'Edit background material',
         tooltip : 'Edit the list of documents on which this one depends',
@@ -418,6 +350,11 @@ export const install = editor => {
             }
         }
     } )
+
+    // Add a menu item for moving into the document non-editable versions of
+    // the *contents of* the background material, so that student users who need
+    // to see a list of all axioms, theorems, and rules in force can do so.
+    // Revealing these previews also shows a search/filter box in the toolbar.
     editor.ui.registry.addMenuItem( 'viewdependencyurls', {
         text : 'Show/Hide rules',
         icon : 'character-count',
@@ -469,44 +406,4 @@ export const install = editor => {
     } )
 }
 
-/**
- * Assuming that we're in the secondary copy of the app, listen for the message
- * from the primary window that sends us the header to edit, and when we receive
- * it, populate our editor with it.  While we wait, our editor is read only and
- * says "Loading header..." so that the user knows to wait.
- * 
- * Also, install a new File > Save action that will send our editor's content
- * back to the primary window so that it can store that updated content in its
- * document header.
- * 
- * @param {tinymce.editor} editor - the TinyMCE editor into which to load the
- *   header data, once we receive it from the primary window
- * @function
- */
-export const listen = editor => {
-    let mainEditor = null
-    editor.setContent( 'Loading header...' )
-    editor.mode.set( 'readonly' )
-    window.addEventListener( 'message', event => {
-        if ( !appURL().startsWith( event.origin ) ) return
-        mainEditor = event.source
-        new LurchDocument( editor ).newDocument()
-        editor.setContent( event.data )
-        editor.mode.set( 'design' )
-        Dialog.notify( editor, 'success',
-            'Opened header data for editing.\nDon\'t forget to save before closing.' )
-        mainEditor.postMessage( 'content received', appURL() )
-    }, false )
-    editor.ui.registry.addMenuItem( 'savedocument', {
-        text : 'Save',
-        tooltip : 'Save header into original document',
-        icon : 'save',
-        shortcut : 'meta+S',
-        onAction : () => {
-            if ( !mainEditor ) return
-            mainEditor.postMessage( editor.getContent(), appURL() )
-        }
-    } )
-}
-
-export default { isEditor, hasEditorOpen, install, listen }
+export default { install }
