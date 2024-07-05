@@ -490,7 +490,7 @@ export class FileSystem {
         chooser.onDoubleClick = () => {
             const target = chooser.get( name )
             // double-clicked a file means it's time to submit the dialog
-            if ( target.filename ) {
+            if ( target?.filename ) {
                 chooser.dialog.json.onSubmit()
                 return
             }
@@ -561,7 +561,7 @@ export class FileSystem {
             // filename blank
             chooser.onSelectionChanged = () => {
                 const target = chooser.get( chooserName )
-                if ( target.filename ) {
+                if ( target?.filename ) {
                     getFilenameElement().value = target.filename
                     getFilenameElement().dispatchEvent( new Event( 'input' ) )
                 }
@@ -569,7 +569,7 @@ export class FileSystem {
             chooser.onDoubleClick = () => {
                 const target = chooser.get( chooserName )
                 // double-clicked a file means it's time to submit the dialog
-                if ( target.filename ) {
+                if ( target?.filename ) {
                     chooser.dialog.json.onSubmit()
                     return
                 }
