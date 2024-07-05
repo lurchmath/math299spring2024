@@ -959,9 +959,10 @@ export const install = editor => {
             }
             // If we have no record of where it was last saved, we have to give
             // up on a silent save and revert to a "save as" operation (which
-            // prompts the user)
+            // prompts the user).  We also do this if the file was loaded from a
+            // file system that does not support writing.
             const subclass = FileSystem.getSubclass( fileID?.fileSystemName )
-            if ( !subclass )
+            if ( !subclass || !FileSystem.subclassImplements( subclass, 'write' ) )
                 return FileSystem.saveFileAs( editor )
             // We have enough information to do a silent save, so try that.
             fileID.contents = doc.getDocument()
