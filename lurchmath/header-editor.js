@@ -159,7 +159,6 @@ export const install = editor => {
                   && Atom.from( node, editor ).getMetadata( 'type' ) == 'rule' ) {
                     node.style.display = (
                         searchText == ''
-                        // || node.outerHTML.toLowerCase().includes( searchText )
                         || relevantText(node).includes( searchText )
                     ) ? '' : 'none'
                     numShown += node.style.display == '' ? 1 : 0
