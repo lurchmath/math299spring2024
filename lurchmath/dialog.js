@@ -1,10 +1,6 @@
 
-import { ChooseLocalFileItem, saveAs } from './local-storage-drive.js'
-import { UploadItem, downloadFile } from './upload-download.js'
-import { ImportFromURLItem, loadFromURL } from './load-from-url.js'
+import { UploadItem } from './upload-download.js'
 import { appSettings } from './settings-install.js'
-import { appURL, isValidURL } from './utilities.js'
-import { LurchDocument } from './lurch-document.js'
 import { syntaxTreeHTML, putdownHTML } from './notation.js'
 
 /**
@@ -223,8 +219,6 @@ export class Dialog {
      * @see {@link HTMLItem}
      * @see {@link TextInputItem}
      * @see {@link ButtonItem}
-     * @see {@link ImportFromURLItem}
-     * @see {@link ChooseLocalFileItem}
      * @see {@link UploadItem}
      * @see {@link SelectBoxItem}
      * @see {@link Dialog#removeItem removeItem()}
@@ -457,148 +451,6 @@ export class Dialog {
         dialog.addItem( new AlertItem( 'warn', text ) )
         dialog.setOK( 'I\'m sure' )
         return dialog.show()
-    }
-
-    /**
-     * This static function shows a dialog for loading a file.  The dialog
-     * contains three tabs, one for loading a file from browser storage, one for
-     * letting the user upload from their computer, and one for letting the user
-     * import a file from a web URL.  The user can choose their preferred method
-     * and import the file.
-     * 
-     * The function returns a promise that resolves when the user closes the
-     * dialog.  If the user canceled and did not choose or accept a file, the
-     * handler will be passed no arguments.  If the user did choose and accept a
-     * file, the argument passed to the handler will be an object with two
-     * fields, of the form `{ filename : '...', content : '...' }`, where the
-     * filename will be the filename or URL and the content will be the entirety
-     * of the file's content, which may be large.  Both are strings.
-     * 
-     * @param {tinymce.Editor} editor - the editor instance in which to display
-     *   the dialog
-     * @param {string} [title="File"] - the title to show at the top of the dialog
-     * @returns {Promise} a promise that resolves to the file information as
-     *   specified above, or rejects if an error occurs
-     * @see {@link Dialog.saveFile Dialog.saveFile()}
-     */
-    static loadFile ( editor, title = 'File' ) {
-        const dialog = new Dialog( title, editor )
-        dialog.json.size = 'medium'
-        const tabNames = editor.appOptions.fileOpenTabs || [
-            'From browser storage', 'From your computer', 'From the web'
-        ]
-        dialog.setTabs( ...tabNames )
-        if ( tabNames.includes( 'From browser storage' ) )
-            dialog.addItem( new ChooseLocalFileItem( 'localFile' ), 'From browser storage' )
-        if ( tabNames.includes( 'From your computer' ) )
-            dialog.addItem( new UploadItem( 'uploadedFile' ), 'From your computer' )
-        if ( tabNames.includes( 'From the web' ) )
-            dialog.addItem( new ImportFromURLItem( 'importedFile' ), 'From the web' )
-        return new Promise( ( resolve, reject ) => {
-            dialog.show().then( userHitOK => {
-                if ( !userHitOK ) return resolve()
-                const title = dialog.currentTabTitle()
-                if ( title == 'From browser storage' ) {
-                    resolve( dialog.get( 'localFile' ) )
-                } else if ( title == 'From your computer' ) {
-                    resolve( dialog.get( 'uploadedFile' ) )
-                } else if ( title == 'From the web' ) {
-                    const url = new URL( dialog.get( 'importedFile' ), appURL() ).href
-                    loadFromURL( url )
-                    .then( content => {
-                        resolve( {
-                            filename : url,
-                            content : content,
-                            source : 'web'
-                        } )
-                    } ).catch( () => {
-                        Dialog.notify( editor, 'error',
-                            `Unable to open a document from ${url}` )
-                        reject( 'Could not download from URL.' )
-                    } )
-                } else {
-                    reject( 'Unknown tab: ' + title )
-                }
-            } ).catch( reject )
-            setTimeout( () => {
-                const defaultTab = appSettings.get( 'default open dialog tab' )
-                if ( tabNames.includes( defaultTab ) )
-                    dialog.showTab( defaultTab )
-            } )
-        } )
-    }
-
-    /**
-     * This static function shows a dialog for saving a file.  The dialog
-     * contains two tabs, one for saving a file to browser storage and one for
-     * letting the user download to their computer.  The user can choose their
-     * preferred method and save the file.
-     * 
-     * The function returns a promise that resolves when the user closes the
-     * dialog.  If the user canceled and did not choose or accept a file, the
-     * handler will be passed a boolean false.  If the downloaded the file, the
-     * handler will be passed a boolean true.  If the user saved the file to the
-     * browser's local storage, the handler will be passed a string containing
-     * the chosen filename.
-     * 
-     * @param {tinymce.Editor} editor - the editor instance in which to display
-     *   the dialog
-     * @param {string} [title="File"] - the title to show at the top of the dialog
-     * @returns {Promise} a promise that resolves as specified above, or rejects
-     *   if an error occurs
-     * @see {@link Dialog.loadFile Dialog.loadFile()}
-     */
-    static saveFile ( editor, title = 'File' ) {
-        const dialog = new Dialog( title, editor )
-        const tabNames = editor.appOptions.fileSaveTabs || [
-            'To browser storage', 'To your computer'
-        ]
-        dialog.setTabs( ...tabNames )
-        if ( tabNames.includes( 'To browser storage' ) ) {
-            dialog.addItem( new TextInputItem( 'filename', 'Filename' ),
-                            'To browser storage' )
-            dialog.setDefaultFocus( 'filename' )
-        }
-        if ( tabNames.includes( 'To your computer' ) ) {
-            dialog.addItem( new TextInputItem( 'downloadFilename', 'Filename' ),
-                            'To your computer' )
-            dialog.addItem( new HTMLItem( `
-                <p>Clicking OK below will download the current Lurch document to
-                your computer as an HTML file.</p>
-            ` ), 'To your computer' )
-        }
-        const LD = new LurchDocument( editor )
-        let filename = LD.getFileID()
-        if ( filename && filename.startsWith( 'file:///' ) ) {
-            dialog.setInitialData( {
-                downloadFilename : filename.substring( 8 )
-            } )
-        } else if ( filename && !isValidURL( filename ) ) {
-            dialog.setInitialData( { filename } )
-        }
-        dialog.json.size = 'medium'
-        return new Promise( ( resolve, reject ) => {
-            dialog.show().then( userHitOK => {
-                if ( !userHitOK ) return resolve( false )
-                const title = dialog.currentTabTitle()
-                if ( title == 'To browser storage' ) {
-                    const filename = dialog.get( 'filename' )
-                    saveAs( editor, filename )
-                    resolve( filename )
-                } else if ( title == 'To your computer' ) {
-                    LD.setFileID( `file:///${ dialog.get( 'downloadFilename' ) }` )
-                    downloadFile( editor )
-                    resolve( true )
-                } else {
-                    reject( 'Unknown tab: ' + title )
-                }
-            } ).catch( reject )
-            setTimeout( () => {
-                const defaultTab = appSettings.get( 'default save dialog tab' )
-                if ( tabNames.includes( defaultTab ) )
-                    dialog.showTab( defaultTab )
-            } )
-        } )
     }
 
     /**
