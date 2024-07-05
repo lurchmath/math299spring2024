@@ -57,6 +57,7 @@ export class Dialog {
             },
             onTabChange : ( _, details ) => {
                 this.currentTabName = details.newTabName
+                this.element = Dialog.getTopDialogElement()
                 this.runItemShowHandlers()
             }
         }
