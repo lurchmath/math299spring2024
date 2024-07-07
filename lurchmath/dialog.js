@@ -904,7 +904,7 @@ export class ListItem {
     json () {
         return [ {
             type : 'htmlpanel',
-            html : `<div id="${ListItem.mainDivId}"
+            html : `<div id="${ListItem.mainDivId}-${this.name}"
                 style="border: solid 1px #006CE7;
                 padding: 0.5em;
                 border-radius: 6px;
@@ -916,13 +916,15 @@ export class ListItem {
 
     // internal use only
     getMainDiv () {
-        return this.dialog.querySelector( `#${ListItem.mainDivId}` )
+        return this.dialog.querySelector( `#${ListItem.mainDivId}-${this.name}` )
     }
 
     // internal use only; change contents of this DIV to text
     showText ( text ) {
+        const element = this.getMainDiv()
+        if ( !element ) return
         this.selectedItem = null
-        this.getMainDiv().innerHTML = text
+        element.innerHTML = text
         this.onTextShown?.()
         if ( this.itemsAreSelectable ) this.selectItem( null, null )
     }
@@ -937,6 +939,7 @@ export class ListItem {
         this.values = values
         this.selectedItem = null
         const panel = this.getMainDiv()
+        if ( !panel ) return
         panel.innerHTML = ''
         names.forEach( ( name, index ) => {
             const value = values[index]

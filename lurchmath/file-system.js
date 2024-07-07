@@ -1073,9 +1073,10 @@ export class FolderContentsItem extends ListItem {
      *   file system root, which works for every file system, even those that
      *   do not have subfolders)
      * @param {String} [name] - the name to give this item, defaults to
-     *   `"selectedFile"`
+     *   a simplified version of the name of the given `fileSystem`
      */
-    constructor ( fileSystem, initialPath = '', name = 'selectedFile' ) {
+    constructor ( fileSystem, initialPath = '', name ) {
+        if ( !name ) name = simplifyName( fileSystem.getName() )
         super( name )
         this.fileSystem = fileSystem
         this.path = initialPath
@@ -1105,7 +1106,7 @@ export class FolderContentsItem extends ListItem {
 
     // internal use only; specializes repopulate() to a file system's needs
     repopulate () {
-        this.showText( 'Loading...' )
+        this.showText( `Loading files from ${this.fileSystem.getName()}...` )
         this.fileSystem.list( { path : this.path } ).then( files => {
             if ( files.length == 0 ) {
                 this.showText( 'No files in this folder.' )
