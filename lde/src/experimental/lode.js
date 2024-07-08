@@ -284,10 +284,19 @@ global.checkLurchExtension = name => checkExtension(name , LurchFileExtension )
 // Load a document string, recursively replacing included files, and wrap the
 // result in environment brackets, { }. before returning.
 //
-global.loadDoc = ( name, folder='./', extension=LurchFileExtension ) => {
-  // load the specified file
-  let doc = `{\n${loadDocStr( name, folder, extension )}\n}`
-  doc = parse(doc)
+global.loadDoc = ( name, folder='./', extension=LurchFileExtension, 
+                   language='lurch' ) => {
+  let doc = ''                    
+  if (language=='lurch') {
+    // load the specified file with recursive substitutions for imported libs
+    doc = `{${loadDocStr( name, folder, extension )}}`
+    // convert it to putdown
+    doc = parse(doc) 
+  } else {
+    // otherwise it's putdown, most likely from exported document code from the UI
+    // do just load the file directly
+    doc = loadStr( name, folder, extension )
+  }
   doc = lc(doc)
   interpret(doc)
   validate(doc)

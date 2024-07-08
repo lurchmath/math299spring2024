@@ -10,13 +10,16 @@ let start = Date.now()
 
 const DEBUG = false
 acid=[]
-const loadtest = (name, folder='acid tests') => { 
+const loadtest = (name, folder='acid tests', extension='lurch',
+                  language='lurch', desc = '') => { 
   if (DEBUG) console.log(`loading acid test ${folder}/${name}`)
   try {
-    acid.push(loadDoc(`proofs/${folder}/${name}`)) 
+    let a = loadDoc(name,`proofs/${folder}`, extension, language)
+    if (desc) a.desc=desc
+    acid.push(a) 
   } catch {
-    acid.push(xPen(`Error loading acid test: ${name}`))
     console.log(`Error loading acid test: ${name}`)
+    acid.push(xPen(`Error loading acid test: ${name}`))
   }
 }
 
@@ -39,6 +42,8 @@ loadtest('midterm','math299')
 loadtest('recursion','math299')
 loadtest('reals','math299')
 loadtest('sets','math299')
+loadtest('test','math299','txt','putdown','student assignment')
+loadtest('inapplicable','math299','txt','putdown','testing an inapplicable')
 
 // run the tests
 let passed = 0
@@ -60,23 +65,25 @@ let numreds = 0
 
 acid.forEach( (T,k) => {
   if (typeof T === 'string') { write(T) ; failed++; return }
-  // for each test, find the first comment if any and use that as the
-  // description of the test file
-  const desc = T.find(x=>x.isAComment())?.child(1)
+  // for each test, if a description was provided, use that, otherwise find the first comment, if any, in the test file.
+  desc = T.desc || T.find(x=>x.isAComment())?.child(1) || ''
   console.log((itemPen(`Test ${k}: ${stringPen(desc)}`)))
 
-  T.descendantsSatisfying( x => 
-    x.hasAttribute('ExpectedResult') && !x.parent().isA('Inst')).forEach( (s,i) => {
-    if (Validation.result(s) && 
-         (Validation.result(s).result==s.getAttribute('ExpectedResult') ||
+  T.descendantsSatisfying( x => x.ExpectedResult).forEach( (s,i) => {
+    if ((Validation.result(s) && 
+          (Validation.result(s).result==s.ExpectedResult ||
           // handle the inapplicable arithmetic case
-          s.results('arithmetic')?.result==s.getAttribute('ExpectedResult')
-         )
-       ) { 
-      console.log(`  Test ${k}.${i} → ok`)
-      passed++
+          s.results('arithmetic')?.result==s.ExpectedResult)
+          ) ||
+          // handle the redeclared variable case
+          (s.getAttribute('scope errors')?.redeclared && s.ExpectedResult=='invalid') 
+      ) { 
+        console.log(`  Test ${k}.${i} → ok`)
+        passed++
     } else {
       console.log(xPen(`\n  Test ${k}.${i} → FAIL!!\n`))
+      write(s)
+      write(`at address ${s.address()}`)
       failed++
     }
   })
