@@ -79,6 +79,36 @@ export const makeParser = parserstr => {
   return { parse: parser, trace: traceparser, raw:  rawparser.parse }
 }
 
+// Take a text file that has n lines and parse it one line at a time, optionally
+// showing how each line parses, and reporting on the number of lines that
+// failed to parse.  The main use is to take a file with LurchNotation lines and
+// convert it to either putdown or latex, and print the results as a test of the
+// parser.
+export const parseLines = (parser,verbose=true,name='LurchParserTests',opts) => {
+  let ans = []
+  const lines = 
+    loadStr(name,'./parsers/','lurch').split('\n')
+       .map(line => line.trim())
+       .filter(line => line.length > 0 && line.slice(0,2)!=='//')
+  // console.log(`File contains ${lines.length} parseable lines`)
+  let pass = 0, fail = 0
+  let report = []
+  lines.forEach( l => {
+    try { 
+      ans.push(parser(l,opts))
+      pass++
+      if (verbose) write(`${Pens.itemPen(l)}\n → ${Pens.stringPen(parser(l,opts))}\n`)
+    } catch {
+      report.push(l)
+      fail++
+    }
+  })
+  report.forEach(l=>console.log(`Could not parse ${Pens.contextPen(l)}`))
+
+  console.log(`Parsed ${pass} lines successfully, ${fail} failed`)
+  return (verbose) ? ans : undefined
+}
+
 // This was a prototype made quickly at the AIM workshop We keep it for now but
 // improve on it below.
 export const lc2algebrite = e => {
@@ -283,31 +313,6 @@ const numericToCAS = e => {
   } else {
     return `(${kids[0].text()}${convert(kids[1])})`
   }
-}
-
-export const parseLines = (parser,verbose=true,name='LurchParserTests',opts) => {
-  let ans = []
-  const lines = 
-    loadStr(name,'./parsers/','lurch').split('\n')
-       .map(line => line.trim())
-       .filter(line => line.length > 0 && line.slice(0,2)!=='//')
-  // console.log(`File contains ${lines.length} parseable lines`)
-  let pass = 0, fail = 0
-  let report = []
-  lines.forEach( l => {
-    try { 
-      ans.push(parser(l,opts))
-      pass++
-      if (verbose) write(`${Pens.itemPen(l)}\n → ${Pens.stringPen(parser(l,opts))}\n`)
-    } catch {
-      report.push(l)
-      fail++
-    }
-  })
-  report.forEach(l=>console.log(`Could not parse ${Pens.contextPen(l)}`))
-
-  console.log(`Parsed ${pass} lines successfully, ${fail} failed`)
-  return (verbose) ? ans : undefined
 }
 
 /**
