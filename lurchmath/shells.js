@@ -120,7 +120,13 @@ export class Shell extends Atom {
      *   instance, representing this shell, with no children
      * @see {@link Shell#finalize finalize()}
      */
-    toLCs () { return [ new Environment() ] }
+    toLCs () { 
+      let ans = new Environment()
+      const results = this.getValidationResults()
+      // for now, we just add the first result
+      if (results.length>0) ans.setAttribute('ExpectedResult',results[0])
+      return [ ans ]
+    }
 
     /**
      * After converting a shell to LCs using {@link Shell#toLCs toLCs()}, its

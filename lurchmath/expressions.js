@@ -747,7 +747,11 @@ export class Expression extends Atom {
         }
         if ( this.isInAdvancedMode() ) {
             const { lurchNotation } = this.loadAdvancedModeData()
-            return parse( lurchNotation, 'lurchNotation' )
+            const ans = parse( lurchNotation, 'lurchNotation' )
+            const results = this.getValidationResults()
+            if (results.length>0) 
+                ans.forEach( x => x.setAttribute('ExpectedResult',results[0]) )
+            return ans
         }
     }
 

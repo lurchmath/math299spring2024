@@ -289,8 +289,11 @@ export class Message {
                 }
                 LCs.forEach( LC => {
                     assignID( LC, head.element )
+                    // we pass the lurchNotation as an attribute, but remove the
+                    // \n newlines from its value because they cause invalid
+                    // putdown JSON attributes
                     LC.setAttribute( 'lurchNotation', 
-                        `${head.getMetadata('lurchNotation')}`)
+                        `${head.getMetadata('lurchNotation').replace(/\n/g,' ')}`)
                     context.pushChild( LC )
                 } )
                 return documentLC( array, context )
