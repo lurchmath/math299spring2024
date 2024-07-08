@@ -585,25 +585,6 @@ LogicConcept.prototype.stats = function(options) {
 LogicConcept.prototype.Rule = function(n) {
   return this.children().filter( x => x.isA('Rule'))[n]
 }
-// internal utility used by the next two functions
-const _getRuleOffspring = function(n,getparts = false) {
-  const kids = doc.children()
-  const Rules = kids.filter( x => x.isA('Rule'))
-  const r = Rules[n]
-  const a = r.address()[0]
-  const b = (n===Rules.length-1) ? kids.length : Rules[n+1].address()[0]
-  if (getparts) 
-   return kids.slice(a,b).filter(x=>x.isA('Part'))
-  else
-   return kids.slice(a,b).filter(x=>x.isA('Inst'))
-}
-LogicConcept.prototype.Insts = function(n) {
-   return _getRuleOffspring(n)
-}
-LogicConcept.prototype.Parts = function(n) {
-   return _getRuleOffspring(n,true)
-}
-
 
 // Because this is used so often
 Object.defineProperty(LogicConcept.prototype, 'all', {
