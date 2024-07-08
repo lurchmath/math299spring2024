@@ -258,7 +258,8 @@ export class Settings extends Map {
             + 'Are you sure you want to proceed?'
         // If the user says not to show this warning, return a resolved promise
         // so that subsequent client actions will be invoked immediately.
-        if ( !this.get( settingName ) ) return Promise.resolve()
+        // We resolve to true, meaning the user said it's okay to proceed.
+        if ( !this.get( settingName ) ) return Promise.resolve( true )
         // Otherwise return a promise whose resolution is contintgent upon the
         // user's response to the appropriate warning dialog.
         return new Promise( ( resolve, _ ) => {

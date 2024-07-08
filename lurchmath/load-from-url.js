@@ -171,33 +171,4 @@ export const autoOpenLink = ( source, andDelete = false ) =>
     appURL() + '?load=' + encodeURIComponent( source )
              + ( andDelete ? '&delete=true' : '' )
 
-/**
- * An item that can be used in a {@link Dialog} to let the user import a file
- * from an URL on the web.  This is a simple text input control, but it shows a
- * URL as its placeholder and labels itself appropriately.
- */
-export class ImportFromURLItem {
-
-    /**
-     * Construct a new URL import input control.
-     * 
-     * @param {string} name - the key to use to identify this input control's
-     *   content in the dialog's key-value mapping for all input controls
-     */
-    constructor ( name ) {
-        this.name = name
-    }
-
-    // internal use only; creates the JSON to represent this object to TinyMCE
-    json () {
-        return [ {
-            name : this.name,
-            label : 'URL to import from:',
-            type : 'input',
-            placeholder : 'http://www.example.com/yourfile.html'
-        } ]
-    }
-
-}
-
 export default { loadFromQueryString, loadFromURL }

@@ -490,7 +490,7 @@ export class FileSystem {
         chooser.onDoubleClick = () => {
             const target = chooser.get( name )
             // double-clicked a file means it's time to submit the dialog
-            if ( target.filename ) {
+            if ( target?.filename ) {
                 chooser.dialog.json.onSubmit()
                 return
             }
@@ -561,7 +561,7 @@ export class FileSystem {
             // filename blank
             chooser.onSelectionChanged = () => {
                 const target = chooser.get( chooserName )
-                if ( target.filename ) {
+                if ( target?.filename ) {
                     getFilenameElement().value = target.filename
                     getFilenameElement().dispatchEvent( new Event( 'input' ) )
                 }
@@ -569,7 +569,7 @@ export class FileSystem {
             chooser.onDoubleClick = () => {
                 const target = chooser.get( chooserName )
                 // double-clicked a file means it's time to submit the dialog
-                if ( target.filename ) {
+                if ( target?.filename ) {
                     chooser.dialog.json.onSubmit()
                     return
                 }
@@ -959,9 +959,10 @@ export const install = editor => {
             }
             // If we have no record of where it was last saved, we have to give
             // up on a silent save and revert to a "save as" operation (which
-            // prompts the user)
+            // prompts the user).  We also do this if the file was loaded from a
+            // file system that does not support writing.
             const subclass = FileSystem.getSubclass( fileID?.fileSystemName )
-            if ( !subclass )
+            if ( !subclass || !FileSystem.subclassImplements( subclass, 'write' ) )
                 return FileSystem.saveFileAs( editor )
             // We have enough information to do a silent save, so try that.
             fileID.contents = doc.getDocument()
@@ -1072,9 +1073,10 @@ export class FolderContentsItem extends ListItem {
      *   file system root, which works for every file system, even those that
      *   do not have subfolders)
      * @param {String} [name] - the name to give this item, defaults to
-     *   `"selectedFile"`
+     *   a simplified version of the name of the given `fileSystem`
      */
-    constructor ( fileSystem, initialPath = '', name = 'selectedFile' ) {
+    constructor ( fileSystem, initialPath = '', name ) {
+        if ( !name ) name = simplifyName( fileSystem.getName() )
         super( name )
         this.fileSystem = fileSystem
         this.path = initialPath
@@ -1104,7 +1106,7 @@ export class FolderContentsItem extends ListItem {
 
     // internal use only; specializes repopulate() to a file system's needs
     repopulate () {
-        this.showText( 'Loading...' )
+        this.showText( `Loading files from ${this.fileSystem.getName()}...` )
         this.fileSystem.list( { path : this.path } ).then( files => {
             if ( files.length == 0 ) {
                 this.showText( 'No files in this folder.' )
