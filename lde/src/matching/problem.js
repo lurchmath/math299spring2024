@@ -311,7 +311,7 @@ export class Problem {
         }
         return '{\n\t'
              + this.constraints.map( x =>
-                   x => `${x.complexity()}  ${maybeWithDeBruijn(x)}`
+                   `${x.complexity()}  ${maybeWithDeBruijn(x)}`
                ).join('\n\t')
              + '\n}'
     }
