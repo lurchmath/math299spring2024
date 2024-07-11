@@ -25,11 +25,18 @@ symbols `sym1` through `symN` are bound.  Outside of that expression (assuming
 there is no containing binding expression of the same symbol(s)), they are not
 bound, and are thus called free.
 
-```js
-import { LogicConcept } from './src/index.js'
+However, in Lurch, we separate the operator (`head` in the above example) from
+the binding itself, so the code written above, `(head sym1 sym2 ... symN , body)`
+is equivalent to the more explicit version `(head (sym1 sym2 ... symN , body))`.
+The outer expression is a unary application of operator in question (here called
+`head`) and the inner expression is a "binding" that is equivalent to `body` but
+with several variables now bound.
 
-const binding = LogicConcept.fromPutdown( '(forall x , (P x))' )[0]
-binding.descendantsSatisfying( d => d.isAtomic() ).map( d => {
+```js
+import { LogicConcept } from './lde/src/index.js'
+
+const universalExample = LogicConcept.fromPutdown( '(forall x , (P x))' )[0]
+universalExample.descendantsSatisfying( d => d.isAtomic() ).map( d => {
     console.log( 'Is', d.toPutdown(), 'free?', d.isFree() )
 } )
 ```
@@ -38,11 +45,11 @@ You can also ask the question relatively:  Is a symbol free in a specific
 ancestor?
 
 ```js
-const outerBinding = LogicConcept.fromPutdown( '(exists x , (forall y , (> x y)))' )[0]
-const innerBinding = outerBinding.body()
-const secondX = innerBinding.body().child( 1 )
-console.log( 'Is x free in the inner binding?', secondX.isFree( innerBinding ) )
-console.log( 'Is x free in the outer binding?', secondX.isFree( outerBinding ) )
+const outer = LogicConcept.fromPutdown( '(exists x , (forall y , (> x y)))' )[0]
+const inner = outer.child( 1 ).body() // = (forall y , (> x y))
+const secondX = inner.child( 1 ).body().child( 1 ) // = (> x y)
+console.log( 'Is x free in the inner binding?', secondX.isFree( inner ) )
+console.log( 'Is x free in the outer binding?', secondX.isFree( outer ) )
 ```
 
 The {@link MathConcept#isFree isFree()} method works not only for symbols.
@@ -50,7 +57,8 @@ You can ask whether a nonatomic expression is free, and it will be free if and
 only if all of the symbols free within it are free in the given context.
 
 ```js
-console.log( innerBinding.body().isFree( innerBinding ) )
+// Is the (> x y) free in the (forall y , (> x y)) from above?
+console.log( inner.child( 1 ).body().isFree( inner ) )
 ```
 
 ## Free occurrences
@@ -60,10 +68,10 @@ anywhere in an expression.  Note the difference between `x.occursFree(y)` and
 `y.occursFree(x)` and that the order may be different from what you expect.
 
 ```js
-import { LurchSymbol } from './src/index.js'
+import { LurchSymbol } from './lde/src/index.js'
 
 const example = LogicConcept.fromPutdown( '(and (> x 1) (forall x , (R x x)))' )[0]
-console.log( 'Last x free?', example.child( 2 ).body().child( 2 ).isFree() )
+console.log( 'Last x free?', example.child( 2 ).child( 1 ).body().child( 2 ).isFree() )
 console.log( 'Any x free?', example.occursFree( new LurchSymbol( 'x' ) ) )
 ```
 

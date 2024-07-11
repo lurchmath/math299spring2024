@@ -27,7 +27,7 @@ Let's build a few nested LCs, so that we can use them as recurring examples in
 the code below.
 
 ```js
-import { LogicConcept } from './src/index.js'
+import { LogicConcept } from './lde/src/index.js'
 
 const famous = LogicConcept.fromPutdown( '(= (+ (^ e (* i pi)) 1) 0)' )[0]
 const env = LogicConcept.fromPutdown( '{ :A B :C D :E F }' )[0]
@@ -149,7 +149,7 @@ Consider the following example.  The goal is to write the equation
 $6x-5=6x-5$, but using the wrong technique produces an incorrect result.
 
 ```js
-import { LurchSymbol, Application } from './src/index.js'
+import { LurchSymbol, Application } from './lde/src/index.js'
 
 // Construct the term that should appear on each side:
 const term = LogicConcept.fromPutdown( '(- (* 6 x) 5)' )[0]

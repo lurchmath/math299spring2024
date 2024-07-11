@@ -27,7 +27,7 @@ don't use any of the notation for {@link Environment Environments} or
 {@link Expression Expressions} as the result.
 
 ```js
-import { LogicConcept } from './src/index.js'
+import { LogicConcept } from './lde/src/index.js'
 
 const [ expr1, expr2 ] = LogicConcept.fromPutdown( 'atomic   (not atomic)' )
 console.log( expr1.toPutdown() )
@@ -40,7 +40,7 @@ pattern $f(x)$, where both $f$ and $x$ are metavariables, you could proceed as
 follows.
 
 ```js
-import { Matching } from './src/index.js'
+import { Matching } from './lde/src/index.js'
 
 const pat = LogicConcept.fromPutdown( '(f x)' )[0]
 pat.child( 0 ).makeIntoA( Matching.metavariable )

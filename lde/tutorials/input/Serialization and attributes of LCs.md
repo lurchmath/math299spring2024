@@ -17,7 +17,7 @@ Every LC contains a mapping from strings to arbitrary JSON data.  By default,
 this mapping is empty, but you can extend it as much as you like.
 
 ```js
-import { LogicConcept } from './src/index.js'
+import { LogicConcept } from './lde/src/index.js'
 
 const L1 = LogicConcept.fromPutdown( '(just some expression)' )[0]
 const L2 = LogicConcept.fromPutdown( '{ just some environment }' )[0]
@@ -46,7 +46,7 @@ lets us add a whole dictionary of attributes at once, and it returns the
 original LC, for use in code like the following.
 
 ```js
-import { LurchSymbol, Environment } from './src/index.js'
+import { LurchSymbol, Environment } from './lde/src/index.js'
 
 const mushroom = new LurchSymbol( 'mushroom' )
 const cluster = new Environment(
@@ -85,7 +85,7 @@ later recreate the tree in memory from that static data.  The static data
 format we choose is (naturally, since we're working in JavaScript) JSON.
 
 ```js
-import { MathConcept } from './src/index.js'
+import { MathConcept } from './lde/src/index.js'
 
 const saved = ironMan.toJSON()
 console.log( saved )

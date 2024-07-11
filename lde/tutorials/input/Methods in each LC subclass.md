@@ -23,7 +23,7 @@ respect that attribute and convert the {@link Symbol Symbol} into a JavaScript
 atomic value.
 
 ```js
-import { LurchSymbol } from './src/index.js'
+import { LurchSymbol } from './lde/src/index.js'
 
 const x = new LurchSymbol( 'x' )
 console.log( 'Text of x:', x.text() )
@@ -43,7 +43,7 @@ notation in {@link LogicConcept#putdown putdown} and throughout the LDE, in
 the style of LISP and related languages.
 
 ```js
-import { LogicConcept } from './src/index.js'
+import { LogicConcept } from './lde/src/index.js'
 
 const expr1 = LogicConcept.fromPutdown( '(- (* 2 (^ x 2)) 1)' )[0]
 console.log( 'Outermost operator:', expr1.operator().toPutdown() )
@@ -72,30 +72,32 @@ console.log( 'Fetch outermost from within:',
              expr2.getOutermost().toPutdown() )
 ```
 
-## Bindings have a head, bound variables, and a body
+## Bindings have a bound variables and a body
 
-This is very similar to the previous case, except for the components of a
-{@link Binding Binding} expression rather than an
-{@link Application Application} expression.  One difference is that you can
-fetch either the names of the bound variables, as shown below, or the actual
-bound variable objects (as {@link Symbol Symbols}) that sit inside the
-expression, using {@link Binding#boundVariables a different function}.
+You can fetch either the names of the bound variables, as shown below, or the
+actual bound variable objects (as {@link Symbol Symbols}) that sit inside the
+expression, using {@link Binding#boundSymbols a different function}.
+
+Note that when a binding has multiple symbols bound, you must add parentheses
+to clarify where the list of symbols ends, or it will assume just one bound
+variable (`z` in the example below).
 
 ```js
-const binding = LogicConcept.fromPutdown( '(forall x y z , (P x y z))' )[0]
-console.log( 'Quantifier:', binding.head().toPutdown() )
-console.log( 'Bound variables:', binding.boundVariableNames() )
+const universal = LogicConcept.fromPutdown( '(forall (x y z) , (P x y z))' )[0]
+const binding = universal.child( 1 ) // = x y z , (P x y z)
+console.log( 'Quantifier:', universal.child( 0 ).toPutdown() )
+console.log( 'Bound variables:', binding.boundSymbolNames() )
 console.log( 'Body:', binding.body().toPutdown() )
 ```
 
-And the list of children of a binding are the head, bound variables, and body,
+And the list of children of a binding are the bound variables and the body,
 in the order they appear in the binding.
 
 ```js
 console.log( binding.children().map( x => x.toPutdown() ) )
 ```
 
-## Declarations have a type, symbols, and optionally a body
+## Declarations have symbols and optionally a body
 
 A {@link Declaration Declaration} can be of one of only two types: a constant
 declaration or a variable declaration.  There are two static constants in the
@@ -107,12 +109,9 @@ You can query the {@link Declaration#type type()}, list of
 although not every declaration has a body.
 
 ```js
-import { Declaration } from './src/index.js'
+import { Declaration } from './lde/src/index.js'
 
-const decl = LogicConcept.fromPutdown( '[a b c var (> (+ a b) c)]' )[0]
-console.log( 'Declaration type:', decl.type() )
-console.log( 'How to verify that it\'s a variable declaration:',
-             decl.type() == Declaration.Variable )
+const decl = LogicConcept.fromPutdown( '[a b c var , (> (+ a b) c)]' )[0]
 console.log( 'Declared symbols:', decl.symbols().map( x => x.toPutdown() ) )
 console.log( 'Declaration body:', decl.body().toPutdown() )
 ```

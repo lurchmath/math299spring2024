@@ -26,7 +26,7 @@ shows how you can use that notation to create LCs, and use that same notation
 to print them as well.
 
 ```js
-import { LogicConcept } from './src/index.js'
+import { LogicConcept } from './lde/src/index.js'
 
 const threeLCs = LogicConcept.fromPutdown( 'x (f x y) { :A B C }' )
 console.log( threeLCs[0].toPutdown() )
@@ -52,7 +52,7 @@ Logic Concepts} directly, using constructors for subclasses, as shown below.
 Of course, if you would like to use the common abbreviation `LC` instead of
 the lengthier `LogicConcept`, you can either assign `const LC = LogicConcept`
 after importing, or use the JavaScript syntax
-`import { LogicConcept as LC } from './src/index.js'` in the first place.
+`import { LogicConcept as LC } from './lde/src/index.js'` in the first place.
 
 ## Constructing specific subclasses
 
@@ -74,7 +74,7 @@ when you need to put a specific object that you've already created into a new
 LC hierarchy at a specific location.
 
 ```js
-import { LurchSymbol } from './src/index.js'
+import { LurchSymbol } from './lde/src/index.js'
 
 // Make a rather large symbol
 const S = new LurchSymbol( 'any text can be a symbol' )
@@ -82,7 +82,7 @@ console.log( S.toPutdown() )
 ```
 
 ```js
-import { Application } from './src/index.js'
+import { Application } from './lde/src/index.js'
 
 // Make the mathematical expression f(y)
 const f = new LurchSymbol( 'f' )
@@ -92,7 +92,7 @@ console.log( A.toPutdown() )
 ```
 
 ```js
-import { BindingExpression } from './src/index.js'
+import { BindingExpression } from './lde/src/index.js'
 
 // Make the mathematical expression ∀y.P
 const forall = new LurchSymbol( 'forall' )
@@ -114,17 +114,17 @@ using putdown notation, except of course in those cases where you actually
 want to put a specific instance of `x` into a specific hierarchy.
 
 ```js
-import { Declaration } from './src/index.js'
+import { Declaration } from './lde/src/index.js'
 
-// Make the mathematical phrase "Let y be a constant such that P(y)."
-const D = new Declaration( Declaration.Constant,
+// Make the mathematical phrase "Let y be such that P(y)."
+const D = new Declaration(
     [ y.copy() ], // can be an array of several variables to declare at once
     new Application( P.copy(), y.copy() ) )
 console.log( D.toPutdown() )
 ```
 
 ```js
-import { Environment } from './src/index.js'
+import { Environment } from './lde/src/index.js'
 
 // Place copies of the preceding four expressions in an environment
 const E = new Environment( S.copy(), A.copy(), B.copy(), D.copy() )

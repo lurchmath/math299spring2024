@@ -34,7 +34,7 @@ those LCs.  Here we create an LC hierarchy and assign IDs to each of its
 nodes.
 
 ```js
-import { LogicConcept } from './src/index.js'
+import { LogicConcept } from './lde/src/index.js'
 
 const env = LogicConcept.fromPutdown( '{ A { :B C } { :D E } }' )[0]
 const A = env.firstChild()          
