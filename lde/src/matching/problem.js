@@ -310,8 +310,9 @@ export class Problem {
             .replace( /"LDE lambda"/g, '𝝺' )
         }
         return '{\n\t'
-             + this.constraints.map( x =>
-                   `${x.complexity()}  ${maybeWithDeBruijn(x)}`
+             + this.constraints.map(
+                maybeWithDeBruijn
+                // x => `${x.complexity()}  ${maybeWithDeBruijn(x)}`
                ).join('\n\t')
              + '\n}'
     }
