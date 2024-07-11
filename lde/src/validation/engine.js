@@ -99,9 +99,9 @@ export const installedToolNames = () => Object.keys( tools )
  * @param {Function} func a function that can take as input a target
  *   {@link LogicConcept} to validate, and an options object, and return a
  *   validation result object that should be stored in the target
- * @returns a function that can serve as a validation tool; rather than just
- *   returning the validation results (as the input function does), it stores
- *   those results in the target object
+ * @returns {Function} a function that can serve as a validation tool; rather
+ *   than just returning the validation results (as the input function does), it
+ *   stores those results in the target object
  * 
  * @function
  * @alias module:Validation.functionToTool
