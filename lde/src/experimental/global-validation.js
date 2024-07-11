@@ -826,12 +826,9 @@ const diff = (LHS , RHS , intersect=false ) => {
       let nodeans = diff(LHS.child(k),RHS.child(k))
       // if an array is returned, it should be an array of arrays containing the
       // relative address inside the node of the various discrepancies, so
-      // unshift each of them with the index of this node, unless this is the
-      // first node in which case just abort so that the answer points to the
-      // entire Application
+      // unshift each of them with the index of this node
       if (Array.isArray(nodeans)) {
-        if (k>0) nodeans.forEach(node=>node.unshift(k)) 
-        else k=n
+        nodeans.forEach(node=>node.unshift(k)) 
         ans.push(...nodeans)
       }
     }
