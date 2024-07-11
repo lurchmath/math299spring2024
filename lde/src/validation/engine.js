@@ -63,6 +63,9 @@ export const installTool = ( name, func ) => {
  *   by {@link module:Validation.installTool installTool()}
  * @returns {Function} the tool with the given name, or undefined if there was
  *   no such tool
+ * 
+ * @function
+ * @alias module:Validation.installedTool
  */
 export const installedTool = name => tools[name]
 
@@ -99,6 +102,9 @@ export const installedToolNames = () => Object.keys( tools )
  * @returns a function that can serve as a validation tool; rather than just
  *   returning the validation results (as the input function does), it stores
  *   those results in the target object
+ * 
+ * @function
+ * @alias module:Validation.functionToTool
  */
 export const functionToTool = func =>
     ( target, options ) => setResult( target, func( target, options ) )
