@@ -603,7 +603,7 @@ export class Atom {
             .querySelectorAll( '[class^=feedback-marker]' ))
             .map( s => Array.from(s.classList).filter( x => 
                   x.startsWith('feedback-marker') ))
-                      .flat().map( x => x.slice(16)) // remove prefix
+                      .flat().map( x => x.slice(16)) // remove prefixes
         // now check if the result is an attribute
         const attr = this.element.dataset['validation_result']
         // add it to the end if both are present (they shouldn't be)

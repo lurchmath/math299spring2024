@@ -749,8 +749,20 @@ export class Expression extends Atom {
             const { lurchNotation } = this.loadAdvancedModeData()
             const ans = parse( lurchNotation, 'lurchNotation' )
             const results = this.getValidationResults()
-            if (results.length>0) 
-                ans.forEach( x => x.setAttribute('ExpectedResult',results[0]) )
+            // there might be more than one result, e.g for transitive chains,
+            // so show the worst one
+            const result = 
+                (results.includes('inapplicable')) ? 'inapplicable' :
+                (results.includes('invalid')) ? 'invalid' :
+                (results.includes('indeterminate')) ? 'indeterminate' :
+                (results.includes('valid')) ? 'valid' : 'error'
+            // if this atom produces only one LC expression, then assign its
+            // ExpectedResult attribute.  If it produces multiple expressions
+            // then we don't know which validation result in the span class came
+            // from which LC so it is useless for testing.  
+            if (results.length>0 && ans.length==1) {
+                ans.forEach( x => x.setAttribute('ExpectedResult',result) )
+            }
             return ans
         }
     }

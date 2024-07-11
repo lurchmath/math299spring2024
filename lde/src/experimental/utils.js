@@ -28,8 +28,9 @@ const commonInitialSlice = (...arg) => {
  */
 const checkExtension = ( name , ext = 'js' ) => {
   ext = (ext.startsWith('.')) ? ext : '.'+ext
-  return ( name.endsWith(`${ext}$`)) ? name : name + ext 
+  return ( name.endsWith(ext)) ? name : name + ext 
 }
+
 /**
  * Checks a foldername to see if it has a trailing '/' and adds it if
  * if it doesn't.
@@ -105,6 +106,17 @@ const rgb2hex = (r, g, b) => {
   return `#${hexR}${hexG}${hexB}`;
 }
 
+const msToTime = ms => {
+  // Calculate hours, minutes, and seconds
+  const hours = Math.floor(ms / (1000 * 60 * 60))
+  const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60))
+  const seconds = Math.floor((ms % (1000 * 60))) / 1000
+  const Hours = (hours>0) ? `${hours} hr ` : ''
+  const Minutes = (minutes>0) ? `${minutes} min ` : ''
+  const Seconds = `${seconds.toFixed(3)} sec`
+  return Hours+Minutes+Seconds
+}
+
 /** 
  * Report the time it took to execute function `f`, passed as an argument. 
  */
@@ -116,5 +128,5 @@ const timer = (f,msg='') => {
 
 export default {
   commonInitialSlice, checkExtension, checkFolder, tab, indent, 
-  lineNum, subscript, rgb2hex, timer
+  lineNum, subscript, rgb2hex, msToTime, timer
 }

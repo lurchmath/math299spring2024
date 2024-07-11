@@ -413,6 +413,30 @@ export const processShorthands = L => {
     m.remove()
   }
 
+  // In addition to processing Symbols, we also want to sometimes react
+  // to the presence of certain attributes.
+  
+  // Move ExpectedResult LC attributes to js attributes.  The reason to do this
+  // is so we can use .lurch files created with the web UI as test files by
+  // exporting them after validating (using the CMD+SHIFT+D option).  That has
+  // to attribute the LC's with an LC attribute.  
+  //
+  // To use such a file as a test file we must validate it and compare the
+  // ExpectedResult's with the actual results.  However, the process of
+  // validation makes copies of some LC's, like the user-rules created for each
+  // Theorem and the ForSome bodies.  
+  //
+  // But the LC copy method copies it's LC
+  // attributes producing items marked with ExpectedResults that do not have any
+  // result at all from validation. By moving the LC attribute to a js attribute
+  // that fixes that problem because the LC copy routine does not copy js
+  // attributes on the LC.
+  L.descendantsSatisfying( x => x.hasAttribute('ExpectedResult'))
+    .forEach( s => {
+      s.ExpectedResult = s.getAttribute('ExpectedResult')
+      s.clearAttributes('ExpectedResult')
+    } ) 
+
   // declare the type of the next or previous sibling 
   processSymbol( 'BIH>'          , m => makeNext(m,'BIH','claim') )
   processSymbol( 'declare>'      , m => makeNext(m,'Declare','given') )
@@ -552,22 +576,22 @@ export const processShorthands = L => {
 
   // For testing purposes, flag the expected result
   processSymbol( '✔︎' , m => { 
-    m.previousSibling().setAttribute('ExpectedResult','valid')
+    m.previousSibling().ExpectedResult = 'valid'
     m.remove() 
   } )
   
   processSymbol( '✗' , m => { 
-    m.previousSibling().setAttribute('ExpectedResult','indeterminate') 
+    m.previousSibling().ExpectedResult = 'indeterminate' 
     m.remove()
   } )
   
   processSymbol( '⁉︎' , m => { 
-    m.previousSibling().setAttribute('ExpectedResult','invalid') 
+    m.previousSibling().ExpectedResult = 'invalid' 
     m.remove()
   } )
 
   processSymbol( '⊘' , m => { 
-    m.previousSibling().setAttribute('ExpectedResult','inapplicable') 
+    m.previousSibling().ExpectedResult = 'inapplicable' 
     m.remove()
   } )
 
@@ -598,30 +622,6 @@ export const processShorthands = L => {
   } )
   // depricated but kept for backward compatibility
   processSymbol( '>>' , m => makeNext(m,'BIH') )
-
-  // In addition to processing Symbols as above, we also want to sometimes react
-  // to the presence of certain attributes.
-  
-  // Move ExpectedResult LC attributes to js attributes.  The reason to do this
-  // is so we can use .lurch files created with the web UI as test files by
-  // exporting them after validating (using the CMD+SHIFT+D option).  That has
-  // to attribute the LC's with an LC attribute.  
-  //
-  // To use such a file as a test file we must validate it and compare the
-  // ExpectedResult's with the actual results.  However, the process of
-  // validation makes copies of some LC's, like the user-rules created for each
-  // Theorem and the ForSome bodies.  
-  //
-  // But the LC copy method copies it's LC
-  // attributes producing items marked with ExpectedResults that do not have any
-  // result at all from validation. By moving the LC attribute to a js attribute
-  // that fixes that problem because the LC copy routine does not copy js
-  // attributes on the LC.
-  L.descendantsSatisfying( x => x.hasAttribute('ExpectedResult'))
-    .forEach( s => {
-      s.ExpectedResult = s.getAttribute('ExpectedResult')
-      s.clearAttributes('ExpectedResult')
-    } ) 
   
   return L
 }

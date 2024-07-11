@@ -521,6 +521,18 @@ rpl.defineCommand( "test", {
   }
 })
 
+// define the Lode .test command
+rpl.defineCommand( "testall", {
+  help: "Run the default test script ('acidtests.js') including student files (long!).",
+  action() {
+    const saved = LurchOptions.runStudentTests 
+    LurchOptions.runStudentTests = true 
+    initialize('utils/acidtests')
+    LurchOptions.runStudentTests = saved
+    this.displayPrompt()
+  }
+})
+
 // define the Lode .rebuildparsers command
 rpl.defineCommand( "rebuildparsers", {
   help: "Make the tracing versions of the parsers.",
@@ -642,11 +654,6 @@ rpl.defineCommand( "fixrepo", {
     let editorjs = fs.readFileSync( lurchmathpath+'/editor.js' , { encoding:'utf8'} )
     editorjs = editorjs.replace('lurchmath.github.io/site/about/','monks.scranton.edu/lurch')
     fs.writeFileSync( lurchmathpath+'/editor.js' , editorjs )
-
-    console.log(defaultPen('Adding icon to File Open ...\n'))
-    let lsdjs = fs.readFileSync( lurchmathpath+'/local-storage-drive.js' , { encoding:'utf8'} )
-    lsdjs = lsdjs.replace("/// icon : 'upload'","icon : 'upload'")
-    fs.writeFileSync( lurchmathpath+'/local-storage-drive.js' , lsdjs )
 
     console.log(defaultPen('Changing "Expression" menu to "Math" ...\n'))
     let expjs = fs.readFileSync( lurchmathpath+'/expressions.js' , { encoding:'utf8'} )
