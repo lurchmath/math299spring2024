@@ -196,6 +196,8 @@ const instantiate = (
  * false, but this function returns true, because it's not checking for capture
  * inside of expressions by a {@link BindingExpression}, but rather it is
  * checking only for capture that happens due to a declaration.
+ * @memberof Formula
+ * @alias Formula.hasDeclarationCapture
  */
 const hasDeclarationCapture = ( formula, instantiation ) => {
     const dbg = foo => foo.toPutdown().replace( / \+\{"_type_LDE MV"\:true\}\n/g, '_' )

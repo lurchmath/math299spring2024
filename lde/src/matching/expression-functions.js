@@ -133,7 +133,7 @@ export const isAnEF = expr => expr instanceof Application
  * function, 1 for a unary function, 2 for a binary function, etc.
  * 
  * @param {Expression} ef the expression function whose arity is to be computed
- * @param {boolean=false} skipCheck whether to skip the check that `ef` is an
+ * @param {boolean} skipCheck whether to skip the check that `ef` is an
  *   expression function, and just trust the caller that it is (and thus no
  *   error will be thrown)
  * @returns {integer} the arity of `ef`
@@ -475,7 +475,7 @@ export const betaReduce = expr => canBetaReduce( expr ) ?
  * 
  * @param {Expression} expr the {@link Expression Expression} in which to seek
  *   all opportunities for $\beta$-reduction and apply them
- * @param {boolean=true} makeCopy whether to return a copy even if the
+ * @param {boolean} makeCopy whether to return a copy even if the
  *   expression needs no beta reduction.  (If it does, a copy is always
  *   returned, but if no beta reduction needs to be done, and you set this to
  *   false, then the original expression will be returned, for efficiency.)
