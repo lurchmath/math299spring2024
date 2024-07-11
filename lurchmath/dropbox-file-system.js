@@ -20,17 +20,15 @@ const SDK_URL = 'https://unpkg.com/dropbox@10/dist/Dropbox-sdk.min.js'
 //   client.filesListFolderContinue( {
 //     cursor : response.result.cursor } )
 
-/**
- * An instance of the Dropbox SDK's "Dropbox" object, which contains all the
- * methods for communicating with the Dropbox servers.  Documentation for how
- * this object works is available online from the Dropbox developer site, at
- * {@link https://www.dropbox.com/developers/documentation?_tk=pilot_lp&_ad=topbar1&_camp=docs
- * this link}.
- * 
- * This module exports this object so that any other portion of the app code can
- * get access to dropbox by just importing this one constant from this module.
- */
-export const getClient = () => loadScript( SDK_URL ).then( () =>
+// An instance of the Dropbox SDK's "Dropbox" object, which contains all the
+// methods for communicating with the Dropbox servers.  Documentation for how
+// this object works is available online from the Dropbox developer site, at
+// {@link https://www.dropbox.com/developers/documentation?_tk=pilot_lp&_ad=topbar1&_camp=docs
+// this link}.
+// 
+// This module exports this object so that any other portion of the app code can
+// get access to dropbox by just importing this one constant from this module.
+const getClient = () => loadScript( SDK_URL ).then( () =>
     new Dropbox.Dropbox( { clientId : APP_KEY } ) )
 
 // Internal use only; combine two paths like Python's path.join()
