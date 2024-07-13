@@ -14,10 +14,11 @@ node_modules/
 initproofs.js
 # ... except for the readme file
 !README.md
-# ignore the following folders from math299
-/*299*
-/*pima*
+# ignore the Lurch Site content folders
 /math
 /help
-test\ files
-lde/src/experimental/proofs/math299/studentfiles
+# ignore the following folders from math299 and pima
+/*299*
+/*pima*
+# ignore the student test files from math 299
+studentfiles299
