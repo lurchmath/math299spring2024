@@ -1,4 +1,4 @@
-// Raw Example Data for the LurchMath Parser
+// Raw Example Data for the Lurch Notation Parser
 import { parse as lurchToTex } from './lurch-to-tex.js'
 const tex = lurchToTex
 

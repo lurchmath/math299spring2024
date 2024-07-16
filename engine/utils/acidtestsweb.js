@@ -49,7 +49,7 @@ export const test = async (exppath = 'engine') => {
     console.log(`%cParser Test:' → ok`,itemCSS)
   } catch (e) { 
     failed++
-    console.log(`%cERROR: LurchMath peggy parser test failed.`,failCSS) 
+    console.log(`%cERROR: Lurch peggy parser test failed.`,failCSS) 
   }
   
   acid.forEach( (T,k) => {

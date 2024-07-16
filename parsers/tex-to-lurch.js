@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// TeX to LurchMath Parser
+// TeX to Lurch Notation Parser
 //
 
 export const latexToLurch = (input) =>
