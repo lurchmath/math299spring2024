@@ -1,13 +1,18 @@
 
-# Lurch
+# The Lurch user interface
 
-We have started to rebuild the UI for our app many times.  This is the latest such time.
-I will update this README when we are closer to success.
+This subfolder is for the web-based user interface for the Lurch app, which is
+built primarily on the TinyMCE project, but includes many other components as
+well.  For example, it includes code for loading files from (and sometimes also
+saving files to) sources such as the web, the browser, your local computer, and
+Dropbox.  It also includes extensions to TinyMCE to support mathematical
+notation and environments, settings, documents with metadata and headings,
+the ability to prepare HTML-based math content for processing by the validation
+engine, and features for reporting the results that engine sends back.
 
-For now there are these links:
+Other folders in this repository include code for the core classes and for the
+validation algorithm.
 
- * [Visit the app](https://lurchmath.github.io/lurchmath/), which does almost nothing yet
- * [View the source code documentation](https://lurchmath.github.io/lurchmath/docs/),
-   built with jsDoc
-
-2023-08-05
+Not all code and comments in this repository are 100% up-to-date; some are in
+the process of being updated as we clean up from a major reorganization of our
+codebase.
