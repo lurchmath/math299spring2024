@@ -21,13 +21,6 @@
             "group": "build"
         },
         {
-            "label": "Rebuild LDE source code documentation",
-            "type": "shell",
-            "command": "cd core && npm run docs",
-            "problemMatcher": [],
-            "group": "build"
-        },
-        {
             "label": "Rebuild LDE database from disk",
             "type": "shell",
             "command": "cd core && npm run build-db",
