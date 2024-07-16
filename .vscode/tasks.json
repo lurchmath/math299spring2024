@@ -28,12 +28,6 @@
             "group": "build"
         },
         {
-            "label": "UI: Build source code docs",
-            "type": "shell",
-            "command": "cd ui && rm -rf docs && jsdoc *.js cli/*.mjs -d docs -R doc-main.md -c jsdoc-conf.json --verbose",
-            "problemMatcher": []
-        },
-        {
             "label": "UI: Download and rebuild parsers",
             "type": "shell",
             "command": "cd ui/parsers && sh build-all.sh",
