@@ -469,8 +469,6 @@ rpl.defineCommand( "features", {
                       is omitted the default is 1
       ${itemPen('.list')}         : show the list of known libs and proofs
       ${itemPen('.test')}         : run the acidtests script
-      ${itemPen('.makedocs')}     : make the jsdoc docs
-      ${itemPen('.showdocs')}     : open the jsdoc docs in the browser
       ${itemPen('.compileparser')}: compile the parser to js
       ${itemPen('exec(command)')} : execute the given shell commmand and print the result
       ${itemPen('initialize()')}  : loads and executes 'initproof.js' from the scripts
@@ -602,30 +600,6 @@ rpl.defineCommand( "parsertest", {
     } catch (e) { 
       console.log(xPen(`ERROR: Tex Parser test failed.`)) 
     }
-    this.displayPrompt()
-  }
-})
-
-// define the Lode .makedocs command
-rpl.defineCommand( "makedocs", {
-  help: "Run jsdocs to make the documentation.",
-  action() {
-    console.log(defaultPen('Building docs...')) 
-    try {
-      execStr('rm -rf docs && jsdoc ./* -d docs -c utils/jsdoc-conf.json -u tutorials/ && node utils/post-docs')
-      console.log(defaultPen('...done'))
-    } catch (err) {
-      console.log('Error building docs.')
-    }
-    this.displayPrompt()
-  }
-})
-
-// define the Lode .showdocs command
-rpl.defineCommand( "showdocs", {
-  help: "Open the jsdocs index.html page in the browser.",
-  action() { 
-    exec('open docs/index.html')
     this.displayPrompt()
   }
 })
