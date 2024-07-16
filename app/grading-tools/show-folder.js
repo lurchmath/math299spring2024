@@ -84,7 +84,7 @@ const foldersToHTML = fullPaths =>
 const generatePage = () => `
 <html>
     <head><style>${CSS}</style>
-        <link rel="shortcut icon" href="ui/grading-tools/favicon.svg">
+        <link rel="shortcut icon" href="app/grading-tools/favicon.svg">
     </head>
     <body>
         <h1>Folders for grading</h1>

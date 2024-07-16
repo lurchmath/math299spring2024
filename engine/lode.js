@@ -109,9 +109,9 @@ global.textrace = lurchToTexTrace
 // load the Lurch to LaTeX parser precompiled for efficiency
 import { makedoc } from '../parsers/makedoc.js'
 // load the utility to create the site lurch file index page
-import { generatePage } from '../ui/grading-tools/toc.js'
+import { generatePage } from '../app/grading-tools/toc.js'
 // load the utility to create the site lurch file index page
-import { scrape } from '../ui/grading-tools/scraper.js'
+import { scrape } from '../app/grading-tools/scraper.js'
 // load the chalk pens globally
 import Pens from './pens.js'
 global.Pens = Pens
@@ -608,17 +608,17 @@ rpl.defineCommand( "parsertest", {
 rpl.defineCommand( "fixrepo", {
   help: "Modify the main repo code with local changes.  NOTE: This functions correctly only on Ken Monks's laptop.  Do not run this unless you are him.",
   action() { 
-    const lurchmathpath = '../ui'
+    const appPath = '../app'
 
     console.log(defaultPen('Changing default About page ...\n'))
-    let editorjs = fs.readFileSync( lurchmathpath+'/editor.js' , { encoding:'utf8'} )
+    let editorjs = fs.readFileSync( appPath+'/editor.js' , { encoding:'utf8'} )
     editorjs = editorjs.replace('lurchmath.github.io/site/about/','monks.scranton.edu/lurch')
-    fs.writeFileSync( lurchmathpath+'/editor.js' , editorjs )
+    fs.writeFileSync( appPath+'/editor.js' , editorjs )
 
     console.log(defaultPen('Changing "Expression" menu to "Math" ...\n'))
-    let expjs = fs.readFileSync( lurchmathpath+'/expressions.js' , { encoding:'utf8'} )
+    let expjs = fs.readFileSync( appPath+'/expressions.js' , { encoding:'utf8'} )
     expjs = expjs.replace("text : 'Expression','","text : 'Math',")
-    fs.writeFileSync( lurchmathpath+'/expressions.js' , expjs )
+    fs.writeFileSync( appPath+'/expressions.js' , expjs )
 
     console.log(defaultPen('...done'))
     this.displayPrompt()
