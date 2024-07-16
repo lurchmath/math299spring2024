@@ -25,7 +25,7 @@
 // REPL and file system utilities (non-Lurch modules)
 
 import repl from 'repl'
-import fs, { write } from 'fs'
+import fs from 'fs'
 import { execSync } from 'child_process'
 import util from 'util'
 import peggy from 'peggy'
@@ -33,11 +33,7 @@ import { XMLParser } from 'fast-xml-parser'
 global.xml = (s) => new XMLParser({ ignoreAttributes:false }).parse(s)
 // import asciimath2latex from './parsers/asciimath-to-latex.js'
 import { latexToLurch } from './parsers/tex-to-lurch.js'
-// import * as MathLive from 'mathlive'
 // import { getConverter } from './utils/math-live.js'
-// import katex from 'katex'
-// import mathjax from 'mathjax'
-// import React from 'react'
 
 // In LODE we have no need for EventTarget because we don't edit MCs in real
 // time and react to changes.  Importing this BEFORE importing math-concept.js
@@ -154,13 +150,9 @@ global.Algebrite = Algebrite
 global.peggy = peggy
 // global.Tokenizer = Tokenizer
 // global.Grammar = Grammar
-// global.MathLive = MathLive
 // global.asciimath2latex = asciimath2latex
 global.untex = latexToLurch
 // global.getConverter = getConverter
-// global.katex = katex
-// global.mathjax = mathjax
-// global.React = React
 ///////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -365,9 +357,6 @@ global.scrapeToGomez = () =>
 global.parseLines = parseLines
 global.isArithmetic = isArithmetic
 global.arithmeticToCAS = arithmeticToCAS
-
-// global.mathlive = MathLive.convertLatexToMarkup
-// global.html = katex.renderToString
 
 // print a string to the console with line numbers
 global.say = s => {
