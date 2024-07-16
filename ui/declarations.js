@@ -1,6 +1,6 @@
 
 import { Declaration as LCDeclaration, Expression as LCExpression, LurchSymbol }
-    from './lde-cdn.js'
+    from '../core/src/index.js'
 import { appSettings } from './settings-install.js'
 import { getConverter } from './math-live.js'
 

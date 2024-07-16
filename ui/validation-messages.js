@@ -2,7 +2,7 @@
 import { Atom, className as atomClassName } from './atoms.js'
 import { Shell } from './shells.js'
 import { getHeader } from './header-editor.js'
-import { Environment } from './lde-cdn.js'
+import { Environment } from '../core/src/index.js'
 import { isOnScreen } from './utilities.js'
 import { lookup } from './document-settings.js'
 

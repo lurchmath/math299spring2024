@@ -17,7 +17,7 @@
  */
 
 import { Message } from './validation-messages.js'
-import { LDE } from './lde-cdn.js'
+import LDE from '../engine/global-validation.js'
 
 const LogicConcept = LDE.LogicConcept
 

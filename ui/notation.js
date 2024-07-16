@@ -41,7 +41,7 @@
  * @module Notation
  */
 
-import { LogicConcept, MathConcept } from './lde-cdn.js'
+import { LogicConcept, MathConcept } from '../core/src/index.js'
 import { getConverter } from './math-live.js'
 import { escapeHTML } from './utilities.js'
 

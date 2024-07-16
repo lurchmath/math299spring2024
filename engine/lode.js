@@ -610,9 +610,6 @@ rpl.defineCommand( "fixrepo", {
   action() { 
     const lurchmathpath = '../ui'
 
-    console.log(defaultPen('Overwriting lde-cdn.js ...'))
-    exec('cp "utils/lurchmath config/lde-cdn.js" ' + lurchmathpath)
-
     console.log(defaultPen('Changing default About page ...\n'))
     let editorjs = fs.readFileSync( lurchmathpath+'/editor.js' , { encoding:'utf8'} )
     editorjs = editorjs.replace('lurchmath.github.io/site/about/','monks.scranton.edu/lurch')

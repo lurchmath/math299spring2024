@@ -23,7 +23,7 @@ import { MathItem, getConverter } from './math-live.js'
 import { appSettings } from './settings-install.js'
 import {
     Expression as LCExpression, Declaration as LCDeclaration
-} from './lde-cdn.js'
+} from '../core/src/index.js'
 import { DeclarationType } from './declarations.js'
 import { copyHTMLToClipboard } from './utilities.js'
 
