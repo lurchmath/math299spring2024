@@ -1,6 +1,4 @@
 
-import DEE from '../src/experimental/disable-event-target.js'
-import { predictableStringify } from '../src/utilities.js' // ensure JSON.equals loaded
 import M from '../src/matching.js'
 import { Symbol as LurchSymbol } from '../src/symbol.js'
 import { LogicConcept } from '../src/logic-concept.js'
