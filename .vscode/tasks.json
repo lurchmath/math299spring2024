@@ -37,13 +37,13 @@
         {
             "label": "Build UI source code docs",
             "type": "shell",
-            "command": "cd lurchmath && rm -rf docs && jsdoc *.js cli/*.mjs -d docs -R doc-main.md -c jsdoc-conf.json --verbose",
+            "command": "cd ui && rm -rf docs && jsdoc *.js cli/*.mjs -d docs -R doc-main.md -c jsdoc-conf.json --verbose",
             "problemMatcher": []
         },
         {
             "label": "Download and rebuild parsers for UI",
             "type": "shell",
-            "command": "cd lurchmath/parsers && sh build-all.sh",
+            "command": "cd ui/parsers && sh build-all.sh",
             "problemMatcher": []
 		}
     ]

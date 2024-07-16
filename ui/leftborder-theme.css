@@ -11,7 +11,7 @@
  * key in the options object sent to `createApp()` in your local `index.html`
  * file.
  *
- *  `content_css : [ 'document', 'lurchmath/leftborder-theme.css',
+ *  `content_css : [ 'document', 'ui/leftborder-theme.css',
  *  'https://unpkg.com/mathlive/dist/mathlive-static.css' ]`
  *
  *

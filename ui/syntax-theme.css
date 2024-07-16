@@ -14,7 +14,7 @@
  * key in the options object sent to `createApp()` in your local `index.html`
  * file.
  *
- *  `content_css : [ 'document', 'lurchmath/syntax-theme.css',
+ *  `content_css : [ 'document', 'ui/syntax-theme.css',
  *  'https://unpkg.com/mathlive/dist/mathlive-static.css' ]`
  *
  *
