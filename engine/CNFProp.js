@@ -4,9 +4,9 @@
 //
 
 // Imports
-import CNF from '../validation/conjunctive-normal-form.js'
-import { LogicConcept } from '../logic-concept.js'
-import { Environment } from '../environment.js'
+import CNF from '../core/src/validation/conjunctive-normal-form.js'
+import { LogicConcept } from '../core/src/logic-concept.js'
+import { Environment } from '../core/src/environment.js'
 import  Utilities from './utils.js'
 const { tab, indent, subscript } = Utilities
 

@@ -22,7 +22,7 @@ if (typeof window === 'object') {
   console.log(`In node.`)
 }
  
-import * as Lurch from '../index.js'
+import * as Lurch from '../core/src/index.js'
 Object.assign( self, Lurch )
 
 import { Problem } from '../matching/problem.js'

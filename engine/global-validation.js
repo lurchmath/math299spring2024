@@ -103,7 +103,7 @@
 //
 
 // import Algebrite
-import Algebrite from '../../dependencies/algebrite.js'
+import Algebrite from '../core/dependencies/algebrite.js'
 const compute = Algebrite.run
 // import LDE tools
 // import { LogicConcept } from '../logic-concept.js'
@@ -113,14 +113,14 @@ const compute = Algebrite.run
 // import { Declaration } from '../declaration.js'
 // import { Environment } from '../environment.js'
 // import { Problem } from "../matching/problem.js"
-import CNF from '../validation/conjunctive-normal-form.js'
+import CNF from '../core/src/validation/conjunctive-normal-form.js'
 // import Formula from '../formula.js'
 // import Scoping from '../scoping.js'
 // import Validation from '../validation.js'
 import {
   LogicConcept, Expression, Declaration, Environment, LurchSymbol,
   Matching, Formula, Scoping, Validation, Application
-} from '../index.js'
+} from '../core/src/index.js'
 import { isArithmetic, arithmeticToCAS } from './parsing.js'
 
 const Problem = Matching.Problem

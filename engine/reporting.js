@@ -31,7 +31,7 @@
 // NOTE: all imports must be at the top of the file
 
 // load everything from index.js
-import * as Lurch from '../index.js'
+import * as Lurch from '../core/src/index.js'
 // load the experimental code
 import Compact from './global-validation.js'
 // load chalk and stripAnsi

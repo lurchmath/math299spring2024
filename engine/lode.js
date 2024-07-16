@@ -45,9 +45,9 @@ import { latexToLurch } from './parsers/tex-to-lurch.js'
 // following).
 import './disable-event-target.js'
 // with that disabled, now we can load everything from index.js and other LDE tools
-import * as Lurch from '../index.js'
-import { Problem } from '../matching/problem.js'
-import CNF from '../validation/conjunctive-normal-form.js'
+import * as Lurch from '../core/src/index.js'
+import { Problem } from '../core/src/matching/problem.js'
+import CNF from '../core/src/validation/conjunctive-normal-form.js'
 
 // Experimental Code
 //
@@ -121,9 +121,9 @@ global.Tracer = Tracer
 
 // External packages
 // load Algebrite
-import Algebrite from '../../dependencies/algebrite.js'
+import Algebrite from '../core/dependencies/algebrite.js'
 // load SAT
-import { satSolve } from '../../dependencies/LSAT.js'
+import { satSolve } from '../core/dependencies/LSAT.js'
 ///////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////

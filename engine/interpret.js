@@ -40,7 +40,7 @@
 import {
   Application, Environment, Expression, Declaration, LurchSymbol,
   BindingExpression, Formula
-} from '../index.js'
+} from '../core/src/index.js'
 
 import { processShorthands } from './parsing.js'
 import Utilities from './utils.js'

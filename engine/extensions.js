@@ -5,12 +5,12 @@
  * @namespace Extensions 
  */
 // imports
-import { LogicConcept } from '../logic-concept.js'
-import { Expression } from '../expression.js'
-import { Environment } from '../environment.js'
-import { Symbol as LurchSymbol } from '../symbol.js'
-import { Declaration } from '../declaration.js'
-import { Application } from '../application.js'
+import { LogicConcept } from '../core/src/logic-concept.js'
+import { Expression } from '../core/src/expression.js'
+import { Environment } from '../core/src/environment.js'
+import { Symbol as LurchSymbol } from '../core/src/symbol.js'
+import { Declaration } from '../core/src/declaration.js'
+import { Application } from '../core/src/application.js'
 import { CNFProp } from './CNFProp.js'
 
 ///////////////////////////////////////////////////////////////////////////////
