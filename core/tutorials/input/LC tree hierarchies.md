@@ -18,7 +18,7 @@ the root folder of this source code repository, and run from there with the
 command-line tools `node`.  If you place your scripts in another folder, you
 will need to adjust the path in each `import` statement accordingly.  If you
 have not yet set up a copy of this repository with the appropriate Node.js
-version installed, see [our GitHub README](https://github.com/lurchmath/lde),
+version installed, see [our GitHub README](https://github.com/lurchmath/lurch),
 which explains how to do so.)
 
 ## Preparing by building some LCs
@@ -27,7 +27,7 @@ Let's build a few nested LCs, so that we can use them as recurring examples in
 the code below.
 
 ```js
-import { LogicConcept } from './lde/src/index.js'
+import { LogicConcept } from './core/src/index.js'
 
 const famous = LogicConcept.fromPutdown( '(= (+ (^ e (* i pi)) 1) 0)' )[0]
 const env = LogicConcept.fromPutdown( '{ :A B :C D :E F }' )[0]
@@ -149,7 +149,7 @@ Consider the following example.  The goal is to write the equation
 $6x-5=6x-5$, but using the wrong technique produces an incorrect result.
 
 ```js
-import { LurchSymbol, Application } from './lde/src/index.js'
+import { LurchSymbol, Application } from './core/src/index.js'
 
 // Construct the term that should appear on each side:
 const term = LogicConcept.fromPutdown( '(- (* 6 x) 5)' )[0]

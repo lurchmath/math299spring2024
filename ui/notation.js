@@ -3,9 +3,9 @@
  * For the purposes of this module, a *notation* will be any way in which one
  * can encode, as a text string, a non-environment Logic Concept.  (For the
  * definition of Logic Concepts, or LCs, refer to the documentation in
- * {@link https://lurchmath.github.io/lde/LogicConcept.html another repository}.)
+ * {@link https://lurchmath.github.io/site/apidocs/core/LogicConcept.html another repository}.)
  * For example, putdown notation, as
- * {@link https://lurchmath.github.io/lde/LogicConcept.html#.fromPutdown
+ * {@link https://lurchmath.github.io/site/apidocs/core/LogicConcept.html#.fromPutdown
  * defined in that repository}, is an example of a "notation," according to this
  * definition.
  * 

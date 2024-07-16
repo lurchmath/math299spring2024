@@ -8,7 +8,7 @@ the root folder of this source code repository, and run from there with the
 command-line tools `node`.  If you place your scripts in another folder, you
 will need to adjust the path in each `import` statement accordingly.  If you
 have not yet set up a copy of this repository with the appropriate Node.js
-version installed, see [our GitHub README](https://github.com/lurchmath/lde),
+version installed, see [our GitHub README](https://github.com/lurchmath/lurch),
 which explains how to do so.)
 
 ## Free variables vs. free symbols
@@ -33,7 +33,7 @@ The outer expression is a unary application of operator in question (here called
 with several variables now bound.
 
 ```js
-import { LogicConcept } from './lde/src/index.js'
+import { LogicConcept } from './core/src/index.js'
 
 const universalExample = LogicConcept.fromPutdown( '(forall x , (P x))' )[0]
 universalExample.descendantsSatisfying( d => d.isAtomic() ).map( d => {
@@ -68,7 +68,7 @@ anywhere in an expression.  Note the difference between `x.occursFree(y)` and
 `y.occursFree(x)` and that the order may be different from what you expect.
 
 ```js
-import { LurchSymbol } from './lde/src/index.js'
+import { LurchSymbol } from './core/src/index.js'
 
 const example = LogicConcept.fromPutdown( '(and (> x 1) (forall x , (R x x)))' )[0]
 console.log( 'Last x free?', example.child( 2 ).child( 1 ).body().child( 2 ).isFree() )

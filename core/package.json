@@ -1,7 +1,7 @@
 {
-  "name": "lde",
+  "name": "lurch-core",
   "version": "0.1.0",
-  "description": "Lurch Deductive Engine (LDE)",
+  "description": "Lurch Core Classes",
   "type": "module",
   "directories": {
     "doc": "docs",
@@ -26,14 +26,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lurchmath/lde.git"
+    "url": "git+https://github.com/lurchmath/lurch.git"
   },
   "author": "Nathan Carter (ncarter@bentley.edu)",
   "license": "LGPL-3.0",
   "bugs": {
-    "url": "https://github.com/lurchmath/lde/issues"
+    "url": "https://github.com/lurchmath/lurch/issues"
   },
-  "homepage": "https://github.com/lurchmath/lde#readme",
+  "homepage": "https://github.com/lurchmath/lurch#readme",
   "dependencies": {
     "algebrite": "^1.4.0",
     "chalk": "^5.0.1",

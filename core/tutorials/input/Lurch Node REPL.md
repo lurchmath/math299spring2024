@@ -21,7 +21,7 @@ local copy of this source code repository simply type the command
 `npm run lode`.  Alternatively, you can run it from the `scripts` subfolder of
 the root folder with the command `node lode`. (If you have not yet set up a copy
 of this repository with the appropriate Node.js version installed, see
-<a href='https://github.com/lurchmath/lde'>our GitHub README</a>, which explains
+<a href='https://github.com/lurchmath/lurch'>our GitHub README</a>, which explains
 how to do so.)
 
 ```
@@ -33,7 +33,7 @@ Welcome to 𝕃𝕠𝕕𝕖 - the Lurch Node app
 ```
 
 You are now at the Lurch Node REPL command prompt.  All of the exported modules in
-the [src/index.js file]{@link https://github.com/lurchmath/lde/blob/main/src/index.js} in this repository.  For example, you can now do things like this (see
+the [src/index.js file]{@link https://github.com/lurchmath/lurch/blob/main/core/src/index.js} in this repository.  For example, you can now do things like this (see
 {@link LogicConcept LogicConcept} and {@link LogicConcept#toPutdown toPutdown}):
 
 ```

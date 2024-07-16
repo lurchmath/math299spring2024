@@ -4,8 +4,7 @@
  * It grades documents submitted to it in serialized form, and transmits
  * feedback messages about their contents back to the main thread.  It is not
  * yet at the level of sophistication we eventually plan for, but it can already
- * do a lot.  It imports all the validation tools from
- * {@link https://lurchmath.github.io/lde our deductive engine repository} and
+ * do a lot.  It imports all the validation tools from our deductive engine and
  * uses them to validate documents.
  * 
  * None of the functions in this module are called by any external client, and

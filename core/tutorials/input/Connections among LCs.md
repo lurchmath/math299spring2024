@@ -8,7 +8,7 @@ the root folder of this source code repository, and run from there with the
 command-line tools `node`.  If you place your scripts in another folder, you
 will need to adjust the path in each `import` statement accordingly.  If you
 have not yet set up a copy of this repository with the appropriate Node.js
-version installed, see [our GitHub README](https://github.com/lurchmath/lde),
+version installed, see [our GitHub README](https://github.com/lurchmath/lurch),
 which explains how to do so.)
 
 ## Motivation
@@ -34,7 +34,7 @@ those LCs.  Here we create an LC hierarchy and assign IDs to each of its
 nodes.
 
 ```js
-import { LogicConcept } from './lde/src/index.js'
+import { LogicConcept } from './core/src/index.js'
 
 const env = LogicConcept.fromPutdown( '{ A { :B C } { :D E } }' )[0]
 const A = env.firstChild()          

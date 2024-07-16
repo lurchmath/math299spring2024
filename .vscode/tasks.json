@@ -6,7 +6,7 @@
         {
             "label": "Run LDE tests in console",
             "type": "shell",
-            "command": "cd lde && npm test",
+            "command": "cd core && npm test",
             "problemMatcher": [],
             "group": {
                 "kind": "build",
@@ -16,21 +16,21 @@
         {
             "label": "Launch LDE test server",
             "type": "shell",
-            "command": "cd lde && npm run test-server",
+            "command": "cd core && npm run test-server",
             "problemMatcher": [],
             "group": "build"
         },
         {
             "label": "Rebuild LDE source code documentation",
             "type": "shell",
-            "command": "cd lde && npm run docs",
+            "command": "cd core && npm run docs",
             "problemMatcher": [],
             "group": "build"
         },
         {
             "label": "Rebuild LDE database from disk",
             "type": "shell",
-            "command": "cd lde && npm run build-db",
+            "command": "cd core && npm run build-db",
             "problemMatcher": [],
             "group": "build"
         },

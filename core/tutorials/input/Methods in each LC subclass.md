@@ -9,7 +9,7 @@ the root folder of this source code repository, and run from there with the
 command-line tools `node`.  If you place your scripts in another folder, you
 will need to adjust the path in each `import` statement accordingly.  If you
 have not yet set up a copy of this repository with the appropriate Node.js
-version installed, see [our GitHub README](https://github.com/lurchmath/lde),
+version installed, see [our GitHub README](https://github.com/lurchmath/lurch),
 which explains how to do so.)
 
 ## Symbols have text and sometimes a value
@@ -23,7 +23,7 @@ respect that attribute and convert the {@link Symbol Symbol} into a JavaScript
 atomic value.
 
 ```js
-import { LurchSymbol } from './lde/src/index.js'
+import { LurchSymbol } from './core/src/index.js'
 
 const x = new LurchSymbol( 'x' )
 console.log( 'Text of x:', x.text() )
@@ -43,7 +43,7 @@ notation in {@link LogicConcept#putdown putdown} and throughout the LDE, in
 the style of LISP and related languages.
 
 ```js
-import { LogicConcept } from './lde/src/index.js'
+import { LogicConcept } from './core/src/index.js'
 
 const expr1 = LogicConcept.fromPutdown( '(- (* 2 (^ x 2)) 1)' )[0]
 console.log( 'Outermost operator:', expr1.operator().toPutdown() )
@@ -109,7 +109,7 @@ You can query the {@link Declaration#type type()}, list of
 although not every declaration has a body.
 
 ```js
-import { Declaration } from './lde/src/index.js'
+import { Declaration } from './core/src/index.js'
 
 const decl = LogicConcept.fromPutdown( '[a b c var , (> (+ a b) c)]' )[0]
 console.log( 'Declared symbols:', decl.symbols().map( x => x.toPutdown() ) )

@@ -11,7 +11,7 @@ the root folder of this source code repository, and run from there with the
 command-line tools `node`.  If you place your scripts in another folder, you
 will need to adjust the path in each `import` statement accordingly.  If you
 have not yet set up a copy of this repository with the appropriate Node.js
-version installed, see [our GitHub README](https://github.com/lurchmath/lde),
+version installed, see [our GitHub README](https://github.com/lurchmath/lurch),
 which explains how to do so.)
 
 ## Constructing patterns and expressions
@@ -27,7 +27,7 @@ don't use any of the notation for {@link Environment Environments} or
 {@link Expression Expressions} as the result.
 
 ```js
-import { LogicConcept } from './lde/src/index.js'
+import { LogicConcept } from './core/src/index.js'
 
 const [ expr1, expr2 ] = LogicConcept.fromPutdown( 'atomic   (not atomic)' )
 console.log( expr1.toPutdown() )
@@ -40,7 +40,7 @@ pattern $f(x)$, where both $f$ and $x$ are metavariables, you could proceed as
 follows.
 
 ```js
-import { Matching } from './lde/src/index.js'
+import { Matching } from './core/src/index.js'
 
 const pat = LogicConcept.fromPutdown( '(f x)' )[0]
 pat.child( 0 ).makeIntoA( Matching.metavariable )
