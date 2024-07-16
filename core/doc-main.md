@@ -1,12 +1,9 @@
 
-# The Lurch Deductive Engine (LDE) Source Code Documentation
+# The Lurch Core Classes Source Code Documentation
 
-This repository is in the process of rebuilding the LDE, discarding an old
-design and replacing it with a better, updated design.  That work is still in
-progress, and is perhaps 50% complete.
-
-The navigation menu on the left shows classes and namespaces in alphabetical
-order, but the overview below is more logically organized.
+This API documentation covers the core classes underpinning the Lurch
+application.  The navigation menu on the left shows classes and namespaces in
+alphabetical order, but the overview below is more logically organized.
 
 ## Tutorials
 
@@ -63,9 +60,5 @@ corresponding metadata.
 
 ## GitHub
 
-[Source code](http://github.com/lurchmath/lde) (including a README on how to
-set up your own development environment)
-
-[Design wiki](http://github.com/lurchmath/lde/wiki) (currently out-of-date; do
-not trust the content of that wiki until it has been updated, at which point
-we will update this note to reflect that it has been updated)
+[This repository](http://github.com/lurchmath/lurch) is for the full Lurch
+project, not just the core classes documented here.
