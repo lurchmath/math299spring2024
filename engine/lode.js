@@ -558,7 +558,7 @@ rpl.defineCommand( "rebuildparsers", {
 // changes and recompile it frequently, so we use the Lode commmand .trace for
 // that.
 rpl.defineCommand( "compileparser", {
-  help: "Compile the Lurch parser and rebuild the parser docs.",
+  help: "Compile the Lurch parser and rebuild the parser docs.  NOTE: This functions correctly only on Ken Monks's laptop.  Do not run this unless you are him.",
   action() {
     const compile = (name) => {
         console.log(defaultPen(`Compiling Lurch parser to lurch-to-${name}.js...`))
@@ -643,7 +643,7 @@ rpl.defineCommand( "showdocs", {
 
 // define the Lode .fixcdn command
 rpl.defineCommand( "fixrepo", {
-  help: "Modify the main repo code with local changes.",
+  help: "Modify the main repo code with local changes.  NOTE: This functions correctly only on Ken Monks's laptop.  Do not run this unless you are him.",
   action() { 
     const lurchmathpath = '../ui'
 
