@@ -5,7 +5,7 @@
 //
 import { Expression } from '../expression.js'
 import { Symbol as LurchSymbol } from '../symbol.js'
-import Algebrite from '../../dependencies/algebrite.js'
+import Algebrite from '../../../dependencies/algebrite.js'
 
 // All Algebrite mathematical operators
 const allOps = [

@@ -103,7 +103,7 @@
 //
 
 // import Algebrite
-import Algebrite from '../core/dependencies/algebrite.js'
+import Algebrite from '../dependencies/algebrite.js'
 const compute = Algebrite.run
 // import LDE tools
 // import { LogicConcept } from '../logic-concept.js'

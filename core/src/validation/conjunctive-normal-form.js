@@ -37,7 +37,7 @@
  * @namespace CNF
  */
 
-import { satSolve } from '../../dependencies/LSAT.js'
+import { satSolve } from '../../../dependencies/LSAT.js'
 
 /**
  * The conjunctive normal form (CNF) for the constant true is simply the empty

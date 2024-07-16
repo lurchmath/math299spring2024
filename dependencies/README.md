@@ -1,15 +1,26 @@
 
+# What is this folder?
+
+In this folder we have a few JavaScript files that were imported from other
+open-source projects.  These are things that, for one reason or another, could
+not be imported from a CDN, and thus needed to be copied in here directly (and
+possibly modified in trivial ways as part of that process).  See below for
+details, and a hearty thanks to those who wrote the code we use below for
+sharing their work open-source!
+
 # Where did these come from?
 
 ## LSAT.js
 
-A simple JavaScript SAT solver.  See http://www.comp.nus.edu.sg/~gregory/sat/ for a live demo and more information.
+A simple JavaScript SAT solver.  See http://www.comp.nus.edu.sg/~gregory/sat/
+for a live demo and more information.
 
 ## algebrite.js
 
 A JavaScript CAS.  See http://algebrite.org for a live demo and documentation.
 
-We made the following modifications when importing Algebrite into this repository.
+We made the following modifications when importing Algebrite into this
+repository.
 
  - Recompiled it with the command 
    ```
@@ -42,13 +53,15 @@ We made the following modifications when importing Algebrite into this repositor
    ```
    import bigInt from './BigInteger.js'
    ```
-   for the same reason.  (Note the necessary corresponding change to `BigInteger.js`, below.)
+   for the same reason.  (Note the necessary corresponding change to
+   `BigInteger.js`, below.)
  - Added 
    ```
    export default exports
    ``` 
    to the bottom of the file for the same reason.
- - Commented out the declaration of the variable, `bigInt`, since it's now `import`ed instead of `require`d.
+ - Commented out the declaration of the variable, `bigInt`, since it's now
+ `import`ed instead of `require`d.
 
 Note that there is no need to do any of this if you use the version that
 is in this folder, which has all these modifications included.
@@ -58,7 +71,8 @@ is in this folder, which has all these modifications included.
 Algebrite depends on the module `big-integer`, for arbitrary precision integers.
 See https://www.npmjs.com/package/big-integer for details.
 
-We made the following modifications when importing `big-integer` into this repository.
+We made the following modifications when importing `big-integer` into this
+repository.
 
  - Added 
    ```

@@ -18,7 +18,7 @@
 import { Environment } from '../core/src/environment.js'
 import { Symbol as LurchSymbol } from '../core/src/symbol.js'
 import { Application } from '../core/src/application.js'
-import Algebrite from '../core/dependencies/algebrite.js'
+import Algebrite from '../dependencies/algebrite.js'
 const compute = Algebrite.run
 import './extensions.js'
 

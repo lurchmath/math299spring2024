@@ -121,9 +121,9 @@ global.Tracer = Tracer
 
 // External packages
 // load Algebrite
-import Algebrite from '../core/dependencies/algebrite.js'
+import Algebrite from '../dependencies/algebrite.js'
 // load SAT
-import { satSolve } from '../core/dependencies/LSAT.js'
+import { satSolve } from '../dependencies/LSAT.js'
 ///////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////
