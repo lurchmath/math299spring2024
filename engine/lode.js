@@ -31,8 +31,8 @@ import util from 'util'
 import peggy from 'peggy'
 import { XMLParser } from 'fast-xml-parser'
 global.xml = (s) => new XMLParser({ ignoreAttributes:false }).parse(s)
-// import asciimath2latex from './parsers/asciimath-to-latex.js'
-import { latexToLurch } from './parsers/tex-to-lurch.js'
+// import asciimath2latex from '../parsers/asciimath-to-latex.js'
+import { latexToLurch } from '../parsers/index.js'
 // import { getConverter } from './utils/math-live.js'
 
 // In LODE we have no need for EventTarget because we don't edit MCs in real
@@ -62,12 +62,12 @@ import Compact from './global-validation.js'
 // load the custom formatters and reporting tools
 import Reporting from './reporting.js' 
 // import the parsing utiltiies (processShorthands comes from Interpret)
-import { parseLines, isArithmetic, arithmeticToCAS } from './parsing.js'
+import { parseLines, isArithmetic, arithmeticToCAS, makeParser } from './parsing.js'
 import ParsingTools from './parsing.js'
 // load the CNFProp tools for testing
 import { CNFProp } from './CNFProp.js'
 // load the Lurch to putdown parser precompiled for efficiency
-import { parse as lurchToPutdown } from './parsers/lurch-to-putdown.js'
+import { parse as lurchToPutdown } from '../parsers/lurch-to-putdown.js'
 global.parse = (s,opts) => {
   try { 
     return lurchToPutdown(s,opts)
@@ -84,7 +84,7 @@ global.parse = (s,opts) => {
 }
 
 // load the Lurch to TeX parser precompiled for efficiency
-import { parse as lurchToTex } from './parsers/lurch-to-tex.js'
+import { parse as lurchToTex } from '../parsers/lurch-to-tex.js'
 global.tex = (s,opts)  => {
   try { 
     return lurchToTex(s,opts)
@@ -101,13 +101,13 @@ global.tex = (s,opts)  => {
 }
 
 // load the Lurch to putdown parser precompiled for efficiency
-import { parse as lurchToPutdownTrace } from './parsers/lurch-to-putdown-trace.js'
+import { parse as lurchToPutdownTrace } from '../parsers/lurch-to-putdown-trace.js'
 global.trace = lurchToPutdownTrace
 // load the Lurch to TeX parser precompiled for efficiency
-import { parse as lurchToTexTrace } from './parsers/lurch-to-tex-trace.js'
+import { parse as lurchToTexTrace } from '../parsers/lurch-to-tex-trace.js'
 global.textrace = lurchToTexTrace
 // load the Lurch to LaTeX parser precompiled for efficiency
-import { makedoc } from './parsers/makedoc.js'
+import { makedoc } from '../parsers/makedoc.js'
 // load the utility to create the site lurch file index page
 import { generatePage } from '../ui/grading-tools/toc.js'
 // load the utility to create the site lurch file index page
@@ -259,7 +259,7 @@ global.libPath = './libs/'
 global.proofPath = './proofs/'
 
 // the path to parser definition files
-global.parserPath = './parsers/'
+global.parserPath = '../parsers/'
 
 // the file extension used by default for libraries and proof files. Don't
 // include the . here for easy use in RegExp's
@@ -549,9 +549,9 @@ rpl.defineCommand( "compileparser", {
   action() {
     const compile = (name) => {
         console.log(defaultPen(`Compiling Lurch parser to lurch-to-${name}.js...`))
-        execStr(`cd parsers && peggy --cache --format es -o lurch-to-${name}.js lurch-to-${name}.peggy`)
-        execStr(`cd parsers && cp lurch-to-${name}.js ../../../../lurchmath/parsers/`)
-        execStr(`cd parsers && cp lurch-to-${name}.peggy ../../../../lurchmath/parsers/`)
+        execStr(`cd ../parsers && peggy --cache --format es -o lurch-to-${name}.js lurch-to-${name}.peggy`)
+        execStr(`cd ../parsers && cp lurch-to-${name}.js ../../../../lurchmath/parsers/`)
+        execStr(`cd ../parsers && cp lurch-to-${name}.peggy ../../../../lurchmath/parsers/`)
       }
 
     try {
@@ -576,7 +576,7 @@ rpl.defineCommand( "parsertest", {
   help: "Run the Lurch parser tests.",
   action() { 
     try { 
-      const s=lc(parse(loadStr('parsers/LurchParserTest')))
+      const s=lc(parse(loadStr('../parsers/LurchParserTest')))
       parseLines(parse,false)
       console.log(`${itemPen('Parser Test:')} → ok`)
     } catch (e) { 

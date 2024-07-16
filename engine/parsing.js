@@ -87,7 +87,7 @@ export const makeParser = parserstr => {
 export const parseLines = (parser,verbose=true,name='LurchParserTests',opts) => {
   let ans = []
   const lines = 
-    loadStr(name,'./parsers/','lurch').split('\n')
+    loadStr(name,'../parsers/','lurch').split('\n')
        .map(line => line.trim())
        .filter(line => line.length > 0 && line.slice(0,2)!=='//')
   // console.log(`File contains ${lines.length} parseable lines`)

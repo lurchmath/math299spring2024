@@ -108,7 +108,7 @@ let failed = 0
 
 // test the asciimath Peggy parser by itself
 try { 
-  const s=lc(parse(loadStr('parsers/LurchParserTests')))
+  const s=lc(parse(loadStr('../parsers/LurchParserTests')))
   passed++
   console.log(`${itemPen('Parser Test:')} → ok`)
 } catch (e) { 

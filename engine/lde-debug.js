@@ -31,15 +31,15 @@ self.Problem = Problem
 import CNF from '../validation/conjunctive-normal-form.js'
 self.CNF = CNF
 
-import { parse } from './parsers/lurch-to-putdown.js'
+import { parse } from '../parsers/lurch-to-putdown.js'
 self.parse = parse
 self.lurchToPutdown = parse
 
-import { parse as lurchToLatex } from './parsers/lurch-to-tex.js'
+import { parse as lurchToLatex } from '../parsers/lurch-to-tex.js'
 self.lurchToLatex = lurchToLatex
 self.tex = lurchToLatex
 
-import { latexToLurch } from './parsers/tex-to-lurch.js'
+import { latexToLurch } from '../parsers/tex-to-lurch.js'
 self.latexToLurch = latexToLurch
 
 import Interpret from './interpret.js'

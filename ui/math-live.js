@@ -18,7 +18,7 @@
  */
 
 import { loadScript } from './utilities.js'
-import { lurchToLatex, latexToLurch, lurchToPutdown } from './parsers/index.js'
+import { lurchToLatex, latexToLurch, lurchToPutdown } from '../parsers/index.js'
 
 // Internal use only.
 // Ensures the MathLive scripts are loaded, so you can do whatever you want with

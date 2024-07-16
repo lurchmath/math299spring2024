@@ -26,12 +26,6 @@
             "command": "cd core && npm run build-db",
             "problemMatcher": [],
             "group": "build"
-        },
-        {
-            "label": "UI: Download and rebuild parsers",
-            "type": "shell",
-            "command": "cd ui/parsers && sh build-all.sh",
-            "problemMatcher": []
-		}
+        }
     ]
 }

@@ -43,7 +43,7 @@ export const test = async (exppath = 'engine') => {
   
   // test the asciimath Peggy parser by itself
   try { 
-    const str = await loadDocStr('parsers/LurchParserTests',exppath)
+    const str = await loadDocStr('../parsers/LurchParserTests',exppath)
     const s = lc(parse(str))
     passed++
     console.log(`%cParser Test:' → ok`,itemCSS)
