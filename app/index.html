@@ -20,9 +20,28 @@
             if ( params.get( 'delayLoad' ) != 'true' ) {
                 // Default behavior:
                 window.addEventListener( 'load', () => {
-                    Lurch.createApp( document.getElementById( 'editor-container' ), {
-                        // options go here
+                    // First, load a config file to tell us how to set up the app.
+                    // The default config file is called default.json, but if the
+                    // query string contains ?config=name, then we use name.json.
+                    const config = `../config/${params.get( 'config' ) || 'default'}.json`
+                    const xhr = new XMLHttpRequest()
+                    xhr.open( 'GET', config )
+                    xhr.addEventListener( 'load', () => {
+                        // Once that config file is loaded, create the Lurch app
+                        // using the contents of that file as the app options object.
+                        // If it's not valid JSON, ignore it but say so in the console.
+                        let options = { }
+                        try {
+                            options = JSON.parse( xhr.responseText )
+                        } catch ( e ) {
+                            console.error( `Ignoring config file because it is not JSON: ${e}` )
+                        }
+                        Lurch.createApp(
+                            document.getElementById( 'editor-container' ),
+                            options
+                        )
                     } )
+                    xhr.send()
                 } )
             } else {
                 // Same as above, but not upon page load, rather upon hearing a

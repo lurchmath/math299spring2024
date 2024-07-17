@@ -1,0 +1,61 @@
+{
+    "preventLeaving": true, 
+    "autoSaveEnabled": false,
+    "editor": {
+        "draggable_modal": true,
+        "menubar" : "file edit format math developer help",
+        "content_css" : [
+            "document", 
+            "syntax-theme.css",
+            "https://unpkg.com/mathlive@0.100.0/dist/mathlive-static.css"
+        ]
+    },
+    "menuData": {
+        "file": {
+            "title": "File",
+            "items": "newlurchdocument opendocument savedocument exportlatex | print"
+        },
+        "edit": {
+            "title": "Edit",
+            "items": "paragraphabove paragraphbelow | undo redo | cut copy paste pastetext | selectall | link unlink openlink | searchreplace | listprops"
+        },
+        "format": {
+            "title": "Format",
+            "items": "expositorymath hr codeformat | styles blocks fontfamily fontsize align lineheight | forecolor backcolor | removeformat"
+        },
+        "math": {
+            "title": "Math",
+            "items": "expression environment | viewdependencyurls togglemeaning validate"
+        },
+        "developer": {
+            "title": "Instructor",
+            "items": "editdependencyurls | extractheader embedheader | redpen | docsettings preferences | downloaddocumentcode"
+        }
+    },
+    "fileSaveTabs": [
+        "your computer"
+    ],
+    "fileOpenTabs": [
+        "your computer",
+        "the web"
+    ],
+    "appDefaults": {
+        "notation": "Lurch notation",
+        "expression editor type": "Advanced",
+        "expository math editor type": "Advanced",
+        "dollar sign shortcut": true,
+        "default shell style": "minimal",
+        "application width in window": "Fixed size",
+        "developer mode on": false,
+        "default open dialog tab": "From your computer",
+        "default save dialog tab": "To your computer",
+        "preferred meaning style": "Code",
+        "add LaTeX document wrapper": false,
+        "export LaTeX selection only": false,
+        "export LaTeX shells": false
+    },
+    "documentDefaults": {
+        "notation": "Lurch notation",
+        "shell style": "minimal"
+    }
+}
