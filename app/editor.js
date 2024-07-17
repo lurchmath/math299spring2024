@@ -12,6 +12,7 @@ import { BrowserFileSystem } from './browser-file-system.js'
 import { OfflineFileSystem } from './offline-file-system.js'
 import { WebFileSystem } from './web-file-system.js'
 import { DropboxFileSystem } from './dropbox-file-system.js'
+import { MyCourseFileSystem } from './my-course-file-system.js'
 
 import { loadScript, makeAbsoluteURL, isEmbedded } from './utilities.js'
 import { loadFromQueryString } from './load-from-url.js'
@@ -130,6 +131,9 @@ window.Lurch = {
      *    To see which keys and values are available, see
      *    {@link LurchDocument.settingsMetadata the document settings metadata}
      *    in the {@link LurchDocument} class.
+     *  - `options.myCourse` can be a hierarchical structure that will be used
+     *    to populate the contents of the "My course" file system.  See the
+     *    documentation of the {@link MyCourseFileSystem} class for details.
      * 
      * The `options` object is stored as an `appOptions` member in the TinyMCE
      * editor instance once it is created, so that any part of the app can refer
