@@ -200,7 +200,7 @@ export class FileSystem {
      */
     getName () {
         return Array.from( FileSystem.subclasses.keys() ).find( name =>
-            this instanceof FileSystem.getSubclass( name ) )
+            this.constructor == FileSystem.getSubclass( name ) )
     }
 
     /**
