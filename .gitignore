@@ -1,24 +1,15 @@
 # ignore Apple cruft
 .DS_Store
-# ignore vscode cruft
+# ignore VS Code settings file
 *.code-workspace
+# ignore notes files
+*plan*.md
 # ignore the node modules
 node_modules/
-
-# ignore lots of stuff for local customizations
-
-# ignore all html and markdown files in the root folder ...
-/*.html
-/*.md
 # ignore the initproofs.js file for Lode
 initproofs.js
-# ... except for the readme file
-!README.md
-# ignore the Lurch Site content folders
-/math
-/help
-# ignore the following folders from math299 and pima
+# ignore the following folders that developers use to store testing documents
 /*299*
 /*pima*
-# ignore the student test files from math 299
+/test-docs
 studentfiles299
