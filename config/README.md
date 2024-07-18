@@ -47,16 +47,32 @@ When the app launches, it reads its configuration from `default.json` in this
 folder.  If you would like to change the defaults, you can do any of the
 following items.
 
- * Edit `default.json` and change its contents (optionally backing it up first).
+ * **Easiest:** Add to the end of the Lurch app URL the code `?config=name`,
+   replacing "name" with the name of the one you want to use, such as
+   `?config=minimal-student`. This allows you to try out a configuration for
+   just one session, without committing to it.  It also allows you to switch
+   among configurations easily, say, by bookmarking the student and instructor
+   versions of a configuration, and visiting whichever one you need in the
+   moment.  This mode takes precedence over whatever options are stored in
+   `default.json`.
+ * **Easy but invasive:** Copy one of the other pre-built configuration files
+   listed above over top of `default.json` (optionally backing it up first).
    This will permanently alter the default configuration for all users of the
    app.
- * Copy one of the other pre-built configuration files listed above over top of
-   `default.json` (optionally backing it up first).  This, too, will permanently
-   alter the default configuration for all users of the app.
- * Add to the end of the Lurch app URL the code `?config=name`, replacing "name"
-   with the name of the one you want to use, such as `?config=minimal-student`.
-   This allows you to try out a configuration for just one session, without
-   committing to it.  It also allows you to switch among configurations easily,
-   say, by bookmarking the student and instructor versions of a configuration,
-   and visiting whichever one you need in the moment.  This mode takes
-   precedence over whatever options are stored in `default.json`.
+ * **Almost easy:** Edit `app/index.html` and replace the line of code that
+   says `const config = ...` with one that points directly to the config you
+   want, like `const config = '../config/minimal-student.json'`.  No need to
+   back up any config files, since you're not changing any.
+ * **Harder but powerful:** Edit `default.json` and change its contents
+   (optionally backing it up first). This will permanently alter the default
+   configuration for all users of the app.
+
+If you would like to make separate URLs for instructor and student versions of
+the app, you proceed as follows.
+ * Create a copy of `app/index.html` as, say, `app/instructor.html`.
+ * Use the technique mentioned above to set the student configuration directly
+   in the `app/index.html` file, like:
+   `const config = '../config/minimal-student.json'`.
+ * Use the same technique to set the instructor configuration directly in the
+   `app/instructor.html` file, like:
+   `const config = '../config/minimal-instructor.json'`.
