@@ -19,17 +19,17 @@ const command = /^darwin/.test( process.platform ) ? 'open' :
 // Run the command to open the test suite page in the user's browser.
 
 const { execSync } = require( 'child_process' )
-execSync( `${command} http://localhost:8080/tests/test-index.html` )
+execSync( `${command} http://localhost:8080/core/tests/test-index.html` )
 
 */
 
 console.log( `
-+----------------------------------------------------+
-|                                                    |
-|   Server started.  Go here to view tests:          |
-|                                                    |
-|      http://localhost:8080/tests/test-index.html   |
-|                                                    |
-+----------------------------------------------------+
++---------------------------------------------------------+
+|                                                         |
+|   Server started.  Go here to view tests:               |
+|                                                         |
+|      http://localhost:8080/core/tests/test-index.html   |
+|                                                         |
++---------------------------------------------------------+
 
 ` )

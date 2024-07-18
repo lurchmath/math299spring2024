@@ -62,7 +62,7 @@ const showSummary = () => {
         ]
     } )
     const page = await browser.newPage()
-    await page.goto( 'http://localhost:8080/tests/test-index.html', { timeout : 0 } )
+    await page.goto( 'http://localhost:8080/core/tests/test-index.html', { timeout : 0 } )
     await page.waitForFunction( () =>
         window.hasOwnProperty( 'allMochaResults' ), { timeout : 0 } )
     const results = await page.evaluate( () => window.allMochaResults )

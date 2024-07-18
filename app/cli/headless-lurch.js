@@ -75,7 +75,7 @@ export const openApp = async () => {
     //     console.log( `${response.status()} ${response.url()}` ) )
     page.on( 'requestfailed', request =>
         console.log( chalk.red( `${request.failure().errorText} ${request.url()}` ) ) )
-    await page.goto( `http://localhost:${port}/index.html?actAsEmbed=true`,
+    await page.goto( `http://localhost:${port}/app/index.html?actAsEmbed=true`,
         { timeout : 0 } )
     await page.waitForFunction( () => window?.tinymce?.activeEditor?.lurchDocument )
     console.log( chalk.green( 'Invisible Lurch app opened' ) )

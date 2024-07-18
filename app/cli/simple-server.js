@@ -17,7 +17,7 @@ const startServer = ( options = { } ) => {
         verbose : true,
         root : path.resolve(
             path.dirname( url.fileURLToPath( import.meta.url ) ), // this folder
-            '..' // up one level to parent, which is repo root
+            '..', '..' // up two levels to grandparent, which is repo root
         )
     }, options ) // Now update the defaults with the actual options given.
 
