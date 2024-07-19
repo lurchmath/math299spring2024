@@ -289,11 +289,14 @@ export class Message {
                 }
                 LCs.forEach( LC => {
                     assignID( LC, head.element )
-                    // we pass the lurchNotation as an attribute, but remove the
-                    // \n newlines from its value because they cause invalid
-                    // putdown JSON attributes
-                    LC.setAttribute( 'lurchNotation', 
-                        `${head.getMetadata('lurchNotation').replace(/\n/g,' ')}`)
+                    // Pass the lurchNotation as an attribute, because it is
+                    // used for CAS validation.  Right now beginner mode exprs
+                    // are not supported.  Remove the newlines because they
+                    // cause invalid putdown JSON attributes.
+                    const lurchNotation = head.getMetadata( 'lurchNotation' )
+                    if ( lurchNotation )
+                        LC.setAttribute( 'lurchNotation',
+                            `${lurchNotation.replace(/\n/g,' ')}` )
                     context.pushChild( LC )
                 } )
                 return documentLC( array, context )
