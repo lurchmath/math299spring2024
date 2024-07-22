@@ -89,13 +89,18 @@ window.Lurch = {
      *  - `options.fileOpenTabs` can be used to reorder or subset the list of
      *    tabs in the File > Open dialog box, which defaults to
      *    `[ 'From in-browser storage', 'From your computer', 'From the web',
-     *    'From Dropbox' ]`.
+     *    'From Dropbox', 'From my course' ]`.  Each of these corresponds to a
+     *    subclass of the {@link FileSystem} class, and those are (respectively)
+     *    {@link BrowserFileSystem}, {@link OfflineFileSystem},
+     *    {@link WebFileSystem}, and {@link MyCourseFileSystem}.
      *  - `options.fileSaveTabs` can be used to reorder or subset the list of
      *    tabs in the File > Save dialog box, which defaults to
-     *    `[ 'To in-browser storage', 'To your computer', 'To Dropbox' ]`.
+     *    `[ 'To in-browser storage', 'To your computer', 'To Dropbox' ]`.  See
+     *    above for documentation on the relevant {@link FileSystem} subclasses.
      *  - `options.fileDeleteTabs` can be used to reorder or subset the list of
      *    tabs in the File > Delete dialog box, which defaults to
-     *    `[ 'In in-browser storage', 'In Dropbox' ]`.
+     *    `[ 'In in-browser storage', 'In Dropbox' ]`.  See above for
+     *    documentation on the relevant {@link FileSystem} subclasses.
      *  - `options.helpPages` can be an array of objects of the form
      *    `{ title : '...', url : '...' }`.  These will be displayed in the help
      *    menu (which is omitted if no such pages are provided) in the order
