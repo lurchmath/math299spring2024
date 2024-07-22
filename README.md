@@ -16,6 +16,5 @@ This repository serves two purposes:
     is interested in browsing or improving the app code can work here as well.
  2. It is possible to use this repository to create your own Lurch Site, which
     is a website hosting an instance of the Lurch app that you have configured
-    for your own needs (or the needs of your students).  We will post a link
-    here to a tutorial on how to create a Lurch site, but one has not yet been
-    created.
+    for your own needs (or the needs of your students).  To learn how, check out
+    [How to Create a Lurch Site](https://lurchmath.github.io/site/how-to-create-a-lurch-site/).
