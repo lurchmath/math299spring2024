@@ -139,6 +139,9 @@ window.Lurch = {
      *  - `options.myCourse` can be a hierarchical structure that will be used
      *    to populate the contents of the "My course" file system.  See the
      *    documentation of the {@link MyCourseFileSystem} class for details.
+     *  - `options.documentStylesheets` can be an array of URLs that will be
+     *    appended to the TinyMCE editor's list of stylesheets for the document
+     *    (named `content_css` in TinyMCE).
      * 
      * The `options` object is stored as an `appOptions` member in the TinyMCE
      * editor instance once it is created, so that any part of the app can refer
@@ -264,7 +267,8 @@ window.Lurch = {
                 content_css : [
                     'document',
                     `${options.appRoot}/syntax-theme.css`,
-                    MathLiveCSS
+                    MathLiveCSS,
+                    ...( options.documentStylesheets || [ ] )
                 ],
                 visual_table_class : 'lurch-borderless-table',
                 height : "100%",

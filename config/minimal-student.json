@@ -3,12 +3,7 @@
     "autoSaveEnabled": false,
     "editor": {
         "draggable_modal": true,
-        "menubar" : "file edit format math developer help",
-        "content_css" : [
-            "document", 
-            "syntax-theme.css",
-            "https://unpkg.com/mathlive@0.100.0/dist/mathlive-static.css"
-        ]
+        "menubar" : "file edit format math developer help"
     },
     "menuData": {
         "file": {
