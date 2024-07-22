@@ -19,7 +19,7 @@
  * 
  *  - `appURL` - the URL of the Lurch app to use.  If not provided, this
  *    defaults to the copy of the app hosted on the Lurch website,
- *    `lurchmath.github.io/lurchmath`.
+ *    `lurchmath.github.io/lurch/app`.
  *  - `validate` - if set to true, the embedded copy of the Lurch app will not
  *    only load the document defined inside the DIV tag, but will then also
  *    run validation on it
@@ -55,7 +55,7 @@ const splitJSONHeader = text => {
 // corresponding value in the window object, or on a case-by-case basis in each
 // div, using the appURL attribute.
 const defaultAppURL = window.defaultAppURL
-    || 'https://lurchmath.github.io/lurchmath/index.html'
+    || 'https://lurchmath.github.io/lurch/app/index.html'
 
 // List of all iframes we've processed
 const iframes = [ ]
