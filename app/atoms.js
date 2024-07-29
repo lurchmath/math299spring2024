@@ -591,25 +591,26 @@ export class Atom {
     /**
      * Return the array of all validation results in this Atom.
      * 
-     * @see {@link module:Atoms.Atom#setValidationResult setValidationResult()} to
+     * @see {@link module:Atoms.Atom#setValidationResult setValidationResult()}
      */
-    getValidationResults ( ) {
+    getValidationResults () {
         // inline atoms use a suffix span to store validation feedback while
-        // shells use an attribute, so we get both
-
-        // first get the suffix element of this Atom (if it doesn't have one this
-        // routine will make an empty one)
-        let ans = Array.from(this.getChild('suffix')
-            .querySelectorAll( '[class^=feedback-marker]' ))
-            .map( s => Array.from(s.classList).filter( x => 
-                  x.startsWith('feedback-marker') ))
-                      .flat().map( x => x.slice(16)) // remove prefixes
-        // now check if the result is an attribute
+        // shells use an attribute, so we get both; start with the stuffix:
+        let result = Array.from(
+            // get the suffix element of this Atom (if it doesn't have one this
+            // routine will make an empty one)
+            this.getChild( 'suffix' )
+                .querySelectorAll( '[class^=feedback-marker]' )
+        ).map( s =>
+            Array.from( s.classList )
+                .filter( x => x.startsWith( 'feedback-marker' ) )
+        ).flat().map( x => x.slice( 16 ) ) // remove prefixes
+        // now check if there is an attribute (as used by shells):
         const attr = this.element.dataset['validation_result']
-        // add it to the end if both are present (they shouldn't be)
-        if (attr) ans.push(attr)
+        // join those two types of results (though we expect at most one):
+        if ( attr ) result.push( attr )
         // return the array of results
-        return ans      
+        return result      
     }
     
     /**
