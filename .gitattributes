@@ -1,3 +1,39 @@
+
+# Prevent git complaints about Windows vs. Unix line endings:
 * text=auto eol=lf
 *.{cmd,[cC][mM][dD]} text eol=crlf
 *.{bat,[bB][aA][tT]} text eol=crlf
+
+# Ensure that files we deleted to make this repo minimalist stay deleted,
+# instead of getting added back when we merge upstream changes.
+.vscode/ merge=ours
+app/cli/ merge=ours
+app/grading-tools/ merge=ours
+app/tests/ merge=ours
+app/doc-main.md merge=ours
+core/scripts/ merge=ours
+core/tests/ merge=ours
+core/tutorials/ merge=ours
+core/doc-main.md merge=ours
+core/src/database/ merge=ours
+engine/libs/ merge=ours
+engine/proofs/ merge=ours
+engine/tutorials/ merge=ours
+engine/utils/ merge=ours
+engine/doc-main.md merge=ours
+engine/lode.js merge=ours
+engine/pens.js merge=ours
+engine/init.js merge=ours
+engine/lde-debug.js merge=ours
+engine/reporting.js merge=ours
+parsers/favicon.* merge=ours
+parsers/*.html merge=ours
+parsers/*.css merge=ours
+parsers/*-trace.js merge=ours
+parsers/*.peggy merge=ours
+parsers/*.lurch merge=ours
+parsers/makedoc.js merge=ours
+
+# Same for changes to README.md, because we explain in it the purpose of this
+# minimalist repo, and don't want that explanation overwritten.
+README.md merge=ours
