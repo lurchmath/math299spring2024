@@ -28,8 +28,9 @@
 	"forwardPorts": [ 5500, 8080 ],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	// We use this to install npm dependencies.
-	"postCreateCommand": "npm install",
+	// We use this to install npm dependencies, but we do it in a shell script,
+	// so that it can be extended later with other features.
+	"postCreateCommand": "bash .devcontainer/post-create.sh",
 
 	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	"remoteUser": "node"
