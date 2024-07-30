@@ -68,6 +68,20 @@ window.Lurch = {
      *  - `options.menuData` will be used to override default menus.  The format
      *    is the same as it is for {@link https://www.tiny.cloud/docs/tinymce/latest/menus-configuration-options/#menu
      *    TinyMCE menu specifications}.
+     *  - `options.menuItems` will be used to override the attributes of the
+     *    menu items that Lurch adds to TinyMCE.  (This does not apply to
+     *    built-in TinyMCE menu items, like headings and undo and so forth, only
+     *    to Lurch menu items like inserting math or environments, showing
+     *    feedback, etc.)  The format is a mapping from internal menu item names
+     *    (e.g., `"expositorymath"`) to an object containing attributes to
+     *    override.  For example, to change the text of the `"expositorymath"`
+     *    menu item from "Expository math" to "LaTeX", use the code
+     *    `"menuItems": { "expositorymath": { text: "LaTeX" } }`.  All other
+     *    menu item attributes are also available, including `"text"`, `"icon"`,
+     *    `"shortcut"`, and `"tooltip"`.  Even the menu item's action can be
+     *    overridden in this way by specifying `"onAction": myFunction`, except
+     *    when loading these options from a configuration file in JSON format,
+     *    because that format does not support functions.
      *  - `options.toolbarData` will be used to override default toolbars.  The
      *    format is the same as it is for {@link https://www.tiny.cloud/docs/tinymce/latest/toolbar-configuration-options/#toolbar
      *    TinyMCE toolbar specifications}.
@@ -282,6 +296,13 @@ window.Lurch = {
                 link_context_toolbar: true,
                 statusbar : false,
                 setup : editor => {
+                    // Override the menu item and toolbar creation functions
+                    // with my own copy, which allows for name customization
+                    const origAddMenuItem = editor.ui.registry.addMenuItem
+                    editor.ui.registry.addMenuItem = ( name, item ) =>
+                        origAddMenuItem( name,
+                            Object.assign( item, options.menuItems?.[name] || { } ) )
+
                     // Save the options object for any part of the app to reference:
                     editor.appOptions = options
 

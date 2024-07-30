@@ -121,11 +121,12 @@ export class Shell extends Atom {
      * @see {@link Shell#finalize finalize()}
      */
     toLCs () { 
-      let ans = new Environment()
-      const results = this.getValidationResults()
-      // for now, we just add the first result
-      if (results.length>0) ans.setAttribute('ExpectedResult',results[0])
-      return [ ans ]
+        let result = new Environment()
+        const results = this.getValidationResults()
+        // for now, we add just the first result
+        if ( results.length > 0 )
+            result.setAttribute( 'ExpectedResult', results[0] )
+        return [ result ]
     }
 
     /**

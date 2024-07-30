@@ -181,7 +181,6 @@ div.lurch-atom {
 /* typically don't need bottom margin or padding because of the qed symbol */
 div.lurch-atom[data-metadata_type*="proof"] { 
   margin-bottom: 0; 
-  padding-bottom: 0; 
 }
 
 /* Problem boxes */
