@@ -596,11 +596,9 @@ export class Atom {
     getValidationResults () {
         // inline atoms use a suffix span to store validation feedback while
         // shells use an attribute, so we get both; start with the stuffix:
-        let result = Array.from(
-            // get the suffix element of this Atom (if it doesn't have one this
-            // routine will make an empty one)
-            this.getChild( 'suffix' )
-                .querySelectorAll( '[class^=feedback-marker]' )
+        const suffix = this.getChild( 'suffix', false ) // false == don't create
+        const result = Array.from(
+            suffix ? suffix.querySelectorAll( '[class^=feedback-marker]' ) : [ ]
         ).map( s =>
             Array.from( s.classList )
                 .filter( x => x.startsWith( 'feedback-marker' ) )
