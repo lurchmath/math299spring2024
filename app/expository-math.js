@@ -215,10 +215,8 @@ export const install = editor => {
             <text x="0" y="18" font-size="8" font-family="sans-serif">$$</text>
         </svg>` )
     editor.ui.registry.addMenuItem( 'expositorymath', {
-        // text : 'Expository math',
-        text : 'LaTeX',
+        text : 'Expository math',
         tooltip : 'Insert expository math',
-        // shortcut : 'Meta+Alt+E',
         icon : 'tex',
         shortcut : '$',
         onAction : insertExpositoryMath
