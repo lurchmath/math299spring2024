@@ -6,7 +6,7 @@
  * see below into your own configuration JSON file.  (Just don't copy and paste
  * the comments, because the JSON format doesn't support comments.)
  */
-const tmp = {
+const example = {
     /*
      * The "menuData" section is used to specify the content of each menu in the
      * Lurch app.
