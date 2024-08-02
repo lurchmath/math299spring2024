@@ -6,7 +6,7 @@
  * see below into your own configuration JSON file.  (Just don't copy and paste
  * the comments, because the JSON format doesn't support comments.)
  */
-const tmp = {
+const example = {
     /*
      * The "menuData" section is used to specify the content of each menu in the
      * Lurch app.
@@ -252,19 +252,19 @@ const tmp = {
     "myCourse" : [
         {
             // Folder for the logic section of the course
-            "title" : "Logic",
+            "name" : "Logic",
             "contents" : [
                 // Files to go in the logic folder
                 {
-                    "title" : "Propositional logic rules",
+                    "name" : "Propositional logic rules",
                     "path" : "../math/prop-logic-rules.lurch"
                 },
                 {
-                    "title" : "Predicate logic rules",
+                    "name" : "Predicate logic rules",
                     "path" : "../math/pred-logic-rules.lurch"
                 },
                 {
-                    "title" : "Homework Assignment 1 - Logic",
+                    "name" : "Homework Assignment 1 - Logic",
                     "path" : "../math/logic-homework-assignment.lurch"
                 },
             ]
@@ -275,15 +275,15 @@ const tmp = {
             "contents" : [
                 // Files to go in the number theory folder
                 {
-                    "title" : "Axioms for Number Theory",
+                    "name" : "Axioms for Number Theory",
                     "path" : "../math/number-theory-axioms.lurch"
                 },
                 {
-                    "title" : "Homework Assignment 2 - Axiomatic Number Theory",
+                    "name" : "Homework Assignment 2 - Axiomatic Number Theory",
                     "path" : "../math/nt-homework-assignment.lurch"
                 },
                 {
-                    "title" : "Homework Assignment 3 - Divisibility",
+                    "name" : "Homework Assignment 3 - Divisibility",
                     "path" : "../math/div-homework-assignment.lurch"
                 },
             ]
