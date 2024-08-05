@@ -23,7 +23,7 @@
                     // First, load a config file to tell us how to set up the app.
                     // The default config file is called default.json, but if the
                     // query string contains ?config=name, then we use name.json.
-                    const config = `../config/${params.get( 'config' ) || 'default'}.json`
+                    const config = `../config/${params.get( 'config' ) || 'minimal-student'}.json`
                     const xhr = new XMLHttpRequest()
                     xhr.open( 'GET', config )
                     xhr.addEventListener( 'load', () => {
